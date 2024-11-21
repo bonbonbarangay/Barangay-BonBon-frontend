@@ -2,13 +2,13 @@ import React from "react";
 import Sidebar from "../../components/admin/Sidebar";
 const GeotaggingAdmin = () => {
   return (
-    <div className="w-full h-screen bg-[#DEE5F8]">
+    <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
       <div className="flex w-full">
         <div className="w-[20%] h-auto">
           <Sidebar />
         </div>
-        <div className="w-[80%]">
+        <div className="w-[80%] bg-[#DEE5F8] h-auto">
           <div className="py-3 px-3">
             <div className="flex items-center gap-20">
               <div>

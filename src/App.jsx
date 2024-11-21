@@ -10,7 +10,6 @@ import AccoutSetting from "./pages/user/AccoutSetting";
 import Geotagging from "./pages/user/Geotagging";
 import ProjectManagement from "./pages/user/ProjectManagement";
 import SigninAdmin from "./pages/admin/Signin";
-import AddOfficial from "./pages/admin/AddOfficial";
 import UpdateOfficial from "./pages/admin/UpdateOfficial";
 import AddProject from "./pages/admin/AddProject";
 import AddEvent from "./pages/admin/AddEvent";
@@ -20,6 +19,8 @@ import SigninMain from "./pages/user/SigninMain";
 import ResidentProfiling from "./pages/user/ResidentProfiling";
 import GeotaggingAdmin from "./pages/admin/Geotagging";
 import Setting from "./pages/admin/Setting";
+import ManageResident from "./pages/admin/ManageResident";
+import Official from "./pages/admin/Official";
 function App() {
   return (
     <>
@@ -44,9 +45,10 @@ function App() {
           <Route index element={<SigninMain />} />
           <Route path="/user/signin" element={<Signin />} />
           <Route path="/user/signup" element={<Signup />} />
+
           {/* admin routes */}
           <Route path="/admin/signin" element={<SigninAdmin />} />
-          <Route path="/admin/addofficial" element={<AddOfficial />} />
+          <Route path="/admin/official" element={<Official />} />
           <Route path="/admin/updateofficial" element={<UpdateOfficial />} />
           <Route path="/admin/addproject" element={<AddProject />} />
           <Route path="/admin/addevent" element={<AddEvent />} />
@@ -54,6 +56,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/geotagging" element={<GeotaggingAdmin />} />
           <Route path="/admin/setting" element={<Setting />} />
+          <Route path="/admin/manageresident" element={<ManageResident />} />
         </Routes>
       </BrowserRouter>
     </>
