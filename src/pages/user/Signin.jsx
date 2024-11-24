@@ -1,7 +1,13 @@
 import React from "react";
+import SiginHook from "../../hooks/authentication/Sigin";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
 const Signin = () => {
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { handleSignin, mutation } = SiginHook();
+
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
       <div>
@@ -29,6 +35,8 @@ const Signin = () => {
                 type="text"
                 placeholder="Username"
                 className="w-full py-3 px-3"
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
           </div>
@@ -53,17 +61,30 @@ const Signin = () => {
                 type="password"
                 placeholder="Password"
                 className="w-full py-3 px-3"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
 
-          <Link to="/user">
-            <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
-              <button className="text-2xl	 font-bold py-3 px-3">SIGN IN</button>
-            </div>
-          </Link>
+          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
+            <button
+              className="text-2xl	 font-bold py-3 px-3"
+              onClick={() =>
+                handleSignin({
+                  username: username,
+                  password: password,
+                })
+              }
+              disabled={mutation.isSuccess}
+            >
+              SIGN IN
+            </button>
+          </div>
           <div>
-            <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
+            <Link to="/user/signup">
+              <h1 className="mt-3 text-[#000000]">Don't have an account?</h1>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,21 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import SignUpHook from "../../hooks/authentication/Signup";
 const Signup = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { handleSignUp, mutation } = SignUpHook();
+
+  const handleConfirmPassword = (data) => {
+    if (password == confirmPassword) {
+      handleSignUp(data);
+    } else {
+      console.log("did not match password");
+    }
+  };
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
       <div>
@@ -31,6 +46,8 @@ const Signup = () => {
                 type="text"
                 placeholder="Account Name"
                 className="w-full py-3 px-3"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
           </div>
@@ -54,6 +71,8 @@ const Signup = () => {
                 type="email"
                 placeholder="E-mail Address"
                 className="w-full py-3 px-3"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -78,6 +97,8 @@ const Signup = () => {
                 type="password"
                 placeholder="Password"
                 className="w-full py-3 px-3"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
@@ -102,15 +123,32 @@ const Signup = () => {
                 type="password"
                 placeholder="Confirm Password"
                 className="w-full py-3 px-3"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
           </div>
-          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
-            <button className="text-2xl	 font-bold py-3 px-3">SIGN IN</button>
+          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	 ">
+            <button
+              className="text-2xl	 font-bold py-3 px-3"
+              disabled={mutation.isPending}
+              onClick={() =>
+                handleConfirmPassword({
+                  username: username,
+                  emailaddress: email,
+                  password: password,
+                  type: "user",
+                })
+              }
+            >
+              SIGN UP
+            </button>
           </div>
 
           <div>
-            <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
+            <Link to="/user/signin">
+              <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
+            </Link>
           </div>
         </div>
       </div>

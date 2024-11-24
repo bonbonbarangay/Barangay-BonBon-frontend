@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import SiginHook from "../../hooks/authentication/Sigin";
 const SigninAdmin = () => {
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { handleSignin, mutation } = SiginHook();
+
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
       <div>
@@ -29,6 +35,8 @@ const SigninAdmin = () => {
                 type="text"
                 placeholder="Username"
                 className="w-full py-3 px-3"
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
           </div>
@@ -53,15 +61,26 @@ const SigninAdmin = () => {
                 type="password"
                 placeholder="Password"
                 className="w-full py-3 px-3"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
 
-          <Link to="/admin/dashboard">
-            <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
-              <button className="text-2xl	 font-bold py-3 px-3">SIGN IN</button>
-            </div>
-          </Link>
+          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
+            <button
+              className="text-2xl	 font-bold py-3 px-3"
+              onClick={() =>
+                handleSignin({
+                  username: username,
+                  password: password,
+                })
+              }
+              disabled={mutation.isSuccess}
+            >
+              SIGN IN
+            </button>
+          </div>
           <div>
             <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
           </div>

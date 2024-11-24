@@ -1,33 +1,13 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import CalendarSchedule from "../../components/admin/CalendarSchedule";
+import EventHook from "../../hooks/event/Event";
+import CreateEventModal from "../../components/modal/createEventModal";
 const AdminDashboard = () => {
+  const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // State to track the current month and year
-
+  const { handleCreateEvent, data } = EventHook();
   const days = ["Sunday", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
-  const [datas, setDatas] = useState([
-    {
-      id: 1,
-      content: "Meeting",
-      date: "11/18/2024",
-    },
-    {
-      id: 2,
-      content: "Event",
-      date: "11/18/2024",
-    },
-    {
-      id: 3,
-      content: "Work",
-      date: "11/20/2024",
-    },
-
-    {
-      id: 3,
-      content: "React js Event",
-      date: "11/22/2024",
-    },
-  ]);
   const handlePrevMonth = () => {
     setCurrentDate(
       (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)
@@ -42,7 +22,9 @@ const AdminDashboard = () => {
 
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.toLocaleString("default", { month: "long" });
-
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="w-full h-screen ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -171,11 +153,14 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                   <div>
-                    <CalendarSchedule data={datas} currentDate={currentDate} />
+                    <CalendarSchedule data={data} currentDate={currentDate} />
                   </div>
                 </div>
               </div>
-              <div className="flex items-end justify-end px-3 mt-3 ">
+              <div
+                className="flex items-end justify-end px-3 mt-3 "
+                onClick={() => setOpen(true)}
+              >
                 <button className="bg-[#76A0EE] px-2 py-2 font-semibold rounded-lg">
                   Create Event
                 </button>
@@ -300,6 +285,8 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      <CreateEventModal open={open} handleClose={handleClose} />
     </div>
   );
 };

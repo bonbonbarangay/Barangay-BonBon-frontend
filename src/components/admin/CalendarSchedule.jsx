@@ -10,8 +10,8 @@ const CalendarSchedule = ({ data, currentDate }) => {
   };
 
   const getLeadingBlanks = (month, year) => {
-    const firstDayOfMonth = new Date(year, month, 1).getDay(); // Weekday of the 1st
-    return Array.from({ length: firstDayOfMonth }, () => null); // Empty slots for alignment
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    return Array.from({ length: firstDayOfMonth }, () => null);
   };
 
   const month = currentDate.getMonth();
@@ -23,7 +23,7 @@ const CalendarSchedule = ({ data, currentDate }) => {
   return (
     <div className="grid grid-cols-7 gap-1 ">
       {calendarCells.map((date, index) => (
-        <CalendarCell key={index} date={date} datas={data} />
+        <CalendarCell key={index} date={date} data={data} />
       ))}
     </div>
   );
