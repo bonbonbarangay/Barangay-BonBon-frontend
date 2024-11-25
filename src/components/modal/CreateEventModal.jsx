@@ -3,26 +3,21 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { style } from "../../utils/style";
 
-export const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 750,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 3,
-};
-const CreateEventModal = ({ open, handleClose }) => {
+const CreateEventModal = ({
+  open,
+  handleClose,
+  handleCreateEvent,
+  mutation,
+}) => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [title, setTitle] = useState("");
   const handleDateChange = (date) => {
     if (date) {
       setSelectedDate(date);
@@ -30,7 +25,13 @@ const CreateEventModal = ({ open, handleClose }) => {
   };
 
   const formatDate = (date) => {
-    return date ? date.format("MM-DD-YYYY") : "";
+    return date ? date.format("MM/DD/YYYY") : "";
+  };
+
+  const createEvent = () => {
+    handleCreateEvent({ title: title, date: formatDate(selectedDate) });
+    setTitle("");
+    handleClose();
   };
   return (
     <div>
@@ -53,6 +54,8 @@ const CreateEventModal = ({ open, handleClose }) => {
                       placeholder="Enter your Event"
                       type="text"
                       className="w-full mt-3 bg-[#e5e5e5] text-[#111111] px-4 py-4 border border-[#e5e5e5] outline-none rounded-lg"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
                 </div>
@@ -87,7 +90,11 @@ const CreateEventModal = ({ open, handleClose }) => {
                       >
                         Close
                       </button>
-                      <button className="bg-[#3C7FFF] px-3 w-[150px] py-3 text-base text-black rounded-md">
+                      <button
+                        className="bg-[#3C7FFF] px-3 w-[150px] py-3 text-base text-black rounded-md"
+                        onClick={createEvent}
+                        disabled={mutation.isPending}
+                      >
                         Submit
                       </button>
                     </div>

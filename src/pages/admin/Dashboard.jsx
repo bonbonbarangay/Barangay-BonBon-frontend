@@ -6,7 +6,7 @@ import CreateEventModal from "../../components/modal/createEventModal";
 const AdminDashboard = () => {
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // State to track the current month and year
-  const { handleCreateEvent, data } = EventHook();
+  const { handleCreateEvent, data, mutation } = EventHook();
   const days = ["Sunday", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -286,7 +286,12 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <CreateEventModal open={open} handleClose={handleClose} />
+      <CreateEventModal
+        open={open}
+        handleClose={handleClose}
+        handleCreateEvent={handleCreateEvent}
+        mutation={mutation}
+      />
     </div>
   );
 };

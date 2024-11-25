@@ -1,47 +1,35 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-
+import OfficialHook from "../../hooks/official/Official";
+import CreateOfficialModal from "../../components/modal/CreateOfficialModal";
+import UpdateOfficialModal from "../../components/modal/UpdateOfficialModal";
 const Official = () => {
-  const [users, _] = useState([
-    {
-      id: 1,
-      name: "Hon. Lelit B. Molina",
-      position: "Punong Barangay",
-      Officialtype: "Punong Barangay",
-    },
+  const [open, setOpen] = useState(false);
+  const [activeData, setActiveData] = useState(null);
+  const [updateOpen, setUpdateOpen] = useState(false);
 
-    {
-      id: 2,
-      name: "Hon. Lope Q. Matildo",
-      position: "Kagawad",
-      Officialtype: "Infrastructure and Chairman of Bids and Committee",
-    },
-    {
-      id: 3,
-      name: "Hon. Jack Lynne B. Merto",
-      position: "Kagawad",
-      Officialtype: "Finance and Health",
-    },
-    {
-      id: 4,
-      name: "Hon. Norberta L. Baslot",
-      position: "Kagawad",
-      Officialtype: "BCPCA",
-    },
-    {
-      id: 5,
-      name: "Hon. Jerome L. Sambaan",
-      position: "Kagawad",
-      Officialtype: "Fisher Folks, Environment and Sanitation",
-    },
+  const {
+    handleCreateOfficial,
+    isError,
+    isLoading,
+    data,
+    mutation,
+    handleUpdateOfficial,
+    updateMutation,
+    handleDelete,
+    deleteMutation,
+  } = OfficialHook();
 
-    {
-      id: 6,
-      name: "Hon. Irvin Paul D. Paasa",
-      position: "Kagawad",
-      Officialtype: "Transportation and Peace and Order",
-    },
-  ]);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseUpdate = () => {
+    setUpdateOpen(false);
+  };
+  const deleteData = () => {
+    handleDelete(activeData);
+  };
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -54,17 +42,26 @@ const Official = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5">
                 <div>
-                  <button className="bg-green-500	 px-2 py-1 text-lg font-semibold">
+                  <button
+                    className="bg-green-500	 px-2 py-1 text-lg font-semibold"
+                    onClick={() => setOpen(true)}
+                  >
                     Add
                   </button>
                 </div>
                 <div>
-                  <button className="bg-orange-500	 px-2 py-1 text-lg font-semibold">
+                  <button
+                    className="bg-orange-500	 px-2 py-1 text-lg font-semibold"
+                    onClick={() => setUpdateOpen(true)}
+                  >
                     Update
                   </button>
                 </div>
                 <div>
-                  <button className="bg-red-500	 px-2 py-1 text-lg font-semibold">
+                  <button
+                    className="bg-red-500	 px-2 py-1 text-lg font-semibold"
+                    onClick={deleteData}
+                  >
                     Delete
                   </button>
                 </div>
@@ -89,15 +86,18 @@ const Official = () => {
                 </div>
               </div>
 
-              <div className=" h-[65vh]  overflow-auto">
-                {users.map((item, index) => (
+              <div className=" h-[70vh]  overflow-auto">
+                {data?.map((item, index) => (
                   <div
-                    className="bg-[#fff] grid grid-cols-4 gap-4 py-2 px-2 place-items-center mt-5 h-20"
+                    className={`${
+                      activeData?.id === item.id ? "bg-[#DEE5F8]" : "bg-[#fff]"
+                    } grid grid-cols-4 gap-4 py-2 px-2 place-items-center mt-5 hover:bg-[#DEE5F8] cursor-pointer`}
                     key={index}
+                    onClick={() => setActiveData(item)}
                   >
                     <div>
                       <h1 className="text-lg font-medium text-center">
-                        {item.name}
+                        {item.fullname}
                       </h1>
                     </div>
                     <div>
@@ -107,22 +107,15 @@ const Official = () => {
                     </div>
                     <div>
                       <h1 className="text-lg font-medium text-center">
-                        {item.Officialtype}
+                        {item.type}
                       </h1>
                     </div>
                     <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                        className="text-4xl"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="m8.5 13.5l2.5 3l3.5-4.5l4.5 6H5m16 1V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2"
-                        />
-                      </svg>
+                      <img
+                        src={item.image}
+                        className="w-[50px] h-[50px]"
+                        alt={item.fullname}
+                      />
                     </div>
                   </div>
                 ))}
@@ -130,6 +123,24 @@ const Official = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div>
+        <CreateOfficialModal
+          open={open}
+          handleClose={handleClose}
+          handleCreateOfficial={handleCreateOfficial}
+          mutation={mutation}
+        />
+        {activeData && (
+          <UpdateOfficialModal
+            updateOpen={updateOpen}
+            handleCloseUpdate={handleCloseUpdate}
+            activeData={activeData}
+            handleUpdateOfficial={handleUpdateOfficial}
+            updateMutation={updateMutation}
+          />
+        )}
       </div>
     </div>
   );

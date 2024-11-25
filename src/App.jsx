@@ -10,7 +10,6 @@ import AccoutSetting from "./pages/user/AccoutSetting";
 import Geotagging from "./pages/user/Geotagging";
 import ProjectManagement from "./pages/user/ProjectManagement";
 import SigninAdmin from "./pages/admin/Signin";
-import UpdateOfficial from "./pages/admin/UpdateOfficial";
 import AddProject from "./pages/admin/AddProject";
 import AddEvent from "./pages/admin/AddEvent";
 import Pending from "./pages/admin/Pending";
@@ -49,7 +48,6 @@ function App() {
           {/* admin routes */}
           <Route path="/admin/signin" element={<SigninAdmin />} />
           <Route path="/admin/official" element={<Official />} />
-          <Route path="/admin/updateofficial" element={<UpdateOfficial />} />
           <Route path="/admin/addproject" element={<AddProject />} />
           <Route path="/admin/addevent" element={<AddEvent />} />
           <Route path="/admin/pending" element={<Pending />} />

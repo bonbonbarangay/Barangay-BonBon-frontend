@@ -7,9 +7,12 @@ const CalendarCell = ({ date, data = [] }) => {
     );
   }
 
-  const formattedDate = `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()}`;
+  const formattedDate = `${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}/${String(date.getDate()).padStart(2, "0")}/${date.getFullYear()}`;
+
+  console.log(formattedDate);
   const dayContent = Array.isArray(data)
     ? data.filter((item) => item?.date === formattedDate)
     : [];
