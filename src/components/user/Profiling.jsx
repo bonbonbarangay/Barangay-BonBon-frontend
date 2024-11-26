@@ -1,9 +1,149 @@
 import React from "react";
-
+import { useState } from "react";
 const Profiling = () => {
+  const [formData, setFormData] = useState([
+    {
+      lastNameFirstName: "",
+      relation: "",
+      pwd: "",
+      gender: "",
+      age: "",
+      dob: "",
+      education: "",
+      occupation: "",
+    },
+  ]);
+
+  const handleAddFields = () => {
+    setFormData([
+      ...formData,
+      {
+        lastNameFirstName: "",
+        relation: "",
+        pwd: "",
+        gender: "",
+        age: "",
+        dob: "",
+        education: "",
+        occupation: "",
+      },
+    ]);
+  };
+
+  const handleInputChange = (index, field, value) => {
+    const updatedFormData = [...formData];
+    updatedFormData[index][field] = value;
+    setFormData(updatedFormData);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = formData.every(
+      (entry) => entry.lastNameFirstName && entry.relation
+    );
+    if (!isValid) {
+      alert("Please fill all required fields.");
+      return;
+    }
+    console.log(formData); // Replace with API call
+  };
+
   return (
     <div className="w-full">
-      <div>
+      <div className="h-auto pb-5">
+        <div>
+          <h1 className="text-lg font-semibold">
+            Name of all Household Members living in the house:
+          </h1>
+        </div>
+        <div className="h-auto">
+          {formData.map((data, index) => (
+            <div key={index} className="mb-5 border-b pb-4">
+              <div className="mt-5">
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] w-full"
+                  placeholder="(Last Name, First Name, M.I)"
+                  value={data.lastNameFirstName}
+                  onChange={(e) =>
+                    handleInputChange(
+                      index,
+                      "lastNameFirstName",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="flex items-center gap-2 mt-5">
+                {/* Each input field with its own value and onChange */}
+                {["relation", "pwd", "gender", "age", "dob"].map((field, i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    value={data[field]} // Access dynamic field value
+                    onChange={(e) =>
+                      handleInputChange(index, field, e.target.value)
+                    }
+                  />
+                ))}
+              </div>
+
+              <div className="mt-5 flex items-center gap-2">
+                <div className="w-[50%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    placeholder="Highest Educational Attainment"
+                    value={data.education}
+                    onChange={(e) =>
+                      handleInputChange(index, "education", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="w-[50%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    placeholder="Occupation"
+                    value={data.occupation}
+                    onChange={(e) =>
+                      handleInputChange(index, "occupation", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="mt-3 p-2 bg-blue-500 text-white"
+            onClick={handleSubmit}
+          >
+            Add Another Entry
+          </button>
+        </div>
+
+        <div className="mt-10 flex items-end justify-end">
+          <div className="bg-[#5ABC50] py-3 px-3" onClick={handleAddFields}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              className="text-2xl"
+            >
+              <path
+                fill="currentColor"
+                d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div className="mt-10">
         <div>
           <h1 className="text-lg font-semibold">Household Census Questions:</h1>
         </div>
@@ -274,7 +414,6 @@ const Profiling = () => {
           </button>
         </div>
       </div>
-      <div className="h-[60vh] mt-10">ewqewq</div>
     </div>
   );
 };
