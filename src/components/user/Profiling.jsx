@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-const Profiling = () => {
+const Profiling = ({ handleSubmit }) => {
   const [formData, setFormData] = useState([
     {
       lastNameFirstName: "",
@@ -36,16 +36,9 @@ const Profiling = () => {
     setFormData(updatedFormData);
   };
 
-  const handleSubmit = (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    const isValid = formData.every(
-      (entry) => entry.lastNameFirstName && entry.relation
-    );
-    if (!isValid) {
-      alert("Please fill all required fields.");
-      return;
-    }
-    console.log(formData); // Replace with API call
+    handleSubmit(formData);
   };
 
   return (
@@ -117,13 +110,6 @@ const Profiling = () => {
               </div>
             </div>
           ))}
-          <button
-            type="button"
-            className="mt-3 p-2 bg-blue-500 text-white"
-            onClick={handleSubmit}
-          >
-            Add Another Entry
-          </button>
         </div>
 
         <div className="mt-10 flex items-end justify-end">
@@ -409,7 +395,10 @@ const Profiling = () => {
           </div>
         </div>
         <div className="mt-20 flex items-end justify-end">
-          <button className="bg-[#B1C7F4] px-2 py-2  border border-[#000] w-[150px] rounded-lg">
+          <button
+            className="bg-[#B1C7F4] px-2 py-2  border border-[#000] w-[150px] rounded-lg"
+            onClick={submit}
+          >
             SUBMIT
           </button>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../../assets/logo.png";
 import logo2 from "../../assets/logo2.png";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className="w-full h-auto bg-[#F0F0F0]">
