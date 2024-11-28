@@ -6,10 +6,11 @@ import Modal from "@mui/material/Modal";
 import ViewModalEvent from "./ViewModalEvent";
 import { style } from "../../utils/style";
 import UpdateEventModal from "./UpdateEventModal";
+import EventHook from "../../hooks/event/Event";
 const OptionModal = ({ openOption, handleCloseOption, eventData }) => {
   const [viewOpen, setViewOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
-
+  const { handleDeleteEvent, deleteMutation } = EventHook();
   const handleViewClose = () => {
     setViewOpen(false);
   };
@@ -23,6 +24,11 @@ const OptionModal = ({ openOption, handleCloseOption, eventData }) => {
   const handleUpdateOpen = () => {
     handleCloseOption();
     setUpdateOpen(true);
+  };
+
+  const handleDelete = () => {
+    handleDeleteEvent(eventData);
+    handleCloseOption();
   };
 
   return (
@@ -75,8 +81,12 @@ const OptionModal = ({ openOption, handleCloseOption, eventData }) => {
                     </button>
                   </div>
                   <div>
-                    <button className="text-lg font-semibold px-3 py-3 bg-red-500 text-white rounded w-[150px]">
-                      Delete
+                    <button
+                      className="text-lg font-semibold px-3 py-3 bg-red-500 text-white rounded w-[150px]"
+                      onClick={handleDelete}
+                      disabled={deleteMutation.isPending}
+                    >
+                      {deleteMutation.isPending ? "Loading" : "Delete"}
                     </button>
                   </div>
                 </div>

@@ -19,6 +19,7 @@ const UpdateEventModal = ({ updateOpen, handleUpdateClose, eventData }) => {
   const [photo, setPhoto] = useState(eventData?.photo || "");
   const fileInputRef = useRef(null);
   const { handleUpdateEvent, updateMutation } = EventHook();
+
   const handleFileChangePhoto = (event) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -63,6 +64,7 @@ const UpdateEventModal = ({ updateOpen, handleUpdateClose, eventData }) => {
     };
     handleUpdateEvent(data);
   };
+
   return (
     <div>
       <Modal
