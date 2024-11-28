@@ -26,3 +26,23 @@ export const createEvent = async (eventdata) => {
     }
   }
 };
+
+export const updateEvent = async (data) => {
+  try {
+    const response = await axios.put(`http://localhost:4000/event/${data.id}`, {
+      title: data.title,
+      date: data.date,
+      location: data.location,
+      description: data.description,
+      image: data.image,
+      cloudinaryid: data.cloudinaryid,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};

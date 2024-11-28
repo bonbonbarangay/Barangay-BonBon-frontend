@@ -1,27 +1,24 @@
-import React from "react";
-import { useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import dayjs from "dayjs";
+import { style } from "../../utils/style";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { style } from "../../utils/style";
-
-const CreateEventModal = ({
-  open,
-  handleClose,
-  handleCreateEvent,
-  mutation,
-}) => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [photo, setPhoto] = useState("");
+import dayjs from "dayjs";
+import EventHook from "../../hooks/event/Event";
+import { useRef, useState, useEffect } from "react";
+const UpdateEventModal = ({ updateOpen, handleUpdateClose, eventData }) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const stringDate = eventData?.date;
+  const convertedDate = dayjs(stringDate, "MM-DD-YYYY");
+  const [title, setTitle] = useState(eventData?.title || "");
+  const [description, setDescription] = useState(eventData?.description || "");
+  const [location, setLocation] = useState(eventData?.location || "");
+  const [photo, setPhoto] = useState(eventData?.photo || "");
   const fileInputRef = useRef(null);
+  const { handleUpdateEvent, updateMutation } = EventHook();
   const handleFileChangePhoto = (event) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -45,25 +42,32 @@ const CreateEventModal = ({
     return date ? date.format("MM/DD/YYYY") : "";
   };
 
-  const createEvent = () => {
-    handleCreateEvent({
+  useEffect(() => {
+    if (eventData) {
+      setTitle(eventData.title);
+      setDescription(eventData.description);
+      setLocation(eventData.location);
+      setPhoto(eventData.image);
+    }
+  }, [eventData]);
+
+  const handleUpdate = () => {
+    const data = {
+      id: eventData?.id,
       title: title,
-      date: formatDate(selectedDate),
-      description: description,
+      date: selectedDate == null ? convertedDate : formatDate(selectedDate),
       location: location,
+      description: description,
       image: photo,
-    });
-    setTitle("");
-    setDescription("");
-    setLocation("");
-    setPhoto("");
-    handleClose();
+      cloudinaryid: eventData?.cloudinaryid,
+    };
+    handleUpdateEvent(data);
   };
   return (
     <div>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={updateOpen}
+        onClose={handleUpdateClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -73,7 +77,7 @@ const CreateEventModal = ({
               <div className="flex items-end justify-end  py-2">
                 <div
                   className="bg-[#e5e7eb] rounded-full  w-fit px-2 py-2 cursor-pointer"
-                  onClick={handleClose}
+                  onClick={handleUpdateClose}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +96,9 @@ const CreateEventModal = ({
               <div className="w-full h-auto  bg-[#FFFBFB]">
                 <div className="w-full border-2 border-[#000] ">
                   <div className="w-full bg-[#B1C7F4] py-3 px-3">
-                    <h1 className="text-center text-xl font-bold">ADD Event</h1>
+                    <h1 className="text-center text-xl font-bold">
+                      Update Event
+                    </h1>
                   </div>
                   <div className="px-3 py-3 w-full">
                     <div>
@@ -136,7 +142,7 @@ const CreateEventModal = ({
                         >
                           <DemoItem>
                             <MobileDatePicker
-                              value={selectedDate}
+                              value={selectedDate || convertedDate}
                               onChange={handleDateChange}
                               className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
                             />
@@ -194,10 +200,10 @@ const CreateEventModal = ({
                       <div>
                         <button
                           className="text-lg font-semibold bg-[#739CE7] px-3 py-2 w-[150px]"
-                          onClick={createEvent}
-                          disabled={mutation.isPending}
+                          onClick={handleUpdate}
+                          disabled={updateMutation.isPending}
                         >
-                          {mutation.isPending ? "Loading" : "Create"}
+                          {updateMutation.isPending ? "Loading" : "Update"}
                         </button>
                       </div>
                     </div>
@@ -212,4 +218,4 @@ const CreateEventModal = ({
   );
 };
 
-export default CreateEventModal;
+export default UpdateEventModal;

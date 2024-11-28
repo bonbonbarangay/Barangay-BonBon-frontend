@@ -3,9 +3,12 @@ import Sidebar from "../../components/admin/Sidebar";
 import CalendarSchedule from "../../components/admin/CalendarSchedule";
 import EventHook from "../../hooks/event/Event";
 import CreateEventModal from "../../components/modal/createEventModal";
+import OptionModal from "../../components/modal/OptionEvenModal";
 const AdminDashboard = () => {
   const [open, setOpen] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date()); // State to track the current month and year
+  const [openOption, setOpenOption] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [eventData, setEventData] = useState();
   const { handleCreateEvent, data, mutation } = EventHook();
   const days = ["Sunday", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   const handlePrevMonth = () => {
@@ -24,6 +27,14 @@ const AdminDashboard = () => {
   const currentMonth = currentDate.toLocaleString("default", { month: "long" });
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpen = (data) => {
+    setEventData(data);
+    setOpenOption(true);
+  };
+  const handleCloseOption = () => {
+    setOpenOption(false);
   };
   return (
     <div className="w-full h-screen ">
@@ -153,7 +164,11 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                   <div>
-                    <CalendarSchedule data={data} currentDate={currentDate} />
+                    <CalendarSchedule
+                      data={data}
+                      currentDate={currentDate}
+                      handleOpen={handleOpen}
+                    />
                   </div>
                 </div>
               </div>
@@ -291,6 +306,11 @@ const AdminDashboard = () => {
         handleClose={handleClose}
         handleCreateEvent={handleCreateEvent}
         mutation={mutation}
+      />
+      <OptionModal
+        handleCloseOption={handleCloseOption}
+        openOption={openOption}
+        eventData={eventData}
       />
     </div>
   );

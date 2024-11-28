@@ -1,6 +1,6 @@
 import React from "react";
 import CalendarCell from "./CalendarCeil";
-const CalendarSchedule = ({ data, currentDate }) => {
+const CalendarSchedule = ({ data, currentDate, handleOpen }) => {
   const getMonthDays = (month, year) => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     return Array.from(
@@ -23,7 +23,12 @@ const CalendarSchedule = ({ data, currentDate }) => {
   return (
     <div className="grid grid-cols-7 gap-1 ">
       {calendarCells.map((date, index) => (
-        <CalendarCell key={index} date={date} data={data} />
+        <CalendarCell
+          key={index}
+          date={date}
+          data={data}
+          handleOpen={handleOpen}
+        />
       ))}
     </div>
   );
