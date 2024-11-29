@@ -1,6 +1,11 @@
 import React from "react";
 import { useState } from "react";
-const Profiling = ({ handleSubmit }) => {
+const Profiling = ({
+  handleSubmit,
+  houseHoldHead,
+  handleInput,
+  handleCheckboxChange,
+}) => {
   const [formData, setFormData] = useState([
     {
       lastNameFirstName: "",
@@ -151,6 +156,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question1 === "Yes"}
+                  onChange={() => handleCheckboxChange("question1", "Yes")}
                 />
               </div>
             </div>
@@ -165,6 +172,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question1 === "No"}
+                  onChange={() => handleCheckboxChange("question1", "No")}
                 />
               </div>
             </div>
@@ -180,6 +189,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.renting === "Yes"}
+                  onChange={() => handleCheckboxChange("renting", "Yes")}
                 />
               </div>
             </div>
@@ -195,6 +206,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.renting === "No"}
+                  onChange={() => handleCheckboxChange("renting", "No")}
                 />
               </div>
             </div>
@@ -207,7 +220,13 @@ const Profiling = ({ handleSubmit }) => {
             </h1>
           </div>
           <div>
-            <input type="text" className="w-[50px] px-1 py-1" />
+            <input
+              type="text"
+              className="w-[50px] px-1 py-1"
+              name="question2"
+              value={houseHoldHead.question2}
+              onChange={handleInput}
+            />
           </div>
         </div>
         <div className="mt-5">
@@ -228,6 +247,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question3 === "Yes"}
+                  onChange={() => handleCheckboxChange("question3", "Yes")}
                 />
               </div>
             </div>
@@ -242,6 +263,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question3 === "No"}
+                  onChange={() => handleCheckboxChange("question3", "No")}
                 />
               </div>
             </div>
@@ -257,6 +280,10 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question3 === "Precinct No"}
+                  onChange={() =>
+                    handleCheckboxChange("question3", "Precinct No")
+                  }
                 />
               </div>
             </div>
@@ -280,6 +307,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question4 === "Yes"}
+                  onChange={() => handleCheckboxChange("question4", "Yes")}
                 />
               </div>
             </div>
@@ -294,6 +323,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question4 === "No"}
+                  onChange={() => handleCheckboxChange("question4", "No")}
                 />
               </div>
             </div>
@@ -317,6 +348,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question5 === "Yes"}
+                  onChange={() => handleCheckboxChange("question5", "Yes")}
                 />
               </div>
             </div>
@@ -331,6 +364,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question5 === "No"}
+                  onChange={() => handleCheckboxChange("question5", "No")}
                 />
               </div>
             </div>
@@ -354,6 +389,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question6 === "Yes"}
+                  onChange={() => handleCheckboxChange("question6", "Yes")}
                 />
               </div>
             </div>
@@ -368,6 +405,8 @@ const Profiling = ({ handleSubmit }) => {
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
+                  checked={houseHoldHead.question6 === "No"}
+                  onChange={() => handleCheckboxChange("question6", "No")}
                 />
               </div>
             </div>

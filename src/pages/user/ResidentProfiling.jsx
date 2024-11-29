@@ -1,75 +1,85 @@
 import React, { useState } from "react";
 import Profiling from "../../components/user/Profiling";
+import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 const ResidentProfiling = () => {
-  const [combine, setCombine] = useState({
-    household: "",
+  const [houseHoldHead, setHouseHoldHead] = useState({
+    //additional
+    userid: "123",
+    // data1
+    lastnamehead1: "",
+    firstnamehead1: "",
+    mihead1: "",
+    exthead1: "",
+    addresshead1: "",
+    dateofbirthhead1: "",
+    agehead1: "",
+    genderhead1: "",
+    civilstatushead1: "",
+    religionhead1: "",
+    typeofidhead1: "",
+    idnohead1: "",
+    mobilenohead1: "",
+    occupationhead1: "",
+    skillshead1: "",
+    companyaddresshead1: "",
+    collegehead1: "",
+    highschoolhead1: "",
+    elementaryhead1: "",
+    vocationalcoursehead1: "",
+    // data2
+    lastnamehead2: "",
+    firstnamehead2: "",
+    mihead2: "",
+    exthead2: "",
+    addresshead2: "",
+    dateofbirthhead2: "",
+    agehead2: "",
+    genderhead2: "",
+    civilstatushead2: "",
+    religionhead2: "",
+    typeofidhead2: "",
+    idnohead2: "",
+    mobilenohead2: "",
+    occupationhead2: "",
+    skillshead2: "",
+    companyaddresshead2: "",
+    collegehead2: "",
+    highschoolhead2: "",
+    elementaryhead2: "",
+    vocationalcoursehead2: "",
+
+    //data3
+    members: "",
     children: "",
+    //data 4
+    question1: "",
+    question2: "",
+    renting: "",
+    question3: "",
+    question4: "",
+    question5: "",
+    question6: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target; // Destructure name and value from the input
-    setCombine((prevState) => ({
+  const { handleCreateHouseHold, mutation } = HouseHoldHook();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setHouseHoldHead((prevState) => ({
       ...prevState,
-      [name]: value, // Update the specific property dynamically
+      [name]: value,
     }));
   };
 
-  const [data, setData] = useState([
-    {
-      lastname: "",
-      firstname: "",
-      mi: "",
-      ext: "",
-      address: "",
-      dateofbirth: "",
-      age: "",
-      gender: "",
-      civilstatus: "",
-      religion: "",
-      typeofid: "",
-      idno: "",
-      mobileno: "",
-      occupation: "",
-      skills: "",
-      companyaddress: "",
-      college: "",
-      highschool: "",
-      elementary: "",
-      vocationalcourse: "",
-    },
-    {
-      lastname: "",
-      firstname: "",
-      mi: "",
-      ext: "",
-      address: "",
-      dateofbirth: "",
-      age: "",
-      gender: "",
-      civilstatus: "",
-      religion: "",
-      typeofid: "",
-      idno: "",
-      mobileno: "",
-      occupation: "",
-      skills: "",
-      companyaddress: "",
-      college: "",
-      highschool: "",
-      elementary: "",
-      vocationalcourse: "",
-    },
-  ]);
-
-  const handleInputChange = (index, field, value) => {
-    const updatedFormData = [...data];
-    updatedFormData[index][field] = value;
-    setData(updatedFormData);
+  const handleCheckboxChange = (questionKey, value) => {
+    setHouseHoldHead((prev) => ({
+      ...prev,
+      [questionKey]: prev[questionKey] === value ? "" : value,
+    }));
   };
-  const handleSubmit = (household) => {
-    const dataConcat = [...data, ...household, combine];
 
-    console.log(dataConcat.map((item) => item.firstname));
+  const handleSubmit = (household) => {
+    handleCreateHouseHold(houseHoldHead);
   };
 
   return (
@@ -81,356 +91,599 @@ const ResidentProfiling = () => {
       </div>
 
       <div className="w-full flex  gap-5 mt-5">
-        <div className="w-[65%] pr-3 border-r-2 border-[#000] ">
-          <div>
-            <h1 className="text-lg font-semibold">Personal Information</h1>
-          </div>
+        <div className="w-[60%] pr-3 border-r-2 border-[#000] ">
+          <div className="mt-5 w-full">
+            <div className="mt-5 flex items-center  w-full">
+              <div className="w-[25%]">
+                <h1>Name of Household Head:</h1>
+              </div>
+              <div className="flex items-center gap-5 w-[75%]">
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-auto"
+                  placeholder="Last Name  "
+                  name="lastnamehead1"
+                  value={houseHoldHead.lastnamehead1}
+                  onChange={handleInputChange}
+                />
 
-          <div>
-            {data.map((person, index) => (
-              <div className="mt-5">
-                <div className="mt-5 flex items-center gap-3">
-                  <div>
-                    <h1>Name of Household Head:</h1>
-                  </div>
-                  <div className="flex items-center gap-5">
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] placeholder-[#000]"
-                        placeholder="Last Name "
-                        value={person.lastname}
-                        onChange={(e) =>
-                          handleInputChange(index, "lastname", e.target.value)
-                        }
-                      />
-                    </div>
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-auto"
+                  placeholder="First Name "
+                  name="firstnamehead1"
+                  value={houseHoldHead.firstnamehead1}
+                  onChange={handleInputChange}
+                />
 
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] placeholder-[#000] "
-                        placeholder="First Name "
-                        value={person.firstname}
-                        onChange={(e) =>
-                          handleInputChange(index, "firstname", e.target.value)
-                        }
-                      />
-                    </div>
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%]"
+                  placeholder="M. I"
+                  name="mihead1"
+                  value={houseHoldHead.mihead1}
+                  onChange={handleInputChange}
+                />
 
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] placeholder-[#000] w-[50px]"
-                        placeholder="M. I"
-                        value={person.mi}
-                        onChange={(e) =>
-                          handleInputChange(index, "mi", e.target.value)
-                        }
-                      />
-                    </div>
-
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] placeholder-[#000] w-[80px]"
-                        placeholder="Ext."
-                        value={person.ext}
-                        onChange={(e) =>
-                          handleInputChange(index, "ext", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 flex items-center gap-3 w-full">
-                  <div>
-                    <h1>Address:</h1>
-                  </div>
-                  <div className=" w-[60%]">
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] placeholder-[#000] w-full"
-                        placeholder="(House No./Zone#/ City/Province/ Region) "
-                        value={person.address}
-                        onChange={(e) =>
-                          handleInputChange(index, "address", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Date of Birth:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "dateofbirth",
-                            e.target.value
-                          )
-                        }
-                        value={person.dateofbirth}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Age:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        className="px-2 py-1 border border-[#000] w-[60px]"
-                        value={person.age}
-                        onChange={(e) =>
-                          handleInputChange(index, "age", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Gender:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] w-[60px]"
-                        value={data.gender}
-                        onChange={(e) =>
-                          handleInputChange(index, "gender", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Civil Status:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] w-[100px]"
-                        value={person.civilstatus}
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "civilstatus",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Religion:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] w-[100px]"
-                        value={person.religion}
-                        onChange={(e) =>
-                          handleInputChange(index, "religion", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Type of ID:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(index, "typeofid", e.target.value)
-                        }
-                        value={person.typeofid}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>ID No:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        className="px-2 py-1 border border-[#000]"
-                        onChange={(e) =>
-                          handleInputChange(index, "idno", e.target.value)
-                        }
-                        value={person.idno}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Mobile/Tel No:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(index, "mobileno", e.target.value)
-                        }
-                        value={person.mobileno}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Occupation:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(index, "occupation", e.target.value)
-                        }
-                        value={person.occupation}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Skills:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000]"
-                        onChange={(e) =>
-                          handleInputChange(index, "skills", e.target.value)
-                        }
-                        value={person.skills}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex items-center gap-3 w-full">
-                  <div>
-                    <h1>Company Address:</h1>
-                  </div>
-                  <div className=" w-[60%]">
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000]  w-full"
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "companyaddress",
-                            e.target.value
-                          )
-                        }
-                        value={person.companyaddress}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Educational Attainment: College:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(index, "college", e.target.value)
-                        }
-                        value={person.college}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>High School:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000]"
-                        onChange={(e) =>
-                          handleInputChange(index, "highschool", e.target.value)
-                        }
-                        value={person.highschool}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-2 flex items-center gap-2 border-b-2 border-[#000] py-3 ">
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Elementary:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000] "
-                        onChange={(e) =>
-                          handleInputChange(index, "elementary", e.target.value)
-                        }
-                        value={person.elementary}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div>
-                      <h1>Vocational Course:</h1>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        className="px-2 py-1 border border-[#000]"
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "vocationalcourse",
-                            e.target.value
-                          )
-                        }
-                        value={person.vocationalcourse}
-                      />
-                    </div>
-                  </div>
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%]"
+                  placeholder="Ext."
+                  name="exthead1"
+                  value={houseHoldHead.exthead1}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="mt-5 flex items-center gap-3 w-full">
+              <div>
+                <h1>Address:</h1>
+              </div>
+              <div className=" w-[80%]">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] placeholder-[#000] w-full"
+                    placeholder="(House No./Zone#/ City/Province/ Region) "
+                    name="addresshead1"
+                    value={houseHoldHead.addresshead1}
+                    onChange={handleInputChange}
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+            <div className="mt-5 flex items-center gap-2 w-full">
+              <div className="flex items-center gap-1 w-[50%]">
+                <div>
+                  <h1>Date of Birth:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]  "
+                    name="dateofbirthhead1"
+                    value={houseHoldHead.dateofbirthhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
 
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Age:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[50px]"
+                    name="agehead1"
+                    value={houseHoldHead.agehead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Gender:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[60px]"
+                    name="genderhead1"
+                    value={houseHoldHead.genderhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1 ">
+                <div>
+                  <h1>Civil Status:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    name="civilstatushead1"
+                    value={houseHoldHead.civilstatushead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Religion:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    name="religionhead1"
+                    value={houseHoldHead.religionhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2 w-full">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Type of ID:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="typeofidhead1"
+                    value={houseHoldHead.typeofidhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>ID No:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="idnohead1"
+                    value={houseHoldHead.idnohead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Mobile/Tel No:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="mobilenohead1"
+                    value={houseHoldHead.mobilenohead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Occupation:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="occupationhead1"
+                    value={houseHoldHead.occupationhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Skills:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="skillshead1"
+                    value={houseHoldHead.skillshead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-3 w-full">
+              <div>
+                <h1>Company Address:</h1>
+              </div>
+              <div className=" w-[60%]">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]  w-full"
+                    name="companyaddresshead1"
+                    value={houseHoldHead.companyaddresshead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Educational Attainment: College:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="collegehead1"
+                    value={houseHoldHead.collegehead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>High School:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="highschoolhead1"
+                    value={houseHoldHead.highschoolhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2 flex items-center gap-2 border-b-2 border-[#000] py-3 ">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Elementary:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="elementaryhead1"
+                    value={houseHoldHead.elementaryhead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Vocational Course:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="vocationalcoursehead1"
+                    value={houseHoldHead.vocationalcoursehead1}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 w-full">
+            <div className="mt-5 flex items-center  w-full">
+              <div className="w-[15%]">
+                <h1>Spouse Name:</h1>
+              </div>
+              <div className="flex items-center gap-5 w-[80%]">
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-auto"
+                  placeholder="Last Name  "
+                  name="lastnamehead2"
+                  value={houseHoldHead.lastnamehead2}
+                  onChange={handleInputChange}
+                />
+
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-auto"
+                  placeholder="First Name "
+                  name="firstnamehead2"
+                  value={houseHoldHead.firstnamehead2}
+                  onChange={handleInputChange}
+                />
+
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%]"
+                  placeholder="M. I"
+                  name="mihead2"
+                  value={houseHoldHead.mihead2}
+                  onChange={handleInputChange}
+                />
+
+                <input
+                  type="text"
+                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%]"
+                  placeholder="Ext."
+                  name="exthead2"
+                  value={houseHoldHead.exthead2}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="mt-5 flex items-center gap-3 w-full">
+              <div>
+                <h1>Address:</h1>
+              </div>
+              <div className=" w-[80%]">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] placeholder-[#000] w-full"
+                    placeholder="(House No./Zone#/ City/Province/ Region) "
+                    name="addresshead2"
+                    value={houseHoldHead.addresshead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 flex items-center gap-2 w-full">
+              <div className="flex items-center gap-1 w-[50%]">
+                <div>
+                  <h1>Date of Birth:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]  "
+                    name="dateofbirthhead2"
+                    value={houseHoldHead.dateofbirthhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Age:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[50px]"
+                    name="agehead2"
+                    value={houseHoldHead.agehead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Gender:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[60px]"
+                    name="genderhead2"
+                    value={houseHoldHead.genderhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1 ">
+                <div>
+                  <h1>Civil Status:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    name="civilstatushead2"
+                    value={houseHoldHead.civilstatushead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Religion:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    name="religionhead2"
+                    value={houseHoldHead.religionhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2 w-full">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Type of ID:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="typeofidhead2"
+                    value={houseHoldHead.typeofidhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>ID No:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="idnohead2"
+                    value={houseHoldHead.idnohead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Mobile/Tel No:</h1>
+                </div>
+                <div className="w-[60%]">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    name="mobilenohead2"
+                    value={houseHoldHead.mobilenohead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Occupation:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="occupationhead2"
+                    value={houseHoldHead.occupationhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Skills:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="skillshead2"
+                    value={houseHoldHead.skillshead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-3 w-full">
+              <div>
+                <h1>Company Address:</h1>
+              </div>
+              <div className=" w-[60%]">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]  w-full"
+                    name="companyaddresshead2"
+                    value={houseHoldHead.companyaddresshead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Educational Attainment: College:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="collegehead2"
+                    value={houseHoldHead.collegehead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>High School:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="highschoolhead2"
+                    value={houseHoldHead.highschoolhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2 flex items-center gap-2 py-3 ">
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Elementary:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] "
+                    name="elementaryhead2"
+                    value={houseHoldHead.elementaryhead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div>
+                  <h1>Vocational Course:</h1>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000]"
+                    name="vocationalcoursehead2"
+                    value={houseHoldHead.vocationalcoursehead2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="mt-5 flex items-center gap-3 w-full">
             <div>
               <h1>No. of Household members living in the house:</h1>
@@ -438,10 +691,10 @@ const ResidentProfiling = () => {
             <div className="w-[60%]">
               <input
                 type="text" // Corrected type
-                name="household" // Added name attribute
+                name="members" // Added name attribute
                 className="px-2 py-1 border border-[#000] w-[20%]"
-                value={combine.household}
-                onChange={handleChange}
+                value={houseHoldHead.members}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -452,17 +705,22 @@ const ResidentProfiling = () => {
             </div>
             <div className="w-[60%]">
               <input
-                type="text" // Corrected type
-                name="children" // Added name attribute
+                type="text"
                 className="px-2 py-1 border border-[#000] w-[20%]"
-                value={combine.children}
-                onChange={handleChange}
+                name="children"
+                value={houseHoldHead.children}
+                onChange={handleInputChange}
               />
             </div>
           </div>
         </div>
-        <div className="w-[35%]">
-          <Profiling handleSubmit={handleSubmit} />
+        <div className="w-[40%]">
+          <Profiling
+            handleSubmit={handleSubmit}
+            houseHoldHead={houseHoldHead}
+            handleInput={handleInputChange}
+            handleCheckboxChange={handleCheckboxChange}
+          />
         </div>
       </div>
     </div>
