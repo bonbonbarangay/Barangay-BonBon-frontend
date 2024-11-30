@@ -1,70 +1,36 @@
 import React from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import { useState } from "react";
+import PendingModal from "../../components/modal/PendingModal";
+import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
+import ViewResidentModal from "../../components/modal/ViewResidentModal";
 const ManageResident = () => {
-  const [selectedValue, setSelectedValue] = useState("");
-
-  const handleChange = (e) => {
-    setSelectedValue(e.target.value);
+  const [search, setSearch] = useState("");
+  const [pendingOpen, setPendingOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
+  const {
+    data,
+    isError,
+    isLoading,
+    handleView,
+    houseHold,
+    houseMembers,
+    viewByUserIdMutation,
+    handleDelete,
+    deleteByUserIdMutation,
+  } = HouseHoldHook();
+  const handlePendingClose = () => {
+    setPendingOpen(false);
   };
-  const data = [
-    {
-      id: 1,
-      fullName: "John Doe",
-      gender: "Male",
-      birthday: "1990-01-01",
-      houseNo: "123",
-      purok: "Zone 1",
-    },
-    {
-      id: 2,
-      fullName: "Jane Smith",
-      gender: "Female",
-      birthday: "1992-05-15",
-      houseNo: "456",
-      purok: "Zone 2",
-    },
-    {
-      id: 3,
-      fullName: "Mark Taylor",
-      gender: "Male",
-      birthday: "1988-03-10",
-      houseNo: "789",
-      purok: "Zone 3",
-    },
-    {
-      id: 4,
-      fullName: "Lucy Gray",
-      gender: "Female",
-      birthday: "1995-11-23",
-      houseNo: "101",
-      purok: "Zone 4",
-    },
-    {
-      id: 5,
-      fullName: "Liam Brown",
-      gender: "Male",
-      birthday: "1985-08-18",
-      houseNo: "202",
-      purok: "Zone 5",
-    },
-    {
-      id: 6,
-      fullName: "Emma White",
-      gender: "Female",
-      birthday: "1998-06-30",
-      houseNo: "303",
-      purok: "Zone 6",
-    },
-    {
-      id: 7,
-      fullName: "Emma White",
-      gender: "Female",
-      birthday: "1998-06-30",
-      houseNo: "303",
-      purok: "Zone 6",
-    },
-  ];
+  const handleViewClose = () => {
+    setViewOpen(false);
+  };
+
+  const handleViewOpen = (userid) => {
+    handleView(userid);
+    setViewOpen(true);
+  };
+
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -72,7 +38,7 @@ const ManageResident = () => {
         <div className="w-[20%] h-auto">
           <Sidebar />
         </div>
-        <div className="w-[80%] bg-[#DEE5F8]">
+        <div className="w-[80%] bg-[#DEE5F8] ">
           <div className="py-3 px-3 w-full">
             <div>
               <h1 className="text-right text-xl font-semibold">
@@ -82,7 +48,10 @@ const ManageResident = () => {
 
             <div className="mt-5">
               <div>
-                <button className="bg-[#1FAF10] px-2 py-2 font-semibold text-xl w-[150px] rounded-lg text-[#fff]">
+                <button
+                  className="bg-red-500 px-2 py-2 font-semibold text-xl w-[150px] rounded-lg text-[#fff]"
+                  onClick={() => setPendingOpen(true)}
+                >
                   Pending
                 </button>
               </div>
@@ -123,16 +92,18 @@ const ManageResident = () => {
                     <input
                       type="text"
                       placeholder="search"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
                       className="w-[250px] py-2 px-2  border border-[#000] placeholder:text-[#000] outline-none"
                     />
                   </div>
                 </div>
               </div>
-              <div className="w-full mt-5">
+              <div className="w-full mt-5 ">
                 <div className="container mx-auto p-4">
-                  <div className="border border-gray-500 overflow-hidden">
+                  <div className="border border-gray-500 max-h-[60vh] overflow-y-auto">
                     <table className="table-auto w-full border-collapse">
-                      <thead className="bg-gray-200">
+                      <thead className="sticky top-0 z-10">
                         <tr>
                           <th className="border border-gray-500 px-4 py-2 text-center">
                             Full Name
@@ -144,47 +115,79 @@ const ManageResident = () => {
                             Birthday
                           </th>
                           <th className="border border-gray-500 px-4 py-2 text-center">
-                            House No.
-                          </th>
-                          <th className="border border-gray-500 px-4 py-2 text-center">
-                            Purok/Zone
+                            Address
                           </th>
                           <th className="border border-gray-500 px-4 py-2 text-center">
                             Action
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="overflow-y-auto max-h-[50vh]">
-                        {data.map((item) => (
-                          <tr key={item.id} className="hover:bg-gray-100">
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              {item.fullName}
-                            </td>
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              {item.gender}
-                            </td>
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              {item.birthday}
-                            </td>
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              {item.houseNo}
-                            </td>
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              {item.purok}
-                            </td>
-                            <td className="border border-gray-500 px-4 py-2 text-center">
-                              <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 mr-2">
-                                Edit
-                              </button>
-                              <button className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 mr-2">
-                                View
-                              </button>
-                              <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700">
-                                Delete
-                              </button>
+                      <tbody>
+                        {isLoading ? (
+                          <tr>
+                            <td colSpan="5" className="text-center py-4">
+                              Loading...
                             </td>
                           </tr>
-                        ))}
+                        ) : (
+                          data
+                            .filter((item) => item.pending === false)
+                            .filter((item) => {
+                              const fullName =
+                                `${item.firstnamehead1} ${item.lastnamehead1}`.toLowerCase();
+                              return fullName.includes(search.toLowerCase());
+                            })
+                            .map((item) => (
+                              <tr key={item.id} className="hover:bg-gray-100">
+                                <td className="border border-gray-500 px-4 py-2 text-center">
+                                  {item.firstnamehead1} {item.lastnamehead1}
+                                </td>
+                                <td className="border border-gray-500 px-4 py-2 text-center">
+                                  {item.genderhead1}
+                                </td>
+                                <td className="border border-gray-500 px-4 py-2 text-center">
+                                  {item.dateofbirthhead1}
+                                </td>
+                                <td className="border border-gray-500 px-4 py-2 text-center">
+                                  {item.addresshead1}
+                                </td>
+                                <td className="border border-gray-500 px-4 py-2 text-center">
+                                  <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 mr-2">
+                                    Edit
+                                  </button>
+                                  <button
+                                    className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 mr-2"
+                                    onClick={() => handleViewOpen(item.userid)}
+                                  >
+                                    View
+                                  </button>
+                                  <button
+                                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
+                                    disabled={deleteByUserIdMutation.isPending}
+                                    onClick={() => handleDelete(item.userid)}
+                                  >
+                                    {deleteByUserIdMutation.isPending
+                                      ? "Loading"
+                                      : "Delete"}
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                        )}
+                        {!isLoading &&
+                          data.filter(
+                            (item) =>
+                              item.pending === false &&
+                              `${item.firstnamehead1} ${item.lastnamehead1}`
+                                .toLowerCase()
+                                .includes(search.toLowerCase())
+                          ).length === 0 && (
+                            <tr>
+                              <td colSpan="5" className="text-center py-4">
+                                No results found.
+                              </td>
+                            </tr>
+                          )}
                       </tbody>
                     </table>
                   </div>
@@ -192,7 +195,7 @@ const ManageResident = () => {
               </div>
             </div>
 
-            <div className=" ml-5 flex items-center gap-5 relative">
+            {/* <div className=" ml-5 flex items-center gap-5 relative">
               <div>
                 <h1 className="text-lg">Show</h1>
               </div>
@@ -211,10 +214,22 @@ const ManageResident = () => {
               <div>
                 <h1 className="text-lg">Entries</h1>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
+      <PendingModal
+        handlePendingClose={handlePendingClose}
+        pendingOpen={pendingOpen}
+        data={data}
+      />
+      <ViewResidentModal
+        handleViewClose={handleViewClose}
+        viewOpen={viewOpen}
+        viewByUserIdMutation={viewByUserIdMutation}
+        houseHold={houseHold}
+        houseMembers={houseMembers}
+      />
     </div>
   );
 };

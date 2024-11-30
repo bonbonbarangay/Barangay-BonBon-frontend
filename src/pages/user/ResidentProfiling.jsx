@@ -83,7 +83,7 @@ const ResidentProfiling = () => {
   };
 
   const handleSubmit = (household) => {
-    // handleCreateHouseHold(houseHoldHead);
+    handleCreateHouseHold(houseHoldHead);
     handleCreateHouseMembers(household);
   };
 
