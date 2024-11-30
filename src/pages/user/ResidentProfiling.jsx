@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Profiling from "../../components/user/Profiling";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
+import { getFromLocalStorage } from "../../utils/localStorage";
+import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
 const ResidentProfiling = () => {
   const [houseHoldHead, setHouseHoldHead] = useState({
     //additional
-    userid: "123",
+    userid: getFromLocalStorage("id"),
+
     // data1
     lastnamehead1: "",
     firstnamehead1: "",
@@ -62,7 +65,8 @@ const ResidentProfiling = () => {
   });
 
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
-
+  const { handleCreateHouseMembers, createHouseMembersMutation } =
+    HouseMembersHook();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setHouseHoldHead((prevState) => ({
@@ -79,7 +83,8 @@ const ResidentProfiling = () => {
   };
 
   const handleSubmit = (household) => {
-    handleCreateHouseHold(houseHoldHead);
+    // handleCreateHouseHold(houseHoldHead);
+    handleCreateHouseMembers(household);
   };
 
   return (

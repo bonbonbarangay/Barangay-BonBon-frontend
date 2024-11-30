@@ -1,13 +1,18 @@
 import React from "react";
 import { useState } from "react";
+import { getFromLocalStorage } from "../../utils/localStorage";
 const Profiling = ({
   handleSubmit,
   houseHoldHead,
   handleInput,
   handleCheckboxChange,
 }) => {
+  const currentYear = new Date().getFullYear(); // Get the current year
+
   const [formData, setFormData] = useState([
     {
+      userid: getFromLocalStorage("id"),
+      year: currentYear,
       lastNameFirstName: "",
       relation: "",
       pwd: "",
@@ -23,6 +28,8 @@ const Profiling = ({
     setFormData([
       ...formData,
       {
+        userid: getFromLocalStorage("id"),
+        year: currentYear,
         lastNameFirstName: "",
         relation: "",
         pwd: "",

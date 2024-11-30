@@ -10,6 +10,8 @@ const SiginHook = () => {
     mutationFn: signInServices,
     onSuccess: (data) => {
       saveToLocalStorage("token", data.token);
+      saveToLocalStorage("id", data.id);
+
       if (data.type == "admin") {
         navigate("/admin/dashboard");
       } else {
