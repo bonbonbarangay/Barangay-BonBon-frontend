@@ -12,7 +12,7 @@ import { useRef, useState, useEffect } from "react";
 const UpdateEventModal = ({ updateOpen, handleUpdateClose, eventData }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const stringDate = eventData?.date;
-  const convertedDate = dayjs(stringDate, "MM-DD-YYYY");
+  const convertedDate = dayjs(stringDate, "MM/DD/YYYY");
   const [title, setTitle] = useState(eventData?.title || "");
   const [description, setDescription] = useState(eventData?.description || "");
   const [location, setLocation] = useState(eventData?.location || "");
@@ -56,7 +56,10 @@ const UpdateEventModal = ({ updateOpen, handleUpdateClose, eventData }) => {
     const data = {
       id: eventData?.id,
       title: title,
-      date: selectedDate == null ? convertedDate : formatDate(selectedDate),
+      date:
+        selectedDate == null
+          ? formatDate(convertedDate)
+          : formatDate(selectedDate),
       location: location,
       description: description,
       image: photo,

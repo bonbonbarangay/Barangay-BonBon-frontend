@@ -5,6 +5,10 @@ import {
   updateOfficial,
   deleteOfficial,
 } from "../../services/official/Official";
+import {
+  handleInvalid,
+  handleSucess,
+} from "../../components/toastify/Toastify";
 const OfficialHook = () => {
   const queryClient = useQueryClient();
 
@@ -16,11 +20,13 @@ const OfficialHook = () => {
   const mutation = useMutation({
     mutationFn: creatrOfficial,
     onSuccess: (data) => {
+      handleSucess("Sucess Create");
       queryClient.invalidateQueries({ queryKey: ["official"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }
@@ -29,11 +35,13 @@ const OfficialHook = () => {
   const updateMutation = useMutation({
     mutationFn: updateOfficial,
     onSuccess: (data) => {
+      handleSucess("Sucess Update");
       queryClient.invalidateQueries({ queryKey: ["official"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }
@@ -42,11 +50,13 @@ const OfficialHook = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteOfficial,
     onSuccess: () => {
+      handleSucess("Delete Sucess");
       queryClient.invalidateQueries({ queryKey: ["official"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }

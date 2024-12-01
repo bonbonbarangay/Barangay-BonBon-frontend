@@ -2,6 +2,8 @@ import React from "react";
 import SiginHook from "../../hooks/authentication/Sigin";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
 const Signin = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -88,6 +90,8 @@ const Signin = () => {
           </div>
         </div>
       </div>
+
+      <Toaster />
     </div>
   );
 };

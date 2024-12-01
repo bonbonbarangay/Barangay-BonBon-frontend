@@ -4,6 +4,7 @@ import CalendarSchedule from "../../components/admin/CalendarSchedule";
 import EventHook from "../../hooks/event/Event";
 import CreateEventModal from "../../components/modal/createEventModal";
 import OptionModal from "../../components/modal/OptionEvenModal";
+import { Toaster } from "react-hot-toast";
 const AdminDashboard = () => {
   const [open, setOpen] = useState(false);
   const [openOption, setOpenOption] = useState(false);
@@ -312,6 +313,7 @@ const AdminDashboard = () => {
         openOption={openOption}
         eventData={eventData}
       />
+      <Toaster />
     </div>
   );
 };

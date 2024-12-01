@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import {
+  handleInvalid,
+  handleSucess,
+} from "../../components/toastify/Toastify";
 import {
   createHouseHold,
   getAllHouseHold,
@@ -6,6 +10,7 @@ import {
   getHouseHoldAndHouseMembersByUserid,
   deleteHouseHoldAndHouseMembersByUserid,
 } from "../../services/residentprofiling/HouseHold";
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const HouseHoldHook = () => {
@@ -21,11 +26,13 @@ const HouseHoldHook = () => {
   const mutation = useMutation({
     mutationFn: createHouseHold,
     onSuccess: (data) => {
+      handleSucess("Sucess");
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }
@@ -34,11 +41,14 @@ const HouseHoldHook = () => {
   const acceptPendingMutation = useMutation({
     mutationFn: acceptPending,
     onSuccess: (data) => {
+      handleSucess("Sucess Accept");
+
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }
@@ -64,11 +74,14 @@ const HouseHoldHook = () => {
   const deleteByUserIdMutation = useMutation({
     mutationFn: deleteHouseHoldAndHouseMembersByUserid,
     onSuccess: (data) => {
+      handleSucess("Sucess Delete");
+
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {
       if (error?.status === 400) {
         console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
       } else {
         console.error("Error occurred:", error?.message);
       }

@@ -3,6 +3,8 @@ import Sidebar from "../../components/admin/Sidebar";
 import OfficialHook from "../../hooks/official/Official";
 import CreateOfficialModal from "../../components/modal/CreateOfficialModal";
 import UpdateOfficialModal from "../../components/modal/UpdateOfficialModal";
+import { Toaster } from "react-hot-toast";
+
 const Official = () => {
   const [open, setOpen] = useState(false);
   const [activeData, setActiveData] = useState(null);
@@ -142,6 +144,8 @@ const Official = () => {
           />
         )}
       </div>
+
+      <Toaster />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SignUpHook from "../../hooks/authentication/Signup";
+import { Toaster } from "react-hot-toast";
+
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -152,6 +154,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

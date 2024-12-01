@@ -4,6 +4,8 @@ import { useState } from "react";
 import PendingModal from "../../components/modal/PendingModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import ViewResidentModal from "../../components/modal/ViewResidentModal";
+import { Toaster } from "react-hot-toast";
+
 const ManageResident = () => {
   const [search, setSearch] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
@@ -230,6 +232,7 @@ const ManageResident = () => {
         houseHold={houseHold}
         houseMembers={houseMembers}
       />
+      <Toaster />
     </div>
   );
 };
