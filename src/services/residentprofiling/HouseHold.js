@@ -71,3 +71,19 @@ export const deleteHouseHoldAndHouseMembersByUserid = async (userid) => {
     }
   }
 };
+
+export const getHouseByUserid = async (userid) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/household/user/${userid}`
+    );
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};

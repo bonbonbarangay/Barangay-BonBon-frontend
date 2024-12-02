@@ -10,12 +10,12 @@ const SiginHook = () => {
   const mutation = useMutation({
     mutationFn: signInServices,
     onSuccess: (data) => {
-      saveToLocalStorage("token", data.token);
-      saveToLocalStorage("id", data.id);
-
       if (data.type == "admin") {
         navigate("/admin/dashboard");
       } else {
+        saveToLocalStorage("user", data.user);
+        saveToLocalStorage("id", data.id);
+
         navigate("/user");
       }
       queryClient.invalidateQueries({ queryKey: ["signin"] });

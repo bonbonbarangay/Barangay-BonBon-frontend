@@ -12,7 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
-    "@mui/material": "^6.1.8",
+    "@mui/material": "^6.1.9",
     "@mui/x-date-pickers": "^7.22.3",
     "@tanstack/react-query": "^5.61.3",
     "@tanstack/react-query-devtools": "^5.61.3",

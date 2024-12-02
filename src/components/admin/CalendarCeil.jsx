@@ -22,7 +22,7 @@ const CalendarCell = ({ date, data = [], handleOpen }) => {
       {dayContent.map((item, index) => (
         <div
           key={index}
-          className="bg-blue-100 text-blue-700 text-xs rounded px-2 py-1"
+          className="bg-blue-100 text-blue-700 text-sm  rounded px-2 py-1 cursor-pointer"
           onClick={() => handleOpen(item)}
         >
           {item.title}

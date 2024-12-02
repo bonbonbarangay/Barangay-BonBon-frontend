@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   handleInvalid,
   handleSucess,
@@ -9,15 +9,17 @@ import {
   acceptPending,
   getHouseHoldAndHouseMembersByUserid,
   deleteHouseHoldAndHouseMembersByUserid,
+  getHouseByUserid,
 } from "../../services/residentprofiling/HouseHold";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { getFromLocalStorage } from "../../utils/localStorage";
 const HouseHoldHook = () => {
   const queryClient = useQueryClient();
+  const [pending, setPending] = useState();
   const [houseHold, setHouseHold] = useState();
   const [houseMembers, setHouseMembers] = useState();
-
+  const userid = getFromLocalStorage("id");
   const { data, isError, isLoading } = useQuery({
     queryKey: ["household"],
     queryFn: getAllHouseHold,
@@ -42,7 +44,6 @@ const HouseHoldHook = () => {
     mutationFn: acceptPending,
     onSuccess: (data) => {
       handleSucess("Sucess Accept");
-
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {
@@ -60,6 +61,20 @@ const HouseHoldHook = () => {
     onSuccess: (data) => {
       setHouseHold(data.household);
       setHouseMembers(data.housemember);
+      queryClient.invalidateQueries({ queryKey: ["household"] });
+    },
+    onError: (error) => {
+      if (error?.status === 400) {
+        console.error("Bad request:", error?.data?.message || error?.message);
+      } else {
+        console.error("Error occurred:", error?.message);
+      }
+    },
+  });
+  const getUserByID = useMutation({
+    mutationFn: getHouseByUserid,
+    onSuccess: (data) => {
+      setPending(data.pending);
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {
@@ -99,6 +114,14 @@ const HouseHoldHook = () => {
   const handleDelete = (userid) => {
     deleteByUserIdMutation.mutateAsync(userid);
   };
+  const handleGetById = () => {
+    getUserByID.mutate(userid);
+  };
+  useEffect(() => {
+    if (userid) {
+      handleGetById();
+    }
+  }, [userid]);
   return {
     data,
     isError,
@@ -113,6 +136,7 @@ const HouseHoldHook = () => {
     viewByUserIdMutation,
     handleDelete,
     deleteByUserIdMutation,
+    pending,
   };
 };
 

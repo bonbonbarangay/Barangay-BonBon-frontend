@@ -3,6 +3,8 @@ import Profiling from "../../components/user/Profiling";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
+import { Toaster } from "react-hot-toast";
+
 const ResidentProfiling = () => {
   const [houseHoldHead, setHouseHoldHead] = useState({
     //additional
@@ -728,6 +730,7 @@ const ResidentProfiling = () => {
           />
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

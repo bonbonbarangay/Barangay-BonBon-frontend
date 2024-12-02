@@ -30,7 +30,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="/user/transparency" element={<Transparency />} />
             <Route path="/user/demographic" element={<Demographic />} />
-            <Route path="/user/setting" element={<AccoutSetting />} />
+            <Route path="/user/setting/:id" element={<AccoutSetting />} />
             <Route path="/user/geotagging" element={<Geotagging />} />
             <Route
               path="/user/ProjectManagement"
