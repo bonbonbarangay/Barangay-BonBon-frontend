@@ -1,8 +1,16 @@
-import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createHouseMembers } from "../../services/residentprofiling/HouseMembers";
+import {
+  createHouseMembers,
+  getAllHouseMembers,
+} from "../../services/residentprofiling/HouseMembers";
+
 const HouseMembersHook = () => {
   const queryClient = useQueryClient();
+
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["housemembers"],
+    queryFn: getAllHouseMembers,
+  });
   const createHouseMembersMutation = useMutation({
     mutationFn: createHouseMembers,
     onSuccess: (data) => {
@@ -20,7 +28,16 @@ const HouseMembersHook = () => {
   const handleCreateHouseMembers = (data) => {
     createHouseMembersMutation.mutate(data);
   };
-  return { handleCreateHouseMembers, createHouseMembersMutation };
+
+  const dataHouseMembers = Array.isArray(data) ? data : [];
+  return {
+    handleCreateHouseMembers,
+    createHouseMembersMutation,
+    data,
+    isError,
+    isLoading,
+    dataHouseMembers,
+  };
 };
 
 export default HouseMembersHook;

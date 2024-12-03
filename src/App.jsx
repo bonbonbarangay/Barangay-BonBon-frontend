@@ -20,6 +20,8 @@ import GeotaggingAdmin from "./pages/admin/Geotagging";
 import Setting from "./pages/admin/Setting";
 import ManageResident from "./pages/admin/ManageResident";
 import Official from "./pages/admin/Official";
+import "leaflet/dist/leaflet.css";
+
 function App() {
   return (
     <>

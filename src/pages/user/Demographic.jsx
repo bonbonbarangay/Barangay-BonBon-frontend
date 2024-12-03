@@ -2,7 +2,55 @@ import React from "react";
 import demographic1 from "../../assets/demographic1.png";
 import demographic2 from "../../assets/demographic2.png";
 import RightBar from "../../components/user/RightBar";
+import PopulationGraph from "../../components/populationGraph/PopulationGraph";
+import { Line, Bar } from "react-chartjs-2";
+import { defaults } from "chart.js/auto";
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
+defaults.plugins.title.display = true;
+defaults.plugins.title.align = "start";
+defaults.plugins.title.color = "black";
 const Demographic = () => {
+  const {
+    totalPopulation2024,
+    totalPopulation2025,
+    totalPopulation2026,
+    totalPopulation2027,
+    totalPopulation2028,
+    totalPopulation,
+    totalFemale,
+    totalMale,
+  } = PopulationGraph();
+  const lineData = {
+    labels: ["2024", "2025", "2026", "2027", "2028"],
+    datasets: [
+      {
+        label: "Population (2024 - 2028)",
+        data: [
+          totalPopulation2024,
+          totalPopulation2025,
+          totalPopulation2026,
+          totalPopulation2027,
+          totalPopulation2028,
+        ],
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
+      },
+    ],
+  };
+  const barData = {
+    labels: ["Male", "Female"],
+    datasets: [
+      {
+        label: "GENDER",
+        data: [totalMale, totalFemale],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)"],
+        borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)"],
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <div className="w-full h-auto bg-[#DEE5F8] ">
       <div className="flex px-5">
@@ -22,7 +70,9 @@ const Demographic = () => {
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3">10,976</h1>
+                      <h1 className="text-2xl font-semibold mt-3">
+                        {totalPopulation.toString()}
+                      </h1>
                     </div>
                   </div>
                   <div className="bg-[#739CE7] py-2 px-5 w-[40%] rounded-lg">
@@ -33,7 +83,9 @@ const Demographic = () => {
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3">5,488</h1>
+                      <h1 className="text-2xl font-semibold mt-3">
+                        {totalMale.toString()}
+                      </h1>
                     </div>
                   </div>
                 </div>
@@ -53,12 +105,14 @@ const Demographic = () => {
                   <div className="bg-[#739CE7] py-2 px-5 w-[40%] rounded-lg">
                     <div>
                       <p className="font-semibold text-lg">
-                        Population of Male
+                        Population of Female
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3">5,488</h1>
+                      <h1 className="text-2xl font-semibold mt-3">
+                        {totalFemale.toString()}
+                      </h1>
                     </div>
                   </div>
                 </div>
@@ -74,12 +128,14 @@ const Demographic = () => {
 
                       <div>
                         <h1 className="text-sm">Population </h1>
-                        <h1 className="text-lg font-bold">10,976 </h1>
+                        <h1 className="text-lg font-bold text-center">
+                          {totalPopulation.toString()}
+                        </h1>
                       </div>
                     </div>
                     <div className="flex items-center justify-center">
-                      <div className="mt-5 w-full">
-                        <img src={demographic2} className="w-full h-[200px]" />
+                      <div className="mt-5 w-full h-[200px]">
+                        <Line data={lineData} />
                       </div>
                     </div>
                   </div>
@@ -115,7 +171,7 @@ const Demographic = () => {
                     </div>
                     <div className="flex items-center justify-center">
                       <div className="mt-5 w-full">
-                        <img src={demographic1} className="w-full h-[200px]" />
+                        <img src={demographic2} className="h-[200px] w-full" />
                       </div>
                     </div>
                   </div>
@@ -128,8 +184,8 @@ const Demographic = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-center">
-                      <div className="mt-5 w-full">
-                        <img src={demographic1} className="w-full h-[200px]" />
+                      <div className="mt-5 w-full h-[200px]">
+                        <Bar data={barData} />{" "}
                       </div>
                     </div>
                   </div>

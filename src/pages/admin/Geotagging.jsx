@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
+import CreateProjectManagementModa from "../../components/modal/CreateProjectManagementModa";
+import { Toaster } from "react-hot-toast";
+
 const GeotaggingAdmin = () => {
+  const [openProjectManage, setOpenProjectManage] = useState(false);
+  const handleCloseProjectManage = () => {
+    setOpenProjectManage(false);
+  };
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -14,8 +21,10 @@ const GeotaggingAdmin = () => {
               <div>
                 <h1 className="text-xl font-bold">GEOTAGGING</h1>
               </div>
-              <div>
-                <h1 className="text-xl font-bold">Project Management</h1>
+              <div onClick={() => setOpenProjectManage(true)}>
+                <h1 className="text-xl font-bold cursor-pointer">
+                  Project Management
+                </h1>
               </div>
               <div>
                 <h1 className="text-xl font-bold">Strategic Road</h1>
@@ -36,6 +45,11 @@ const GeotaggingAdmin = () => {
           </div>
         </div>
       </div>
+      <CreateProjectManagementModa
+        handleCloseProjectManage={handleCloseProjectManage}
+        openProjectManage={openProjectManage}
+      />
+      <Toaster />
     </div>
   );
 };

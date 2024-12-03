@@ -117,11 +117,14 @@ const HouseHoldHook = () => {
   const handleGetById = () => {
     getUserByID.mutate(userid);
   };
+
+  const dataHouseHold = Array.isArray(data) ? data : [];
   useEffect(() => {
     if (userid) {
       handleGetById();
     }
   }, [userid]);
+
   return {
     data,
     isError,
@@ -137,6 +140,7 @@ const HouseHoldHook = () => {
     handleDelete,
     deleteByUserIdMutation,
     pending,
+    dataHouseHold,
   };
 };
 

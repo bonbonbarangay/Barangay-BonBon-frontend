@@ -1,5 +1,6 @@
 import React from "react";
 import RightBar from "../../components/user/RightBar";
+import Map from "../../components/user/Map";
 const ProjectManagement = () => {
   return (
     <div className="w-full h-auto bg-[#DEE5F8] ">
@@ -13,7 +14,10 @@ const ProjectManagement = () => {
             </div>
             <div className="w-full flex items-center justify-center flex-col">
               <div className="bg-[#F0F0F0] w-[90%] overflow-y-auto h-[100vh] py-5 px-10 mt-5 border-2 border-[#000]">
-                <div className="flex items-center gap-2">
+                <div className="w-full">
+                  <Map />
+                </div>
+                <div className="flex items-center gap-2 mt-5">
                   <div className="w-[100px] h-[20px] bg-[#42D732]"></div>
                   <div>
                     <h1 className="font-bold text-lg">Satisfactory</h1>
