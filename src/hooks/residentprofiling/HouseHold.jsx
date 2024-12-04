@@ -111,8 +111,8 @@ const HouseHoldHook = () => {
   const handleView = (userid) => {
     viewByUserIdMutation.mutate(userid);
   };
-  const handleDelete = (userid) => {
-    deleteByUserIdMutation.mutateAsync(userid);
+  const handleDelete = (data) => {
+    deleteByUserIdMutation.mutateAsync(data);
   };
   const handleGetById = () => {
     getUserByID.mutate(userid);

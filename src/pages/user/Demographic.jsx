@@ -1,5 +1,4 @@
 import React from "react";
-import demographic1 from "../../assets/demographic1.png";
 import demographic2 from "../../assets/demographic2.png";
 import RightBar from "../../components/user/RightBar";
 import PopulationGraph from "../../components/populationGraph/PopulationGraph";

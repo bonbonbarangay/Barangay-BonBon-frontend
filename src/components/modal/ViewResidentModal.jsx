@@ -57,6 +57,17 @@ const ViewResidentModal = ({
                   RESIDENT AND HOUSEHOLD PROFILING
                 </h1>
               </div>
+              <div className="mt-5 flex items-center justify-center flex-col">
+                <div>
+                  <h1 className="text-sm font-bold">ID Picture</h1>
+                </div>
+                <div>
+                  <img
+                    src={houseHold?.image}
+                    className="w-[150px] h-[100px] object-center"
+                  />
+                </div>
+              </div>
               <div className="border-b-2  border-[#000] py-3">
                 <div>
                   <h1 className="text-sm font-bold">Household Head</h1>
@@ -457,7 +468,7 @@ const ViewResidentModal = ({
                 <div>
                   {houseMembers?.map((item) => (
                     <div className="w-full">
-                      <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
+                      <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-16">
                         <div className="flex items-center flex-col">
                           <div>
                             <h1 className="text-sm font-semibold">FULL NAME</h1>

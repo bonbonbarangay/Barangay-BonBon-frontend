@@ -57,10 +57,13 @@ export const getHouseHoldAndHouseMembersByUserid = async (userid) => {
     }
   }
 };
-export const deleteHouseHoldAndHouseMembersByUserid = async (userid) => {
+export const deleteHouseHoldAndHouseMembersByUserid = async (data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:4000/household/${userid}`
+      `http://localhost:4000/household/${data.userid}`,
+      {
+        data: { cloudinaryid: data.cloudinaryid },
+      }
     );
     return response.data;
   } catch (error) {

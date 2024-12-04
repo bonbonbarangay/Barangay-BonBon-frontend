@@ -1,11 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getFromLocalStorage } from "../../utils/localStorage";
 const Profiling = ({
   handleSubmit,
   houseHoldHead,
   handleInput,
   handleCheckboxChange,
+  photo,
+  handleIconClick,
+  handleFileChangePhoto,
+  fileInputRef,
 }) => {
   const currentYear = new Date().getFullYear(); // Get the current year
 
@@ -44,6 +48,7 @@ const Profiling = ({
 
   const handleInputChange = (index, field, value) => {
     const updatedFormData = [...formData];
+    console.log(index, field);
     updatedFormData[index][field] = value;
     setFormData(updatedFormData);
   };
@@ -52,6 +57,17 @@ const Profiling = ({
     e.preventDefault();
     handleSubmit(formData);
   };
+
+  const handleRemoveField = () => {
+    setFormData((prevData) => {
+      if (prevData.length > 1) {
+        return prevData.slice(0, -1);
+      }
+      return prevData;
+    });
+  };
+
+  const lenghtOfForm = formData.length;
 
   return (
     <div className="w-full">
@@ -81,32 +97,66 @@ const Profiling = ({
               </div>
 
               <div className="flex items-center gap-2 mt-5">
-                {/* Each input field with its own value and onChange */}
-                {["relation", "pwd", "gender", "age", "dob"].map((field, i) => (
+                <select
+                  id="status"
+                  value={data.pwd}
+                  onChange={(e) =>
+                    handleInputChange(index, "pwd", e.target.value)
+                  }
+                  className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff]"
+                >
+                  <option value="" disabled>
+                    Pwd
+                  </option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+                {["relation", "age", "dob"].map((field, i) => (
                   <input
                     key={i}
                     type="text"
                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                    className="px-2 py-1 border border-[#000] w-[100px]"
+                    className="px-2 py-1  border border-[#000]  w-[100px] bg-[#fff]"
                     value={data[field]} // Access dynamic field value
                     onChange={(e) =>
                       handleInputChange(index, field, e.target.value)
                     }
                   />
                 ))}
+
+                <select
+                  id="status"
+                  value={data.gender}
+                  onChange={(e) =>
+                    handleInputChange(index, "gender", e.target.value)
+                  }
+                  className="  border border-[#000] rounded-md p-2 w-full text-sm bg-[#fff]	"
+                >
+                  <option value="" disabled>
+                    GENDER
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="lgbtq">LGBTQ</option>
+                </select>
               </div>
 
               <div className="mt-5 flex items-center gap-2">
                 <div className="w-[50%]">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-full"
-                    placeholder="Highest Educational Attainment"
+                  <select
+                    id="status"
                     value={data.education}
                     onChange={(e) =>
                       handleInputChange(index, "education", e.target.value)
                     }
-                  />
+                    className=" border border-[#000] rounded-md p-2 w-full text-sm	 bg-[#fff]"
+                  >
+                    <option value="" disabled>
+                      Highest Educational Attainment
+                    </option>
+                    <option value="yes">No Out of School Youths</option>
+                    <option value="no">Out of School Youths</option>
+                  </select>
                 </div>
                 <div className="w-[50%]">
                   <input
@@ -124,7 +174,28 @@ const Profiling = ({
           ))}
         </div>
 
-        <div className="mt-10 flex items-end justify-end">
+        <div className="mt-10 flex items-end justify-end gap-5 ">
+          {lenghtOfForm >= 2 ? (
+            <div
+              className="bg-red-500 py-3 px-3 cursor-pointer"
+              onClick={handleRemoveField}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                className="text-2xl text-white"
+              >
+                <path
+                  fill="currentColor"
+                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
+                />
+              </svg>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="bg-[#5ABC50] py-3 px-3" onClick={handleAddFields}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -422,21 +493,36 @@ const Profiling = ({
         <div className="flex items-end justify-end w-full flex-col mt-10">
           <div className="flex items-center justify-center flex-col gap-2">
             <div>
-              <h1 className="text-lg font-semibold">Upload Signature</h1>
+              <h1 className="text-lg font-semibold">Upload ID</h1>
             </div>
             <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-                className="text-4xl"
-              >
-                <path
-                  fill="currentColor"
-                  d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m8 3a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3"
+              {photo == "" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                  className="text-4xl"
+                  onClick={handleIconClick}
+                >
+                  <path
+                    fill="currentColor"
+                    d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m8 3a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3"
+                  />
+                </svg>
+              ) : (
+                <img
+                  src={photo}
+                  className="w-[50px h-[50px] cursor-pointer"
+                  onClick={handleIconClick}
                 />
-              </svg>
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChangePhoto}
+              />
             </div>
           </div>
         </div>

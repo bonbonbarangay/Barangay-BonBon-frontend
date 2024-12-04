@@ -32,7 +32,9 @@ const ManageResident = () => {
     handleView(userid);
     setViewOpen(true);
   };
-
+  const deleteForm = (data) => {
+    handleDelete(data);
+  };
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -166,7 +168,7 @@ const ManageResident = () => {
                                   <button
                                     className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
                                     disabled={deleteByUserIdMutation.isPending}
-                                    onClick={() => handleDelete(item.userid)}
+                                    onClick={() => deleteForm(item)}
                                   >
                                     {deleteByUserIdMutation.isPending
                                       ? "Loading"

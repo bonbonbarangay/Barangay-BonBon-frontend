@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Profiling from "../../components/user/Profiling";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
 import { Toaster } from "react-hot-toast";
+import { handleInvalid } from "../../components/toastify/Toastify";
 
 const ResidentProfiling = () => {
+  const [photo, setPhoto] = useState("");
+  const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
+  const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
+  const { handleCreateHouseHold, mutation } = HouseHoldHook();
+  const { handleCreateHouseMembers, createHouseMembersMutation } =
+    HouseMembersHook();
   const [houseHoldHead, setHouseHoldHead] = useState({
     //additional
     userid: getFromLocalStorage("id"),
@@ -18,7 +25,7 @@ const ResidentProfiling = () => {
     addresshead1: "",
     dateofbirthhead1: "",
     agehead1: "",
-    genderhead1: "",
+    genderhead1: genderSelectionHead1,
     civilstatushead1: "",
     religionhead1: "",
     typeofidhead1: "",
@@ -39,7 +46,7 @@ const ResidentProfiling = () => {
     addresshead2: "",
     dateofbirthhead2: "",
     agehead2: "",
-    genderhead2: "",
+    genderhead2: genderSelectionHead2,
     civilstatushead2: "",
     religionhead2: "",
     typeofidhead2: "",
@@ -64,11 +71,23 @@ const ResidentProfiling = () => {
     question4: "",
     question5: "",
     question6: "",
+    image: photo,
   });
+  const fileInputRef = useRef(null);
+  const handleFileChangePhoto = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleIconClick = () => {
+    fileInputRef.current.click();
+  };
 
-  const { handleCreateHouseHold, mutation } = HouseHoldHook();
-  const { handleCreateHouseMembers, createHouseMembersMutation } =
-    HouseMembersHook();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setHouseHoldHead((prevState) => ({
@@ -85,10 +104,31 @@ const ResidentProfiling = () => {
   };
 
   const handleSubmit = (household) => {
+    if (photo == "") {
+      handleInvalid("Update ID Photo");
+      return;
+    }
     handleCreateHouseHold(houseHoldHead);
     handleCreateHouseMembers(household);
   };
 
+  useEffect(() => {
+    setHouseHoldHead((prev) => ({
+      ...prev,
+      image: photo,
+      genderhead1: genderSelectionHead1,
+      genderhead2: genderSelectionHead2,
+    }));
+
+    return () => {
+      setHouseHoldHead((prev) => ({
+        ...prev,
+        image: "",
+        genderhead1: "",
+        genderhead2: "",
+      }));
+    };
+  }, [photo]);
   return (
     <div className="w-full bg-[#DEE5F8] px-5 py-3 h-auto">
       <div>
@@ -160,7 +200,7 @@ const ResidentProfiling = () => {
               </div>
             </div>
             <div className="mt-5 flex items-center gap-2 w-full">
-              <div className="flex items-center gap-1 w-[50%]">
+              <div className="flex items-center gap-1 w-[40%]">
                 <div>
                   <h1>Date of Birth:</h1>
                 </div>
@@ -194,13 +234,16 @@ const ResidentProfiling = () => {
                   <h1>Gender:</h1>
                 </div>
                 <div>
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[60px]"
-                    name="genderhead1"
-                    value={houseHoldHead.genderhead1}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                    id="status"
+                    value={genderSelectionHead1}
+                    onChange={(e) => setGenderSelectionHead1(e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-[70px] text-xs	bg-[#fff]"
+                  >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="lgbtq">LGBTQ</option>
+                  </select>
                 </div>
               </div>
 
@@ -490,13 +533,16 @@ const ResidentProfiling = () => {
                   <h1>Gender:</h1>
                 </div>
                 <div>
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[60px]"
-                    name="genderhead2"
-                    value={houseHoldHead.genderhead2}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                    id="status"
+                    value={genderSelectionHead2}
+                    onChange={(e) => setGenderSelectionHead2(e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-[70px] text-xs	bg-[#fff]"
+                  >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="lgbtq">LGBTQ</option>
+                  </select>
                 </div>
               </div>
 
@@ -727,6 +773,10 @@ const ResidentProfiling = () => {
             houseHoldHead={houseHoldHead}
             handleInput={handleInputChange}
             handleCheckboxChange={handleCheckboxChange}
+            photo={photo}
+            handleIconClick={handleIconClick}
+            handleFileChangePhoto={handleFileChangePhoto}
+            fileInputRef={fileInputRef}
           />
         </div>
       </div>
