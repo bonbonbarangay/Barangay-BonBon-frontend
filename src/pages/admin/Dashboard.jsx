@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import CalendarSchedule from "../../components/admin/CalendarSchedule";
 import EventHook from "../../hooks/event/Event";
-import CreateEventModal from "../../components/modal/createEventModal";
+import CreateEventModal from "../../components/modal/CreateEventModal";
 import OptionModal from "../../components/modal/OptionEvenModal";
 import { Toaster } from "react-hot-toast";
 import PopulationGraph from "../../components/populationGraph/PopulationGraph";
