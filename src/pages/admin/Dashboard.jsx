@@ -5,12 +5,14 @@ import EventHook from "../../hooks/event/Event";
 import CreateEventModal from "../../components/modal/createEventModal";
 import OptionModal from "../../components/modal/OptionEvenModal";
 import { Toaster } from "react-hot-toast";
+import PopulationGraph from "../../components/populationGraph/PopulationGraph";
 const AdminDashboard = () => {
   const [open, setOpen] = useState(false);
   const [openOption, setOpenOption] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [eventData, setEventData] = useState();
   const { handleCreateEvent, data, mutation } = EventHook();
+  const { totalPopulation } = PopulationGraph();
   const days = ["Sunday", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -23,7 +25,6 @@ const AdminDashboard = () => {
       (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1)
     );
   };
-
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.toLocaleString("default", { month: "long" });
   const handleClose = () => {
@@ -70,116 +71,99 @@ const AdminDashboard = () => {
 
                 <div>
                   <h1 className="text-xl font-semibold">TOTAL RESIDENT</h1>
-                  <h1 className="text-xl font-semibold text-center">14,000</h1>
+                  <h1 className="text-xl font-semibold text-center">
+                    {totalPopulation.toString()}
+                  </h1>
                 </div>
               </div>
             </div>
           </div>
           <div className="mt-5 flex  w-full">
-            <div className="w-[60%] pl-3">
-              <div className="bg-[#F0F0F0] ">
-                <div className="flex items-center justify-between  px-5 py-3">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className=" border-2 border-[#000] px-1 py-1  cursor-pointer"
-                      onClick={handlePrevMonth}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1.78em"
-                        height="1em"
-                        viewBox="0 0 16 9"
-                        className="text-sm"
+            <div className="w-[60%] pl-3 ">
+              <div>
+                <div className="bg-[#F0F0F0] max-h-[58vh] overflow-auto ">
+                  <div className="flex items-center justify-between px-5 py-3 w-full">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="border-2 border-[#000] px-1 py-1 cursor-pointer"
+                        onClick={handlePrevMonth}
                       >
-                        <path
-                          fill="currentColor"
-                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"
-                        />
-                        <path
-                          fill="currentColor"
-                          d="M6 8.5a.47.47 0 0 1-.35-.15l-3.5-3.5c-.2-.2-.2-.51 0-.71L5.65.65c.2-.2.51-.2.71 0s.2.51 0 .71L3.21 4.51l3.15 3.15c.2.2.2.51 0 .71c-.1.1-.23.15-.35.15Z"
-                        />
-                      </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1.78em"
+                          height="1em"
+                          viewBox="0 0 16 9"
+                          className="text-sm"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"
+                          />
+                          <path
+                            fill="currentColor"
+                            d="M6 8.5a.47.47 0 0 1-.35-.15l-3.5-3.5c-.2-.2-.2-.51 0-.71L5.65.65c.2-.2.51-.2.71 0s.2.51 0 .71L3.21 4.51l3.15 3.15c.2.2.2.51 0 .71c-.1.1-.23.15-.35.15Z"
+                          />
+                        </svg>
+                      </div>
+
+                      <div
+                        className="border-2 border-[#000] px-1 py-1 cursor-pointer"
+                        onClick={handleNextMonth}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1.78em"
+                          height="1em"
+                          viewBox="0 0 16 9"
+                          className="text-sm"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"
+                          />
+                          <path
+                            fill="currentColor"
+                            d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"
+                          />
+                        </svg>
+                      </div>
                     </div>
 
-                    <div
-                      className=" border-2 border-[#000] px-1 py-1 cursor-pointer"
-                      onClick={handleNextMonth}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1.78em"
-                        height="1em"
-                        viewBox="0 0 16 9"
-                        className="text-sm"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"
-                        />
-                        <path
-                          fill="currentColor"
-                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"
-                        />
-                      </svg>
+                    <div className="flex-grow flex items-center justify-center">
+                      <h1 className="text-xl font-semibold text-center">
+                        {currentMonth} <span>{currentYear}</span>
+                      </h1>
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-1  p-2 rounded">
+                    {days.map((day, index) => (
+                      <div
+                        key={index}
+                        className="text-center font-medium text-gray-600"
+                      >
+                        {day}
+                      </div>
+                    ))}
                   </div>
                   <div>
-                    <h1 className="text-xl font-semibold">
-                      {currentMonth} <span>{currentYear}</span>
-                    </h1>
-                  </div>
-                  <div className="flex items-center gap-2  border-2 border-[#000] px-1 py-1  cursor-pointer">
                     <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                        className="text-xl"
-                      >
-                        <path
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="1.5"
-                          d="m19 9l-7 6l-7-6"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <h1 className="text-lg font-bold">Filter</h1>
+                      <CalendarSchedule
+                        data={data}
+                        currentDate={currentDate}
+                        handleOpen={handleOpen}
+                      />
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-7 gap-1  p-2 rounded">
-                  {days.map((day, index) => (
-                    <div
-                      key={index}
-                      className="text-center font-medium text-gray-600"
-                    >
-                      {day}
-                    </div>
-                  ))}
+                <div
+                  className="flex items-end justify-end px-3 mt-3 "
+                  onClick={() => setOpen(true)}
+                >
+                  <button className="bg-[#76A0EE] px-2 py-2 font-semibold rounded-lg">
+                    Create Event
+                  </button>
                 </div>
-                <div>
-                  <div>
-                    <CalendarSchedule
-                      data={data}
-                      currentDate={currentDate}
-                      handleOpen={handleOpen}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                className="flex items-end justify-end px-3 mt-3 "
-                onClick={() => setOpen(true)}
-              >
-                <button className="bg-[#76A0EE] px-2 py-2 font-semibold rounded-lg">
-                  Create Event
-                </button>
               </div>
             </div>
             <div className="w-[40%]  px-3 ">

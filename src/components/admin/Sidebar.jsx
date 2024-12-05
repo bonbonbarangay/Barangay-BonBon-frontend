@@ -1,10 +1,17 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {
+  removeFromLocalStorage,
+  getFromLocalStorage,
+} from "../../utils/localStorage";
 const Sidebar = () => {
   const navigate = useNavigate();
-
+  const id = getFromLocalStorage("id");
   const handleLogout = () => {
+    removeFromLocalStorage("id");
+    removeFromLocalStorage("user");
+
     navigate("/");
     window.location.reload();
   };
@@ -84,7 +91,7 @@ const Sidebar = () => {
     {
       id: 5,
       label: "SETTING",
-      path: "/admin/setting",
+      path: `/admin/setting/${id}`,
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

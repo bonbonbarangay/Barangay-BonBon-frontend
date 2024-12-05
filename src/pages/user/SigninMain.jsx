@@ -9,26 +9,12 @@ function SigninMain() {
         <img className="w-60  " src={logo} alt="Logo" />
       </div>
 
-      <div className="mt-16 uppercase font-semibold text-4xl">
+      <div className="mt-16 uppercase font-semibold text-3xl">
         <h1>sign in</h1>
       </div>
 
       <div>
-        <Link to="/admin/signin">
-          <div className="mt-5">
-            <button className="w-full bg-[#76A0EE] uppercase mt-6 font-bold py-4 px-20 rounded text-xl  shadow-lg hover:bg-[#4580ee] transition duration-300">
-              is admin?
-            </button>
-          </div>
-        </Link>
-        <Link to="/user/signin">
-          <div>
-            <button className="w-full bg-[#76A0EE] uppercase mt-3 font-bold py-4 px-20 rounded text-xl shadow-lg  hover:bg-[#4580ee] transition duration-300">
-              user
-            </button>
-          </div>
-        </Link>
-        <Link to="/user/signin">
+        <Link to="/signin">
           <div>
             <button className="w-full bg-[#76A0EE] uppercase mt-3 font-bold py-4 px-20 rounded text-xl  shadow-lg hover:bg-[#4580ee] transition duration-300">
               login

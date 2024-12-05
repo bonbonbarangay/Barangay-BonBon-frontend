@@ -9,7 +9,6 @@ import Transparency from "./pages/user/Transparency";
 import AccoutSetting from "./pages/user/AccoutSetting";
 import Geotagging from "./pages/user/Geotagging";
 import ProjectManagement from "./pages/user/ProjectManagement";
-import SigninAdmin from "./pages/admin/Signin";
 import AddProject from "./pages/admin/AddProject";
 import AddEvent from "./pages/admin/AddEvent";
 import Pending from "./pages/admin/Pending";
@@ -44,18 +43,17 @@ function App() {
             />
           </Route>
           <Route index element={<SigninMain />} />
-          <Route path="/user/signin" element={<Signin />} />
-          <Route path="/user/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* admin routes */}
-          <Route path="/admin/signin" element={<SigninAdmin />} />
           <Route path="/admin/official" element={<Official />} />
           <Route path="/admin/addproject" element={<AddProject />} />
           <Route path="/admin/addevent" element={<AddEvent />} />
           <Route path="/admin/pending" element={<Pending />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/geotagging" element={<GeotaggingAdmin />} />
-          <Route path="/admin/setting" element={<Setting />} />
+          <Route path="/admin/setting/:id" element={<Setting />} />
           <Route path="/admin/manageresident" element={<ManageResident />} />
         </Routes>
       </BrowserRouter>

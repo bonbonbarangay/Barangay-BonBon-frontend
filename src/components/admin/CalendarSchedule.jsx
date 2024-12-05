@@ -21,7 +21,7 @@ const CalendarSchedule = ({ data, currentDate, handleOpen }) => {
 
   const calendarCells = [...leadingBlanks, ...monthDays];
   return (
-    <div className="grid grid-cols-7 gap-1 ">
+    <div className="grid grid-cols-7 gap-1  ">
       {calendarCells.map((date, index) => (
         <CalendarCell
           key={index}

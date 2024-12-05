@@ -8,6 +8,9 @@ const GeotaggingAdmin = () => {
   const handleCloseProjectManage = () => {
     setOpenProjectManage(false);
   };
+  const handleOpen = () => {
+    setOpenProjectManage(true);
+  };
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -21,7 +24,7 @@ const GeotaggingAdmin = () => {
               <div>
                 <h1 className="text-xl font-bold">GEOTAGGING</h1>
               </div>
-              <div onClick={() => setOpenProjectManage(true)}>
+              <div onClick={handleOpen}>
                 <h1 className="text-xl font-bold cursor-pointer">
                   Project Management
                 </h1>

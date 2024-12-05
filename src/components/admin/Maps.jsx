@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MapHook from "../../hooks/map/Map";
 import { handleInvalid } from "../toastify/Toastify";
+import CreateProjectManagementModal from "../modal/CreateProjectManagementModal";
 import {
   MapContainer,
   TileLayer,
@@ -10,17 +11,11 @@ import {
 } from "react-leaflet";
 
 const Maps = () => {
-  const {
-    data,
-    isLoading,
-    handleCreateLocation,
-    handleDelete,
-    deleteMutation,
-  } = MapHook();
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [name, setName] = useState("");
+  const { data, isLoading, handleDelete, deleteMutation } = MapHook();
   const position = [8.50892060310247, 124.649098318599];
+
   const [locationData, setLocationData] = useState(null);
+  const [createOpen, setCreateOpen] = useState(false);
   const [clickedPosition, setClickedPosition] = useState({
     latitude: null,
     longitude: null,
@@ -42,44 +37,12 @@ const Maps = () => {
     return null;
   };
 
-  // const handleDragEnd = (id, event) => {
-  //   const { lat, lng } = event.target.getLatLng();
-
-  //   console.log(lat, lng, id);
-  // };
-
-  const handleStatusChange = (event) => {
-    setSelectedStatus(event.target.value);
-  };
-
   const createLocation = () => {
-    if (
-      !clickedPosition.latitude ||
-      !clickedPosition.longitude ||
-      !name ||
-      !selectedStatus
-    ) {
-      handleInvalid("Please complete all fields.");
-      return; // Prevent further execution
+    if (!clickedPosition.latitude || !clickedPosition.longitude) {
+      handleInvalid("Select Location");
+      return;
     }
-
-    const statusColorMap = {
-      Satisfactory: "green",
-      "Serious Deficiencies": "red",
-      "Minor Deficiencies": "yellow",
-    };
-
-    const selectColor = statusColorMap[selectedStatus];
-
-    const locationData = {
-      name,
-      latitude: clickedPosition.latitude,
-      longitude: clickedPosition.longitude,
-      color: selectColor,
-    };
-
-    handleCreateLocation(locationData);
-    setClickedPosition({ latitude: null, longitude: null });
+    setCreateOpen(true);
   };
 
   const deleteLocation = () => {
@@ -89,6 +52,10 @@ const Maps = () => {
     }
 
     handleDelete(locationData?.id);
+  };
+
+  const handleCloseCreate = () => {
+    setCreateOpen(false);
   };
   return (
     <>
@@ -127,51 +94,30 @@ const Maps = () => {
         </MapContainer>
       </div>
 
-      <div className="mt-10 flex  justify-between">
-        <div>
-          <div
-            className="bg-green-500 text-white px-2 py-2 rounded  mr-2"
-            onClick={createLocation}
-          >
-            <button className="text-sm">CREATE</button>
-          </div>
-
-          <div className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 mt-5">
-            <button className="text-sm">UPDATE</button>
-          </div>
-          <div
-            className="bg-red-500 text-white px-2 py-2 rounded  mr-2 mt-5"
-            onClick={deleteLocation}
-          >
-            <button className="text-sm">DELETE</button>
-          </div>
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full py-2 px-2 border border-[#000] placeholder-[#000] placeholder:text-sm placeholder:font-semibold text-sm"
-          />
+      <div className="mt-10 flex items-center justify-around ">
+        <div
+          className="bg-green-500 text-white px-2 py-2 rounded  mr-2"
+          onClick={createLocation}
+        >
+          <button className="text-sm">CREATE</button>
         </div>
 
-        <div className="status-selection">
-          <select
-            id="status"
-            value={selectedStatus}
-            onChange={handleStatusChange}
-            className="border border-gray-300 rounded-md p-2 w-full"
-          >
-            <option value="" disabled>
-              Select an option
-            </option>
-            <option value="Satisfactory">Satisfactory</option>
-            <option value="Serious Deficiencies">Serious Deficiencies</option>
-            <option value="Minor Deficiencies">Minor Deficiencies</option>
-          </select>
+        <div className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 ">
+          <button className="text-sm">UPDATE</button>
+        </div>
+        <div
+          className="bg-red-500 text-white px-2 py-2 rounded  mr-2 "
+          onClick={deleteLocation}
+        >
+          <button className="text-sm">DELETE</button>
         </div>
       </div>
+
+      <CreateProjectManagementModal
+        handleCloseCreate={handleCloseCreate}
+        createOpen={createOpen}
+        clickedPosition={clickedPosition}
+      />
     </>
   );
 };

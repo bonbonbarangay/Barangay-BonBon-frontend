@@ -19,6 +19,8 @@ const Demographic = () => {
     totalPopulation,
     totalFemale,
     totalMale,
+    totalLgbtq,
+    totalOutOfSchoolYouths,
   } = PopulationGraph();
   const lineData = {
     labels: ["2024", "2025", "2026", "2027", "2028"],
@@ -89,29 +91,58 @@ const Demographic = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-5">
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] rounded-lg">
-                    <div>
-                      <p className="font-semibold text-lg">
-                        Out of School Youths
-                      </p>
-                    </div>
+                <div className="flex  justify-between mt-5">
+                  <div className="w-[40%]">
+                    <div className="bg-[#739CE7] py-2 px-5 w-full rounded-lg">
+                      <div>
+                        <p className="font-semibold text-lg">
+                          Out of School Youths
+                        </p>
+                      </div>
 
-                    <div>
-                      <h1 className="text-2xl font-semibold mt-3">3,540</h1>
+                      <div>
+                        <h1 className="text-2xl font-semibold mt-3">
+                          {totalOutOfSchoolYouths.toString()}
+                        </h1>
+                      </div>
+                    </div>
+                    <div className="bg-[#739CE7] py-2 px-5 w-full rounded-lg mt-5">
+                      <div>
+                        <p className="font-semibold text-lg">Senior Citizen</p>
+                      </div>
+
+                      <div>
+                        <h1 className="text-2xl font-semibold mt-3">0</h1>
+                      </div>
                     </div>
                   </div>
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] rounded-lg">
-                    <div>
-                      <p className="font-semibold text-lg">
-                        Population of Female
-                      </p>
+                  <div className="w-[40%]">
+                    <div className="bg-[#739CE7] py-2 px-5 w-full rounded-lg">
+                      <div>
+                        <p className="font-semibold text-lg">
+                          Population of Female
+                        </p>
+                      </div>
+
+                      <div>
+                        <h1 className="text-2xl font-semibold mt-3">
+                          {totalFemale.toString()}
+                        </h1>
+                      </div>
                     </div>
 
-                    <div>
-                      <h1 className="text-2xl font-semibold mt-3">
-                        {totalFemale.toString()}
-                      </h1>
+                    <div className="bg-[#739CE7] py-2 px-5 w-full rounded-lg mt-5">
+                      <div>
+                        <p className="font-semibold text-lg">
+                          Population of Lgbtq
+                        </p>
+                      </div>
+
+                      <div>
+                        <h1 className="text-2xl font-semibold mt-3">
+                          {totalLgbtq.toString()}
+                        </h1>
+                      </div>
                     </div>
                   </div>
                 </div>

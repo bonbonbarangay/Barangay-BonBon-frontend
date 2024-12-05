@@ -117,11 +117,33 @@ const PopulationGraph = () => {
     (item) => item.gender == "female"
   );
 
+  //lgbtq
+  const lgbtqHead1 = dataHouseHold?.filter(
+    (item) => item.genderhead1 == "lgbtq"
+  );
+
+  const lgbtqHead2 = dataHouseHold?.filter(
+    (item) => item.genderhead2 == "lgbtq"
+  );
+  const lgbtqMembers = dataHouseMembers?.filter(
+    (item) => item.gender == "lgbtq"
+  );
+
   //total
 
   const totalFemale =
     femaleHead1.length + femaleHead2.length + femaleMembers.length;
   const totalMale = maleHead1.length + maleHead2.length + malemembers.length;
+
+  const totalLgbtq =
+    lgbtqHead1.length + lgbtqHead2.length + lgbtqMembers.length;
+
+  // Out of School Youths
+  const outOfSchoolYouths = dataHouseMembers?.filter(
+    (item) => item.highesteducation == "yes"
+  );
+
+  const totalOutOfSchoolYouths = outOfSchoolYouths.length;
   return {
     totalPopulation2024,
     totalPopulation2025,
@@ -131,6 +153,8 @@ const PopulationGraph = () => {
     totalPopulation,
     totalFemale,
     totalMale,
+    totalLgbtq,
+    totalOutOfSchoolYouths,
   };
 };
 

@@ -5,7 +5,8 @@ import PendingModal from "../../components/modal/PendingModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import ViewResidentModal from "../../components/modal/ViewResidentModal";
 import { Toaster } from "react-hot-toast";
-
+import Pdf from "../../components/admin/Pdf";
+import { pdf } from "@react-pdf/renderer";
 const ManageResident = () => {
   const [search, setSearch] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
@@ -35,6 +36,11 @@ const ManageResident = () => {
   const deleteForm = (data) => {
     handleDelete(data);
   };
+  const handleOpenPDF = async () => {
+    const blob = await pdf(<Pdf data={data} />).toBlob();
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+  };
   return (
     <div className="w-full ">
       <div className="h-[10vh] w-full bg-[#76A0EE]"></div>
@@ -62,7 +68,10 @@ const ManageResident = () => {
               <div className="flex items-center justify-between mt-5">
                 <div className="flex items-center justify-center gap-10">
                   <div>
-                    <button className="text-lg font-semibold bg-[#EFEFEF] border border-[#000]  px-1 w-[70px]">
+                    <button
+                      className="text-lg font-semibold bg-[#EFEFEF] border border-[#000]  px-1 w-[70px]"
+                      onClick={handleOpenPDF}
+                    >
                       PDF
                     </button>
                   </div>
@@ -198,27 +207,6 @@ const ManageResident = () => {
                 </div>
               </div>
             </div>
-
-            {/* <div className=" ml-5 flex items-center gap-5 relative">
-              <div>
-                <h1 className="text-lg">Show</h1>
-              </div>
-              <div>
-                <select
-                  id="dropdown"
-                  value={selectedValue}
-                  onChange={handleChange}
-                  className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="option1">5</option>
-                  <option value="option2">Option 6</option>
-                  <option value="option3">Option 7</option>
-                </select>
-              </div>
-              <div>
-                <h1 className="text-lg">Entries</h1>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

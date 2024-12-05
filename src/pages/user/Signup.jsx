@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SignUpHook from "../../hooks/authentication/Signup";
 import { Toaster } from "react-hot-toast";
-
+import { handleInvalid } from "../../components/toastify/Toastify";
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ const Signup = () => {
     if (password == confirmPassword) {
       handleSignUp(data);
     } else {
-      console.log("did not match password");
+      handleInvalid("did not match password");
     }
   };
   return (
@@ -148,7 +148,7 @@ const Signup = () => {
           </div>
 
           <div>
-            <Link to="/user/signin">
+            <Link to="/signin">
               <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
             </Link>
           </div>
