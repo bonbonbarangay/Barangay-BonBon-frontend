@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -9,81 +9,105 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import MapHook from "../../hooks/map/Map";
-import { handleInvalid } from "../toastify/Toastify";
-const CreateProjectManagementModal = ({
-  createOpen,
-  handleCloseCreate,
-  clickedPosition,
+
+const UpdateProjectManageModal = ({
+  updateOpen,
+  handleCLoseUpdate,
+  locationData,
 }) => {
-  const { mutation, handleCreateLocation } = MapHook();
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectlocation, setProjectLocation] = useState("");
-  const [contractor, setContractor] = useState("");
-  const [contractPayment, setContractPayment] = useState("");
-  const [updateStatus, setUpdateStatus] = useState("");
-  const [dateMonitoring, setDateMonitoring] = useState(dayjs());
-  const [issues, setIssues] = useState("");
-  const [projectEngineer, setProjectEngineer] = useState("");
-  const [dateStart, setDateStart] = useState(dayjs());
-  const [overall, setOverall] = useState("");
-  const [colorSelection, setColorSelection] = useState("");
-  const [budgetYear, setBudgetYear] = useState("");
+  const { handleUpdateData, updateDataMutation } = MapHook();
+  const [projectTitle, setProjectTitle] = useState(
+    locationData?.projecttitle || ""
+  );
+  const [projectlocation, setProjectLocation] = useState(
+    locationData?.projectlocation || ""
+  );
+  const [contractor, setContractor] = useState(locationData?.contractor || "");
+  const [contractPayment, setContractPayment] = useState(
+    locationData?.contractpayment || ""
+  );
+  const [updateStatus, setUpdateStatus] = useState(
+    locationData?.updatestatus || ""
+  );
+  const [dateMonitoring, setDateMonitoring] = useState(null);
+  const [issues, setIssues] = useState(locationData?.issues || "");
+  const [projectEngineer, setProjectEngineer] = useState(
+    locationData?.projectengineer || ""
+  );
+  const [dateStart, setDateStart] = useState(null);
+  const [overall, setOverall] = useState(locationData?.overall || "");
+  const [colorSelection, setColorSelection] = useState(
+    locationData?.color || ""
+  );
+  const [budgetYear, setBudgetYear] = useState(locationData?.budgetyear || "");
+
+  const datemonitoring = locationData?.datemonitoring
+    ? dayjs(locationData.datemonitoring, "MM/DD/YYYY")
+    : null;
+  const datestart = locationData?.datestart
+    ? dayjs(locationData.datestart, "MM/DD/YYYY")
+    : null;
 
   const handleDateMonitoring = (date) => {
-    if (date) {
+    if (date && dayjs(date).isValid()) {
       setDateMonitoring(date);
     }
   };
+
   const handleDateStart = (date) => {
-    if (date) {
+    if (date && dayjs(date).isValid()) {
       setDateStart(date);
     }
   };
-
   const formatDate = (date) => {
     return date ? date.format("MM/DD/YYYY") : "";
   };
-
-  const handleCreate = () => {
-    if (
-      projectTitle == "" ||
-      projectlocation == "" ||
-      contractor == "" ||
-      contractPayment == "" ||
-      updateStatus == "" ||
-      issues == "" ||
-      projectEngineer == "" ||
-      overall == "" ||
-      colorSelection == "" ||
-      budgetYear == ""
-    ) {
-      handleInvalid("Pls Complete");
-      return;
+  useEffect(() => {
+    if (locationData) {
+      setProjectTitle(locationData.projecttitle);
+      setProjectLocation(locationData.projectlocation);
+      setContractor(locationData.contractor);
+      setContractPayment(locationData.contractpayment);
+      setUpdateStatus(locationData.updatestatus);
+      setDateMonitoring(datemonitoring);
+      setIssues(locationData.issues);
+      setProjectEngineer(locationData.projectengineer);
+      setDateStart(datestart);
+      setOverall(locationData.overall);
+      setColorSelection(locationData.color);
+      setBudgetYear(locationData.budgetyear);
     }
+  }, [locationData]);
+
+  const handleUpdate = () => {
     const data = {
+      id: locationData?.id,
       projecttitle: projectTitle,
       projectlocation: projectlocation,
       contractor: contractor,
       contractpayment: contractPayment,
       updatestatus: updateStatus,
-      datemonitoring: formatDate(dateMonitoring),
+      datemonitoring:
+        dateMonitoring == null
+          ? formatDate(datemonitoring)
+          : formatDate(dateMonitoring),
       issues: issues,
       projectengineer: projectEngineer,
-      datestart: formatDate(dateStart),
+      datestart:
+        dateStart == null ? formatDate(datestart) : formatDate(dateStart),
       overall: overall,
       color: colorSelection,
-      latitude: clickedPosition.latitude,
-      longitude: clickedPosition.longitude,
       budgetyear: budgetYear,
+      latitude: locationData?.latitude,
+      longitude: locationData?.longitude,
     };
-    handleCreateLocation(data);
+    handleUpdateData(data);
   };
-
   return (
     <div>
       <Modal
-        open={createOpen}
-        onClose={handleCloseCreate}
+        open={updateOpen}
+        onClose={handleCLoseUpdate}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -92,7 +116,7 @@ const CreateProjectManagementModal = ({
             <div className="flex items-end justify-end  py-2">
               <div
                 className="bg-[#e5e7eb] rounded-full  w-fit px-2 py-2 cursor-pointer"
-                onClick={handleCloseCreate}
+                onClick={handleCLoseUpdate}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +135,9 @@ const CreateProjectManagementModal = ({
 
             <div className="w-full  border-2 border-[#000] h-[80vh] overflow-x-auto">
               <div className="w-full bg-[#B1C7F4] py-3 px-3">
-                <h1 className="text-center text-xl font-bold">ADD PROJECT</h1>
+                <h1 className="text-center text-xl font-bold">
+                  UPDATE PROJECT
+                </h1>
               </div>
               <div className="px-3 py-3 w-full">
                 <div>
@@ -200,7 +226,7 @@ const CreateProjectManagementModal = ({
                         <DemoItem>
                           <MobileDatePicker
                             className="w-full py-3 px-3 border border-[#000]  text-lg"
-                            value={dateMonitoring}
+                            value={dateMonitoring || datemonitoring}
                             onChange={handleDateMonitoring}
                           />
                         </DemoItem>
@@ -255,7 +281,7 @@ const CreateProjectManagementModal = ({
                           <DemoItem>
                             <MobileDatePicker
                               className="w-full py-3 px-3 border border-[#000]  text-lg"
-                              value={dateStart}
+                              value={dateStart || datestart}
                               onChange={handleDateStart}
                             />
                           </DemoItem>
@@ -345,11 +371,13 @@ const CreateProjectManagementModal = ({
                 <div className="mt-5">
                   <div className="w-full flex items-end justify-end">
                     <button
-                      className="text-lg font-semibold bg-[#739CE7] px-3 py-2 w-[150px]"
-                      onClick={handleCreate}
-                      disabled={mutation.isPending}
+                      className="text-lg font-semibold bg-[#739CE7] px-3 py-2 w-[200px]"
+                      onClick={handleUpdate}
+                      disabled={updateDataMutation.isPending}
                     >
-                      {mutation.isPending ? "Loading" : "Create Project"}{" "}
+                      {updateDataMutation.isPending
+                        ? "Loading"
+                        : "Update Project"}
                     </button>
                   </div>
                 </div>
@@ -362,4 +390,4 @@ const CreateProjectManagementModal = ({
   );
 };
 
-export default CreateProjectManagementModal;
+export default UpdateProjectManageModal;

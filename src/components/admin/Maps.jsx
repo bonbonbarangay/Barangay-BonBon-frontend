@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MapHook from "../../hooks/map/Map";
 import { handleInvalid } from "../toastify/Toastify";
 import CreateProjectManagementModal from "../modal/CreateProjectManagementModal";
+import UpdateProjectManageModal from "../modal/UpdateProjectManageModal";
 import {
   MapContainer,
   TileLayer,
@@ -11,27 +12,48 @@ import {
 } from "react-leaflet";
 
 const Maps = () => {
-  const { data, isLoading, handleDelete, deleteMutation } = MapHook();
+  const { data, isLoading, handleDelete, deleteMutation, handleDrag } =
+    MapHook();
   const position = [8.50892060310247, 124.649098318599];
-
   const [locationData, setLocationData] = useState(null);
   const [createOpen, setCreateOpen] = useState(false);
+  const [updateData, setUpdateData] = useState(null);
+  const [updateOpen, setUpdateOpen] = useState(false);
   const [clickedPosition, setClickedPosition] = useState({
     latitude: null,
     longitude: null,
   });
 
-  const getIcon = (color) => {
+  const getIcon = (colorSelection) => {
+    let color;
+    switch (colorSelection) {
+      case "Satisfactory":
+        color = "green";
+        break;
+      case "Serious Deficiencies":
+        color = "red";
+        break;
+      case "Minor Deficiencies":
+        color = "yellow";
+        break;
+      default:
+        color = "gray";
+        break;
+    }
+
+    console.log(colorSelection);
     return new L.DivIcon({
       className: "custom-icon",
       html: `<div style="background-color:${color}; width: 30px; height: 30px; border-radius: 50%; border: 2px solid black;"></div>`,
     });
   };
+
   const LocationFinder = () => {
     useMapEvents({
       click(e) {
         const { lat, lng } = e.latlng;
         setClickedPosition({ latitude: lat, longitude: lng });
+        setLocationData(null);
       },
     });
     return null;
@@ -57,6 +79,29 @@ const Maps = () => {
   const handleCloseCreate = () => {
     setCreateOpen(false);
   };
+
+  const handleDragEnd = (event, id) => {
+    const { lat, lng } = event.target.getLatLng();
+
+    const data = {
+      latitude: lat,
+      longitude: lng,
+      id: id,
+    };
+
+    handleDrag(data);
+  };
+  const handleUpdateOpen = () => {
+    if (locationData == null) {
+      handleInvalid("select a location to be updated");
+      return;
+    }
+    setUpdateOpen(true);
+  };
+  const handleCLoseUpdate = () => {
+    setUpdateOpen(false);
+  };
+
   return (
     <>
       <div>
@@ -80,12 +125,137 @@ const Maps = () => {
               key={index}
               position={[item.latitude, item.longitude]}
               icon={getIcon(item.color)}
+              draggable={true}
               eventHandlers={{
-                click: () => setLocationData(item), // Triggered when the marker is clicked
+                click: () => setLocationData(item),
+                dragend: (event) => handleDragEnd(event, item.id),
               }}
             >
               <Popup>
-                <strong>{item.name}</strong>
+                <div>
+                  <div className="flex items-center gap-4 justify-between">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Project title</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.projecttitle}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Project Location</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.projectlocation}</h1>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-2 justify-between">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Contructor</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.contractor}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Contract Payment</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.contractpayment}</h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mt-2 justify-between">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Contructor</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.contractor}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Contract Payment</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.contractpayment}</h1>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-2 justify-between">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Update Status</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.updatestatus}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Date Monitoring</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.datemonitoring}</h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mt-2 justify-between">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Date Start</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.datestart}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Project Engineer</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.projectengineer}</h1>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-2 justify-around">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">issues</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.issues}</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">overall</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.overall}</h1>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center flex-col mt-2 justify-center">
+                    <div>
+                      <div>
+                        <h1 className="font-semibold">Budget</h1>
+                      </div>
+                      <div>
+                        <h1 className="text-center">{item.budgetyear}</h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </Popup>
             </Marker>
           ))}
@@ -102,7 +272,10 @@ const Maps = () => {
           <button className="text-sm">CREATE</button>
         </div>
 
-        <div className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 ">
+        <div
+          className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 "
+          onClick={handleUpdateOpen}
+        >
           <button className="text-sm">UPDATE</button>
         </div>
         <div
@@ -117,6 +290,11 @@ const Maps = () => {
         handleCloseCreate={handleCloseCreate}
         createOpen={createOpen}
         clickedPosition={clickedPosition}
+      />
+      <UpdateProjectManageModal
+        handleCLoseUpdate={handleCLoseUpdate}
+        updateOpen={updateOpen}
+        locationData={locationData}
       />
     </>
   );
