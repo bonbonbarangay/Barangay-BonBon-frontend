@@ -67,17 +67,19 @@ const Pdf = ({ data }) => {
           {data.length === 0 ? (
             <Text style={styles.noResultsText}>No results found.</Text>
           ) : (
-            data.map((item) => (
-              <View key={item.id} style={styles.tableRow}>
-                <Text style={styles.tableCell}>
-                  {item.firstnamehead1} {item.lastnamehead1}
-                </Text>
-                <Text style={styles.tableCell}>{item.genderhead1}</Text>
-                <Text style={styles.tableCell}>{item.dateofbirthhead1}</Text>
-                <Text style={styles.tableCell}>{item.addresshead1}</Text>
-                <Text style={styles.tableCell}>{item.mobilenohead1}</Text>
-              </View>
-            ))
+            data
+              .filter((item) => item.pending == false)
+              .map((item) => (
+                <View key={item.id} style={styles.tableRow}>
+                  <Text style={styles.tableCell}>
+                    {item.firstnamehead1} {item.lastnamehead1}
+                  </Text>
+                  <Text style={styles.tableCell}>{item.genderhead1}</Text>
+                  <Text style={styles.tableCell}>{item.dateofbirthhead1}</Text>
+                  <Text style={styles.tableCell}>{item.addresshead1}</Text>
+                  <Text style={styles.tableCell}>{item.mobilenohead1}</Text>
+                </View>
+              ))
           )}
         </View>
       </Page>

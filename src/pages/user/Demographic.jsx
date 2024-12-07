@@ -41,13 +41,21 @@ const Demographic = () => {
     ],
   };
   const barData = {
-    labels: ["Male", "Female"],
+    labels: ["Male", "Female", "Lgbtq"],
     datasets: [
       {
         label: "GENDER",
-        data: [totalMale, totalFemale],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)"],
-        borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)"],
+        data: [totalMale, totalFemale, totalLgbtq],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 99, 132, 0.2)",
+        ],
+        borderColor: [
+          "rgb(255, 99, 132)",
+          "rgb(255, 99, 132)",
+          "rgb(255, 99, 132)",
+        ],
         borderWidth: 1,
       },
     ],
@@ -170,28 +178,6 @@ const Demographic = () => {
                     </div>
                   </div>
                   <div className="w-[50%]  bg-[#FFFBFB] px-3 py-2 border-2 border-[#000] h-auto mt-20 rounded-md">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h1 className="font-semibold text-lg">
-                          Population Details
-                        </h1>
-                      </div>
-
-                      <div>
-                        <h1 className="text-sm">Population </h1>
-                        <h1 className="text-lg font-bold">10,976 </h1>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <div className="mt-5 w-full">
-                        <img src={demographic2} className="w-full h-[200px]" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full flex justify-between gap-5 ">
-                  <div className="w-[50%]  bg-[#FFFBFB] px-3 py-2 border-2 border-[#000] h-auto mt-20 rounded-md">
                     <div>
                       <div>
                         <h1 className="font-semibold text-lg">
@@ -205,6 +191,9 @@ const Demographic = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                <div className="w-full flex items-center justify-center flex-col gap-5 ">
                   <div className="w-[50%]  bg-[#FFFBFB] px-3 py-2 border-2 border-[#000] h-auto mt-20 rounded-md">
                     <div>
                       <div>
@@ -215,7 +204,7 @@ const Demographic = () => {
                     </div>
                     <div className="flex items-center justify-center">
                       <div className="mt-5 w-full h-[200px]">
-                        <Bar data={barData} />{" "}
+                        <Bar data={barData} />
                       </div>
                     </div>
                   </div>

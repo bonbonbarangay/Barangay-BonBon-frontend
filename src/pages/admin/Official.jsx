@@ -4,6 +4,7 @@ import OfficialHook from "../../hooks/official/Official";
 import CreateOfficialModal from "../../components/modal/CreateOfficialModal";
 import UpdateOfficialModal from "../../components/modal/UpdateOfficialModal";
 import { Toaster } from "react-hot-toast";
+import { handleInvalid } from "../../components/toastify/Toastify";
 
 const Official = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,19 @@ const Official = () => {
     setUpdateOpen(false);
   };
   const deleteData = () => {
+    if (activeData == null) {
+      handleInvalid("Pls Select Before Delete");
+      return;
+    }
     handleDelete(activeData);
+    setActiveData(null);
+  };
+  const handleUpdateData = () => {
+    if (activeData == null) {
+      handleInvalid("Pls Select Before Update");
+      return;
+    }
+    setUpdateOpen(true);
   };
   return (
     <div className="w-full ">
@@ -54,7 +67,7 @@ const Official = () => {
                 <div>
                   <button
                     className="bg-orange-500	 px-2 py-1 text-lg font-semibold"
-                    onClick={() => setUpdateOpen(true)}
+                    onClick={handleUpdateData}
                   >
                     Update
                   </button>
@@ -141,6 +154,7 @@ const Official = () => {
             activeData={activeData}
             handleUpdateOfficial={handleUpdateOfficial}
             updateMutation={updateMutation}
+            setActiveData={setActiveData}
           />
         )}
       </div>

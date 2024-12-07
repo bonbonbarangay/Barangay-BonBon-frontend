@@ -7,10 +7,12 @@ import ViewResidentModal from "../../components/modal/ViewResidentModal";
 import { Toaster } from "react-hot-toast";
 import Pdf from "../../components/admin/Pdf";
 import { pdf } from "@react-pdf/renderer";
+import FormStatusHook from "../../hooks/formstatus/FormStatus";
 const ManageResident = () => {
   const [search, setSearch] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
+  const { handleDeleteFormStatus } = FormStatusHook();
   const {
     data,
     isError,
@@ -35,6 +37,7 @@ const ManageResident = () => {
   };
   const deleteForm = (data) => {
     handleDelete(data);
+    handleDeleteFormStatus(data.userid);
   };
   const handleOpenPDF = async () => {
     const blob = await pdf(<Pdf data={data} />).toBlob();
@@ -66,23 +69,13 @@ const ManageResident = () => {
                 </button>
               </div>
               <div className="flex items-center justify-between mt-5">
-                <div className="flex items-center justify-center gap-10">
+                <div>
                   <div>
                     <button
                       className="text-lg font-semibold bg-[#EFEFEF] border border-[#000]  px-1 w-[70px]"
                       onClick={handleOpenPDF}
                     >
                       PDF
-                    </button>
-                  </div>
-                  <div>
-                    <button className="text-lg font-semibold bg-[#EFEFEF] border border-[#000]  px-1 w-[70px]">
-                      EXCEL
-                    </button>
-                  </div>
-                  <div>
-                    <button className="text-lg font-semibold bg-[#EFEFEF] border border-[#000]  px-1 w-[70px]">
-                      PRINT
                     </button>
                   </div>
                 </div>
@@ -218,7 +211,6 @@ const ManageResident = () => {
       <ViewResidentModal
         handleViewClose={handleViewClose}
         viewOpen={viewOpen}
-        viewByUserIdMutation={viewByUserIdMutation}
         houseHold={houseHold}
         houseMembers={houseMembers}
       />

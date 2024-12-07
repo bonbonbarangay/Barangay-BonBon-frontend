@@ -2,8 +2,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { handleInvalid } from "../toastify/Toastify";
 import { style } from "../../utils/style";
 import { useRef, useState } from "react";
+
 const CreateOfficialModal = ({
   open,
   handleClose,
@@ -34,6 +36,10 @@ const CreateOfficialModal = ({
   };
 
   const createOfficial = () => {
+    if (photo == "" || fullname == "" || position == "" || type == "") {
+      handleInvalid("Pls Complete");
+      return;
+    }
     handleCreateOfficial({
       fullname: fullname,
       position: position,
@@ -46,6 +52,7 @@ const CreateOfficialModal = ({
     setType("");
     setPhoto("");
   };
+  console.log(position);
   return (
     <div>
       <Modal
@@ -95,13 +102,21 @@ const CreateOfficialModal = ({
                     </div>
 
                     <div className="mt-5">
-                      <input
-                        type="text"
-                        placeholder="Enter Position"
+                      <select
+                        className="w-full py-3 bg-[#fff] px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
                         value={position}
                         onChange={(e) => setPosition(e.target.value)}
-                        className="w-full py-3 px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
-                      />
+                      >
+                        <option value="" disabled>
+                          -- Select an Position --
+                        </option>
+                        <option value="Barangay Council">
+                          Barangay Council
+                        </option>
+                        <option value="Sanguniang Kabataan">
+                          Sanguniang Kabataan
+                        </option>
+                      </select>
                     </div>
 
                     <div className="mt-5">

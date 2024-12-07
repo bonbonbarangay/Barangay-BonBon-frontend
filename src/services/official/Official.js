@@ -28,6 +28,23 @@ export const creatrOfficial = async (officialdata) => {
     }
   }
 };
+export const getOfficialByPosition = async (position) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/official/position",
+      {
+        position: position,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
 export const updateOfficial = async (data) => {
   try {
     const response = await axios.put(

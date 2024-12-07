@@ -4,11 +4,13 @@ import {
   creatrOfficial,
   updateOfficial,
   deleteOfficial,
+  getOfficialByPosition,
 } from "../../services/official/Official";
 import {
   handleInvalid,
   handleSucess,
 } from "../../components/toastify/Toastify";
+import { useState } from "react";
 const OfficialHook = () => {
   const queryClient = useQueryClient();
 
@@ -16,12 +18,28 @@ const OfficialHook = () => {
     queryKey: ["official"],
     queryFn: getAllOfficials,
   });
+  const [OfficialData, setOfficialData] = useState();
 
   const mutation = useMutation({
     mutationFn: creatrOfficial,
     onSuccess: (data) => {
       handleSucess("Sucess Create");
       queryClient.invalidateQueries({ queryKey: ["official"] });
+    },
+    onError: (error) => {
+      if (error?.status === 400) {
+        console.error("Bad request:", error?.data?.message || error?.message);
+        handleInvalid(error?.data?.message);
+      } else {
+        console.error("Error occurred:", error?.message);
+      }
+    },
+  });
+  const getOfficialByPositionMutation = useMutation({
+    mutationFn: getOfficialByPosition,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["official"] });
+      setOfficialData(data);
     },
     onError: (error) => {
       if (error?.status === 400) {
@@ -65,6 +83,9 @@ const OfficialHook = () => {
   const handleCreateOfficial = (data) => {
     mutation.mutate(data);
   };
+  const handleOfficialGetPosition = (position) => {
+    getOfficialByPositionMutation.mutate(position);
+  };
   const handleUpdateOfficial = (data) => {
     updateMutation.mutateAsync(data);
   };
@@ -82,6 +103,9 @@ const OfficialHook = () => {
     updateMutation,
     handleDelete,
     deleteMutation,
+    OfficialData,
+    handleOfficialGetPosition,
+    getOfficialByPositionMutation,
   };
 };
 

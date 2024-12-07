@@ -17,7 +17,7 @@ export const style = {
 const ViewResidentModal = ({
   viewOpen,
   handleViewClose,
-  viewByUserIdMutation,
+
   houseMembers,
   houseHold,
 }) => {

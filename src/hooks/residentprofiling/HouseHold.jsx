@@ -89,7 +89,7 @@ const HouseHoldHook = () => {
   const deleteByUserIdMutation = useMutation({
     mutationFn: deleteHouseHoldAndHouseMembersByUserid,
     onSuccess: (data) => {
-      handleSucess("Sucess Delete");
+      handleSucess("Sucess");
 
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },

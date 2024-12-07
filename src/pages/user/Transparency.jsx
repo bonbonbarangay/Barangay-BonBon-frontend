@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import RightBar from "../../components/user/RightBar";
 import logo from "../../assets/logo.png";
+import OfficialHook from "../../hooks/official/Official";
+import ViewOfficialModal from "../../components/modal/ViewOfficialModal";
 const Transparency = () => {
+  const {
+    handleOfficialGetPosition,
+    OfficialData,
+    getOfficialByPositionMutation,
+  } = OfficialHook();
+  const [title, setTitle] = useState("");
+  const [viewOfficial, setViewOfficial] = useState(false);
+  const OfficialGetPosition = (position) => {
+    handleOfficialGetPosition(position);
+    setViewOfficial(true);
+    setTitle(position);
+  };
+  const handleCloseViewOfficial = () => {
+    setViewOfficial(false);
+  };
   return (
     <div className="w-full h-auto bg-[#DEE5F8] ">
       <div className="flex px-5">
@@ -16,129 +33,42 @@ const Transparency = () => {
                   <div className="flex items-center justify-center flex-col">
                     <img src={logo} className="w-[150px]" />
                   </div>
-                  <div className="w-[80%] mt-5">
-                    <input
-                      type="text"
-                      placeholder="Barangay Council"
-                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
-                    />
-                  </div>
-
-                  <div className="w-[80%] mt-5">
-                    <input
-                      type="text"
-                      placeholder="Sanguniang Kabataan (SK)"
-                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
-                    />
-                  </div>
-
-                  <div className="w-[80%] mt-5">
-                    <input
-                      type="text"
-                      placeholder="Bids and Projects"
-                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
-                    />
-                  </div>
-
-                  <div className="w-[80%] mt-5">
-                    <input
-                      type="text"
-                      placeholder="Budget and Financial Accountability Reports"
-                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
-                    />
-                  </div>
-
-                  <div className="w-[80%] mt-5">
-                    <input
-                      type="text"
-                      placeholder="Status of Implementation, Evaluation or Assessment Reports"
-                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000]"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="mt-10">
-                    <h1 className="text-center text-xl font-bold">
-                      BARANGAY COUNCIL
-                    </h1>
-                  </div>
-                  <div className="grid grid-cols-3 place-items-center	 gap-3 mt-10">
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
+                  <div className="w-[90%] mt-5 ">
+                    <div
+                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000] bg-[#fff] cursor-pointer"
+                      onClick={() => OfficialGetPosition("Barangay Council")}
+                    >
+                      <h1>Barangay Council</h1>
                     </div>
+                  </div>
 
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
+                  <div className="w-[90%] mt-5 ">
+                    <div
+                      className="w-full py-3 px-3 border border-[#000] placeholder-[#000] bg-[#fff] cursor-pointer"
+                      onClick={() => OfficialGetPosition("Sanguniang Kabataan")}
+                    >
+                      <h1>Sanguniang Kabataan (SK)</h1>
                     </div>
+                  </div>
 
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
+                  <div className="w-[90%] mt-5 ">
+                    <div className="w-full py-3 px-3 border border-[#000] placeholder-[#000] bg-[#fff] cursor-pointer">
+                      <h1>Bids and Projects</h1>
                     </div>
+                  </div>
 
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
+                  <div className="w-[90%] mt-5 ">
+                    <div className="w-full py-3 px-3 border border-[#000] placeholder-[#000] bg-[#fff] cursor-pointer">
+                      <h1>Budget and Financial Accountability Reports</h1>
                     </div>
+                  </div>
 
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
-                    </div>
-
-                    <div className="mt-5">
-                      <div className="w-[100px]">
-                        <img
-                          src="https://i.pinimg.com/originals/58/51/2e/58512eb4e598b5ea4e2414e3c115bef9.jpg"
-                          className="w-full h-[80px] "
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <h1 className="">Fullname:</h1>
-                        <h1 className="">Position:</h1>
-                      </div>
+                  <div className="w-[90%] mt-5 ">
+                    <div className="w-full py-3 px-3 border border-[#000] placeholder-[#000] bg-[#fff] cursor-pointer">
+                      <h1>
+                        Status of Implementation, Evaluation or Assessment
+                        Reports
+                      </h1>
                     </div>
                   </div>
                 </div>
@@ -150,6 +80,13 @@ const Transparency = () => {
           <RightBar />
         </div>
       </div>
+      <ViewOfficialModal
+        handleCloseViewOfficial={handleCloseViewOfficial}
+        viewOfficial={viewOfficial}
+        OfficialData={OfficialData}
+        title={title}
+        getOfficialByPositionMutation={getOfficialByPositionMutation}
+      />
     </div>
   );
 };

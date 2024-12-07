@@ -9,6 +9,7 @@ const UpdateOfficialModal = ({
   activeData,
   handleUpdateOfficial,
   updateMutation,
+  setActiveData,
 }) => {
   const fileInputRef = useRef(null);
   const [photo, setPhoto] = useState(activeData?.image || "");
@@ -47,6 +48,7 @@ const UpdateOfficialModal = ({
       cloudinaryid: activeData?.cloudinaryid,
     };
     handleUpdateOfficial(data);
+    setActiveData(null);
   };
   return (
     <div>
@@ -97,13 +99,18 @@ const UpdateOfficialModal = ({
                     </div>
 
                     <div className="mt-5">
-                      <input
-                        type="text"
-                        placeholder="Enter Position"
+                      <select
+                        className="w-full py-3 bg-[#fff] px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
                         value={position}
                         onChange={(e) => setPosition(e.target.value)}
-                        className="w-full py-3 px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
-                      />
+                      >
+                        <option value="Barangay Council">
+                          Barangay Council
+                        </option>
+                        <option value="Sanguniang Kabataan">
+                          Sanguniang Kabataan
+                        </option>
+                      </select>
                     </div>
 
                     <div className="mt-5">

@@ -5,11 +5,12 @@ import { getFromLocalStorage } from "../../utils/localStorage";
 import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
 import { Toaster } from "react-hot-toast";
 import { handleInvalid } from "../../components/toastify/Toastify";
-
+import FormStatusHook from "../../hooks/formstatus/FormStatus";
 const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
   const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
   const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
+  const { handleCreateFormStatus } = FormStatusHook();
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
   const { handleCreateHouseMembers, createHouseMembersMutation } =
     HouseMembersHook();
@@ -104,12 +105,17 @@ const ResidentProfiling = () => {
   };
 
   const handleSubmit = (household) => {
+    const data = {
+      userid: getFromLocalStorage("id"),
+      status: "pending",
+    };
     if (photo == "") {
       handleInvalid("Update ID Photo");
       return;
     }
     handleCreateHouseHold(houseHoldHead);
     handleCreateHouseMembers(household);
+    handleCreateFormStatus(data);
   };
 
   useEffect(() => {

@@ -7,10 +7,10 @@ import {
   removeFromLocalStorage,
   getFromLocalStorage,
 } from "../../utils/localStorage";
-import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
+import FormStatusHook from "../../hooks/formstatus/FormStatus";
 const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
   const userid = getFromLocalStorage("id");
-  const { pending } = HouseHoldHook();
+  const { pending } = FormStatusHook();
   const handleLogout = () => {
     removeFromLocalStorage("id");
     removeFromLocalStorage("user");
@@ -49,7 +49,6 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
       prevSideBar.map((item) => (item.id === 3 ? { ...item, pending } : item))
     );
   }, [pending]);
-
   return (
     <Drawer anchor="left" open={open} onClose={handleToggleDrawer}>
       <Box
@@ -93,12 +92,18 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
                 >
                   <h1 className="text-sm font-semibold px-3 py-3 ">
                     {item.label}
-                    {item.pending === true ? (
+                    {item.pending === "pending" ? (
                       <span className="text-xs ml-1 text-red-500">Pending</span>
-                    ) : item.pending === false ? (
+                    ) : item.pending === "sucess" ? (
                       <span className="text-xs ml-1 text-green-500 font-bold">
                         Sucess
                       </span>
+                    ) : item.pending === "decline" ? (
+                      <span className="text-xs ml-1 text-red-500 font-bold">
+                        decline
+                      </span>
+                    ) : item.pending === "delete" ? (
+                      ""
                     ) : (
                       ""
                     )}

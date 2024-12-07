@@ -3,8 +3,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { style } from "../../utils/style";
+import { useState } from "react";
+import ViewResidentModal from "./ViewResidentModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
+import FormStatusHook from "../../hooks/formstatus/FormStatus";
 const PendingModal = ({ pendingOpen, handlePendingClose }) => {
+  const [viewOpen, setViewOpen] = useState(false);
+  const { handleUpdateFormData } = FormStatusHook();
   const {
     data,
     isError,
@@ -12,7 +17,37 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
     handleAcceptPending,
     acceptPendingMutation,
     houseHold,
+    houseMembers,
+    viewByUserIdMutation,
+    deleteByUserIdMutation,
+    handleDelete,
+    handleView,
   } = HouseHoldHook();
+
+  const handleViewClose = () => {
+    setViewOpen(false);
+  };
+
+  const handleViewOpen = (userid) => {
+    handleView(userid);
+    setViewOpen(true);
+  };
+  const deleteForm = (data) => {
+    const dataForm = {
+      userid: data.userid,
+      status: "decline",
+    };
+    handleUpdateFormData(dataForm);
+    handleDelete(data);
+  };
+  const handleAccept = (userdata) => {
+    const dataForm = {
+      userid: userdata.userid,
+      status: "sucess",
+    };
+    handleUpdateFormData(dataForm);
+    handleAcceptPending(userdata.id);
+  };
   return (
     <div>
       <Modal
@@ -91,13 +126,28 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
                               </td>
                               <td className="border border-gray-500 px-4 py-2 text-center">
                                 <button
+                                  className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 mr-2"
+                                  onClick={() => handleViewOpen(item.userid)}
+                                >
+                                  View
+                                </button>
+                                <button
                                   className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 mr-2"
                                   disabled={acceptPendingMutation.isPending}
-                                  onClick={() => handleAcceptPending(item.id)}
+                                  onClick={() => handleAccept(item)}
                                 >
                                   {acceptPendingMutation.isPending
                                     ? "Loading"
                                     : "Accept"}
+                                </button>
+                                <button
+                                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
+                                  disabled={deleteByUserIdMutation.isPending}
+                                  onClick={() => deleteForm(item)}
+                                >
+                                  {deleteByUserIdMutation.isPending
+                                    ? "Loading"
+                                    : "Decline"}
                                 </button>
                               </td>
                             </tr>
@@ -111,6 +161,13 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
           </Typography>
         </Box>
       </Modal>
+
+      <ViewResidentModal
+        viewOpen={viewOpen}
+        handleViewClose={handleViewClose}
+        houseMembers={houseMembers}
+        houseHold={houseHold}
+      />
     </div>
   );
 };

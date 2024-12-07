@@ -7,10 +7,16 @@ const PopulationGraph = () => {
 
   // population 2024
   const houseHeadPopulation2024 = dataHouseHold?.filter(
-    (item) => item.year === "2024" && item.firstnamehead1 !== ""
+    (item) =>
+      item.year === "2024" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const houseSpousePopulation2024 = dataHouseHold?.filter(
-    (item) => item.year === "2024" && item.firstnamehead2 !== ""
+    (item) =>
+      item.year === "2024" &&
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== ""
   );
 
   const houseMembers2024 = dataHouseMembers?.filter(
@@ -23,10 +29,16 @@ const PopulationGraph = () => {
     houseMembers2024.length;
   // population 2025
   const houseHeadPopulation2025 = dataHouseHold?.filter(
-    (item) => item.year === "2025" && item.firstnamehead1 !== ""
+    (item) =>
+      item.year === "2025" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const houseSpousePopulation2025 = dataHouseHold?.filter(
-    (item) => item.year === "2025" && item.firstnamehead2 !== ""
+    (item) =>
+      item.year === "2025" &&
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== ""
   );
 
   const houseMembers2025 = dataHouseMembers?.filter(
@@ -40,10 +52,16 @@ const PopulationGraph = () => {
 
   // population 2026
   const houseHeadPopulation2026 = dataHouseHold?.filter(
-    (item) => item.year === "2026" && item.firstnamehead1 !== ""
+    (item) =>
+      item.year === "2026" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const houseSpousePopulation2026 = dataHouseHold?.filter(
-    (item) => item.year === "2026" && item.firstnamehead2 !== ""
+    (item) =>
+      item.year === "2026" &&
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== ""
   );
 
   const houseMembers2026 = dataHouseMembers?.filter(
@@ -57,10 +75,16 @@ const PopulationGraph = () => {
 
   // population 2027
   const houseHeadPopulation2027 = dataHouseHold?.filter(
-    (item) => item.year === "2027" && item.firstnamehead1 !== ""
+    (item) =>
+      item.year === "2027" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const houseSpousePopulation2027 = dataHouseHold?.filter(
-    (item) => item.year === "2027" && item.firstnamehead2 !== ""
+    (item) =>
+      item.year === "2027" &&
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== ""
   );
 
   const houseMembers2027 = dataHouseMembers?.filter(
@@ -74,10 +98,16 @@ const PopulationGraph = () => {
 
   // population 2028
   const houseHeadPopulation2028 = dataHouseHold?.filter(
-    (item) => item.year === "2028" && item.firstnamehead1 !== ""
+    (item) =>
+      item.year === "2028" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const houseSpousePopulation2028 = dataHouseHold?.filter(
-    (item) => item.year === "2028" && item.firstnamehead2 !== ""
+    (item) =>
+      item.year === "2028" &&
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== ""
   );
 
   const houseMembers2028 = dataHouseMembers?.filter(
