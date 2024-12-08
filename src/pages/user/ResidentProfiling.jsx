@@ -10,8 +10,8 @@ const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
   const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
   const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
-  const [addresshead1Selection, setAddressHead1Selection] = useState("zone1");
-  const [addresshead2Selection, setAddressHead2Selection] = useState("zone1");
+  const [addresshead1Selection, setAddressHead1Selection] = useState("Zone 1");
+  const [addresshead2Selection, setAddressHead2Selection] = useState("Zone 1");
 
   const { handleCreateFormStatus } = FormStatusHook();
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
@@ -207,15 +207,15 @@ const ResidentProfiling = () => {
                     onChange={(e) => setAddressHead1Selection(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
                   >
-                    <option value="zone1">Zone 1</option>
-                    <option value="zone2">Zone 2</option>
-                    <option value="zone3">Zone 3</option>
-                    <option value="zone4">Zone 4</option>
-                    <option value="zone5">Zone 5</option>
-                    <option value="zone6">Zone 6</option>
-                    <option value="zone7">Zone 7</option>
-                    <option value="zone8">Zone 8</option>
-                    <option value="zone9">Zone 9</option>
+                    <option value="Zone 1">Zone 1</option>
+                    <option value="Zone 2">Zone 2</option>
+                    <option value="Zone 3">Zone 3</option>
+                    <option value="Zone 4">Zone 4</option>
+                    <option value="Zone 5">Zone 5</option>
+                    <option value="Zone 6">Zone 6</option>
+                    <option value="Zone 7">Zone 7</option>
+                    <option value="Zone 8">Zone 8</option>
+                    <option value="Zone 9">Zone 9</option>
                   </select>
                 </div>
               </div>
@@ -263,7 +263,7 @@ const ResidentProfiling = () => {
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="lgbtq">LGBTQ</option>
+                    <option value="lgbtq">Lgbtq</option>
                   </select>
                 </div>
               </div>
@@ -514,15 +514,15 @@ const ResidentProfiling = () => {
                     onChange={(e) => setAddressHead2Selection(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
                   >
-                    <option value="zone1">Zone 1</option>
-                    <option value="zone2">Zone 2</option>
-                    <option value="zone3">Zone 3</option>
-                    <option value="zone4">Zone 4</option>
-                    <option value="zone5">Zone 5</option>
-                    <option value="zone6">Zone 6</option>
-                    <option value="zone7">Zone 7</option>
-                    <option value="zone8">Zone 8</option>
-                    <option value="zone9">Zone 9</option>
+                    <option value="Zone 1">Zone 1</option>
+                    <option value="Zone 2">Zone 2</option>
+                    <option value="Zone 3">Zone 3</option>
+                    <option value="Zone 4">Zone 4</option>
+                    <option value="Zone 5">Zone 5</option>
+                    <option value="Zone 6">Zone 6</option>
+                    <option value="Zone 7">Zone 7</option>
+                    <option value="Zone 8">Zone 8</option>
+                    <option value="Zone 9">Zone 9</option>
                   </select>
                 </div>
               </div>
@@ -570,7 +570,7 @@ const ResidentProfiling = () => {
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="lgbtq">LGBTQ</option>
+                    <option value="lgbtq">Lgbtq</option>
                   </select>
                 </div>
               </div>
@@ -806,6 +806,7 @@ const ResidentProfiling = () => {
             handleIconClick={handleIconClick}
             handleFileChangePhoto={handleFileChangePhoto}
             fileInputRef={fileInputRef}
+            mutation={mutation}
           />
         </div>
       </div>

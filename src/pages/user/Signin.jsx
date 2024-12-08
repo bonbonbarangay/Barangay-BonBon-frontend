@@ -3,6 +3,7 @@ import SiginHook from "../../hooks/authentication/Sigin";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { handleInvalid } from "../../components/toastify/Toastify";
 
 const Signin = () => {
   const [username, setUserName] = useState("");
@@ -12,6 +13,17 @@ const Signin = () => {
   const { handleSignin, mutation } = SiginHook();
   const handleShowPassword = () => {
     setPasswordShow(!passwordShow);
+  };
+
+  const handleLogin = () => {
+    if (username == "" || password == "") {
+      handleInvalid("invalid");
+      return;
+    }
+    handleSignin({
+      username: username,
+      password: password,
+    });
   };
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
@@ -89,20 +101,13 @@ const Signin = () => {
             </div>
           </div>
 
-          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	">
-            <button
-              className="text-2xl	 font-bold py-3 px-3"
-              onClick={() =>
-                handleSignin({
-                  username: username,
-                  password: password,
-                })
-              }
-              disabled={mutation.isSuccess}
-            >
-              SIGN IN
-            </button>
-          </div>
+          <button
+            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg"
+            onClick={handleLogin}
+            disabled={mutation.isPending}
+          >
+            SIGN IN
+          </button>
           <div>
             <Link to="/signup">
               <h1 className="mt-3 text-[#000000]">Don't have an account?</h1>

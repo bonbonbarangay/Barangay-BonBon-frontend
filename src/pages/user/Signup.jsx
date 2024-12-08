@@ -13,11 +13,15 @@ const Signup = () => {
   const { handleSignUp, mutation } = SignUpHook();
 
   const handleConfirmPassword = (data) => {
-    if (password == confirmPassword) {
-      handleSignUp(data);
-    } else {
-      handleInvalid("did not match password");
+    if (username == "" || email == "" || password == "") {
+      handleInvalid("Invalid");
+      return;
     }
+    if (password !== confirmPassword) {
+      handleInvalid("did not match password");
+      return;
+    }
+    handleSignUp(data);
   };
   const handleShowConfirmPassword = () => {
     setConfirmShowPassword(!confirmShowPassword);
@@ -171,22 +175,20 @@ const Signup = () => {
               />
             </div>
           </div>
-          <div className="bg-[#FFFBFB] mt-5 text-center rounded-lg	 ">
-            <button
-              className="text-2xl	 font-bold py-3 px-3"
-              disabled={mutation.isPending}
-              onClick={() =>
-                handleConfirmPassword({
-                  username: username,
-                  emailaddress: email,
-                  password: password,
-                  type: "user",
-                })
-              }
-            >
-              SIGN UP
-            </button>
-          </div>
+          <button
+            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg"
+            disabled={mutation.isPending}
+            onClick={() =>
+              handleConfirmPassword({
+                username: username,
+                emailaddress: email,
+                password: password,
+                type: "user",
+              })
+            }
+          >
+            SIGN UP
+          </button>
 
           <div>
             <Link to="/signin">

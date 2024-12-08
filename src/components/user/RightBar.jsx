@@ -1,6 +1,7 @@
 import React from "react";
 import image3 from "../../assets/annoucement-img3.png";
 import image4 from "../../assets/annoucement-img4.png";
+import { Link } from "react-router-dom";
 const RightBar = () => {
   return (
     <div className="mt-12  px-3 py-2 ">
@@ -17,9 +18,11 @@ const RightBar = () => {
 
       <div className="mt-5">
         <div>
-          <button className="bg-[#76A0EE] py-2 px-3 text-center w-[130px] font-semibold">
-            Facebook
-          </button>
+          <Link to="https://www.facebook.com/brgybonboncdoofficial?mibextid=LQQJ4d&rdid=aYoKzs075zWVpD4s&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15dRzKSbiR%2F%3Fmibextid%3DLQQJ4d#">
+            <button className="bg-[#76A0EE] py-2 px-3 text-center w-[130px] font-semibold">
+              Facebook
+            </button>
+          </Link>
         </div>
         <div className="mt-5 w-full bg-[#B9BECD] py-2 px-2">
           <img src={image4} className="w-full h-[220px] " />
@@ -45,7 +48,9 @@ const RightBar = () => {
             </svg>
           </div>
           <div>
-            <h1>Follow Page</h1>
+            <Link to="https://www.facebook.com/brgybonboncdoofficial?mibextid=LQQJ4d&rdid=aYoKzs075zWVpD4s&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15dRzKSbiR%2F%3Fmibextid%3DLQQJ4d#">
+              <h1>Follow Page</h1>
+            </Link>
           </div>
         </div>
       </div>

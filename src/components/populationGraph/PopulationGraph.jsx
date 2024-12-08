@@ -177,7 +177,7 @@ const PopulationGraph = () => {
     (item) =>
       item.firstnamehead1 !== "" &&
       item.lastnamehead1 !== "" &&
-      Number(item.ageagehead1) < 18
+      Number(item.agehead1) < 18
   );
 
   const below18head2 = dataHouseHold?.filter(

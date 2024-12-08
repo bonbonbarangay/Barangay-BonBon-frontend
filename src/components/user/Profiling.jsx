@@ -10,6 +10,7 @@ const Profiling = ({
   handleIconClick,
   handleFileChangePhoto,
   fileInputRef,
+  mutation,
 }) => {
   const currentYear = new Date().getFullYear(); // Get the current year
 
@@ -137,7 +138,7 @@ const Profiling = ({
                   </option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
-                  <option value="lgbtq">LGBTQ</option>
+                  <option value="lgbtq">Lgbtq</option>
                 </select>
               </div>
 
@@ -529,9 +530,10 @@ const Profiling = ({
         <div className="mt-20 flex items-end justify-end">
           <button
             className="bg-[#B1C7F4] px-2 py-2  border border-[#000] w-[150px] rounded-lg"
+            disabled={mutation.isPending}
             onClick={submit}
           >
-            SUBMIT
+            {mutation.isPending ? "Loading..." : "SUBMIT"}
           </button>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import demographic2 from "../../assets/demographic2.png";
 import RightBar from "../../components/user/RightBar";
 import PopulationGraph from "../../components/populationGraph/PopulationGraph";
 import { Line, Bar } from "react-chartjs-2";
