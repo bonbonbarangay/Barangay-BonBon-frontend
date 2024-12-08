@@ -2,7 +2,9 @@ import axios from "axios";
 
 export const getAllOfficials = async () => {
   try {
-    const response = await axios.get("http://localhost:4000/official/");
+    const response = await axios.get(
+      "https://barangay-bonbon-backend.onrender.com/official/"
+    );
 
     return response.data;
   } catch (error) {
@@ -16,7 +18,7 @@ export const getAllOfficials = async () => {
 export const creatrOfficial = async (officialdata) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/official/",
+      "https://barangay-bonbon-backend.onrender.com/official/",
       officialdata
     );
     return response.data;
@@ -31,7 +33,7 @@ export const creatrOfficial = async (officialdata) => {
 export const getOfficialByPosition = async (position) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/official/position",
+      "https://barangay-bonbon-backend.onrender.com/official/position",
       {
         position: position,
       }
@@ -48,7 +50,7 @@ export const getOfficialByPosition = async (position) => {
 export const updateOfficial = async (data) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/official/${data.id}`,
+      `https://barangay-bonbon-backend.onrender.com/official/${data.id}`,
       {
         fullname: data.fullname,
         position: data.position,
@@ -69,7 +71,7 @@ export const updateOfficial = async (data) => {
 export const deleteOfficial = async (data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:4000/official/${data?.id}`,
+      `https://barangay-bonbon-backend.onrender.com/official/${data?.id}`,
       {
         data: { cloudinaryid: data?.cloudinaryid },
       }

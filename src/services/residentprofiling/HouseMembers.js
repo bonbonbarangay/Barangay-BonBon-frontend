@@ -3,7 +3,9 @@ import { getFromLocalStorage } from "../../utils/localStorage";
 
 export const getAllHouseMembers = async () => {
   try {
-    const response = await axios.get("http://localhost:4000/housemembers");
+    const response = await axios.get(
+      "https://barangay-bonbon-backend.onrender.com/housemembers"
+    );
 
     return response.data;
   } catch (error) {
@@ -17,10 +19,13 @@ export const getAllHouseMembers = async () => {
 
 export const createHouseMembers = async (housemembers) => {
   try {
-    const response = await axios.post("http://localhost:4000/housemembers", {
-      data: housemembers,
-      userid: getFromLocalStorage("id"),
-    });
+    const response = await axios.post(
+      "https://barangay-bonbon-backend.onrender.com/housemembers",
+      {
+        data: housemembers,
+        userid: getFromLocalStorage("id"),
+      }
+    );
     return response.data;
   } catch (error) {
     if (error.response) {

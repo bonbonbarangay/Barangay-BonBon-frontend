@@ -172,6 +172,49 @@ const PopulationGraph = () => {
   const outOfSchoolYouths = dataHouseMembers?.filter(
     (item) => item.highesteducation == "yes"
   );
+  // age below 18
+  const below18head1 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== "" &&
+      Number(item.ageagehead1) < 18
+  );
+
+  const below18head2 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== "" &&
+      Number(item.agehead2) < 18
+  );
+
+  const below18members = dataHouseMembers?.filter(
+    (item) => item.fullname !== "" && Number(item.age) < 18
+  );
+
+  const total18below =
+    below18head1.length + below18head2.length + below18members.length;
+
+  // age above 18
+  const above18head1 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== "" &&
+      Number(item.agehead1) >= 18
+  );
+
+  const above18head2 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== "" &&
+      Number(item.agehead2) >= 18
+  );
+
+  const above18members = dataHouseMembers?.filter(
+    (item) => item.fullname !== "" && Number(item.age) >= 18
+  );
+
+  const totalabove18 =
+    above18head1.length + above18head2.length + above18members.length;
 
   const totalOutOfSchoolYouths = outOfSchoolYouths.length;
   return {
@@ -185,6 +228,8 @@ const PopulationGraph = () => {
     totalMale,
     totalLgbtq,
     totalOutOfSchoolYouths,
+    total18below,
+    totalabove18,
   };
 };
 

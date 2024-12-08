@@ -4,7 +4,6 @@ import {
   createFormStatus,
   updateFormStatus,
   getFormbyUserId,
-  deleteFormStatus,
 } from "../../services/formstatus/Formstatus";
 import {
   handleInvalid,
@@ -61,20 +60,7 @@ const FormStatusHook = () => {
       }
     },
   });
-  const deleteFormStatusData = useMutation({
-    mutationFn: deleteFormStatus,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["formstatus"] });
-    },
-    onError: (error) => {
-      if (error?.status === 400) {
-        console.error("Bad request:", error?.data?.message || error?.message);
-        handleInvalid(error?.data?.message);
-      } else {
-        console.error("Error occurred:", error?.message);
-      }
-    },
-  });
+
   const handleCreateFormStatus = (formdata) => {
     createFormStatusMutation.mutate(formdata);
   };
@@ -84,9 +70,6 @@ const FormStatusHook = () => {
   };
   const handleUpdateFormData = (formdata) => {
     updateFormStatusMutation.mutateAsync(formdata);
-  };
-  const handleDeleteFormStatus = (userid) => {
-    deleteFormStatusData.mutateAsync(userid);
   };
 
   useEffect(() => {
@@ -99,7 +82,6 @@ const FormStatusHook = () => {
     pending,
     handleCreateFormStatus,
     handleUpdateFormData,
-    handleDeleteFormStatus,
   };
 };
 

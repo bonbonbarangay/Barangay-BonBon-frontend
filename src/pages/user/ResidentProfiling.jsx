@@ -10,6 +10,9 @@ const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
   const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
   const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
+  const [addresshead1Selection, setAddressHead1Selection] = useState("zone1");
+  const [addresshead2Selection, setAddressHead2Selection] = useState("zone1");
+
   const { handleCreateFormStatus } = FormStatusHook();
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
   const { handleCreateHouseMembers, createHouseMembersMutation } =
@@ -124,6 +127,8 @@ const ResidentProfiling = () => {
       image: photo,
       genderhead1: genderSelectionHead1,
       genderhead2: genderSelectionHead2,
+      addresshead1: addresshead1Selection,
+      addresshead2: addresshead2Selection,
     }));
 
     return () => {
@@ -132,6 +137,8 @@ const ResidentProfiling = () => {
         image: "",
         genderhead1: "",
         genderhead2: "",
+        addresshead1: "",
+        addresshead2: "",
       }));
     };
   }, [photo]);
@@ -190,18 +197,26 @@ const ResidentProfiling = () => {
             </div>
             <div className="mt-5 flex items-center gap-3 w-full">
               <div>
-                <h1>Address:</h1>
+                <h1>Zone:</h1>
               </div>
               <div className=" w-[80%]">
                 <div className="w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] placeholder-[#000] w-full"
-                    placeholder="(House No./Zone#/ City/Province/ Region) "
-                    name="addresshead1"
-                    value={houseHoldHead.addresshead1}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                    id="status"
+                    value={addresshead1Selection}
+                    onChange={(e) => setAddressHead1Selection(e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
+                  >
+                    <option value="zone1">Zone 1</option>
+                    <option value="zone2">Zone 2</option>
+                    <option value="zone3">Zone 3</option>
+                    <option value="zone4">Zone 4</option>
+                    <option value="zone5">Zone 5</option>
+                    <option value="zone6">Zone 6</option>
+                    <option value="zone7">Zone 7</option>
+                    <option value="zone8">Zone 8</option>
+                    <option value="zone9">Zone 9</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -489,18 +504,26 @@ const ResidentProfiling = () => {
             </div>
             <div className="mt-5 flex items-center gap-3 w-full">
               <div>
-                <h1>Address:</h1>
+                <h1>Zone:</h1>
               </div>
               <div className=" w-[80%]">
                 <div className="w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] placeholder-[#000] w-full"
-                    placeholder="(House No./Zone#/ City/Province/ Region) "
-                    name="addresshead2"
-                    value={houseHoldHead.addresshead2}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                    id="status"
+                    value={addresshead2Selection}
+                    onChange={(e) => setAddressHead2Selection(e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
+                  >
+                    <option value="zone1">Zone 1</option>
+                    <option value="zone2">Zone 2</option>
+                    <option value="zone3">Zone 3</option>
+                    <option value="zone4">Zone 4</option>
+                    <option value="zone5">Zone 5</option>
+                    <option value="zone6">Zone 6</option>
+                    <option value="zone7">Zone 7</option>
+                    <option value="zone8">Zone 8</option>
+                    <option value="zone9">Zone 9</option>
+                  </select>
                 </div>
               </div>
             </div>

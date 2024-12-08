@@ -21,6 +21,8 @@ const Demographic = () => {
     totalMale,
     totalLgbtq,
     totalOutOfSchoolYouths,
+    total18below,
+    totalabove18,
   } = PopulationGraph();
   const lineData = {
     labels: ["2024", "2025", "2026", "2027", "2028"],
@@ -56,6 +58,18 @@ const Demographic = () => {
           "rgb(255, 99, 132)",
           "rgb(255, 99, 132)",
         ],
+        borderWidth: 1,
+      },
+    ],
+  };
+  const ageData = {
+    labels: ["18 Above", "18 Below"],
+    datasets: [
+      {
+        label: "AGE",
+        data: [totalabove18, total18below],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 0.2)"],
+        borderColor: ["rgb(255, 99, 132)", "rgb(255, 99, 132)"],
         borderWidth: 1,
       },
     ],
@@ -186,8 +200,8 @@ const Demographic = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-center">
-                      <div className="mt-5 w-full">
-                        <img src={demographic2} className="h-[200px] w-full" />
+                      <div className="mt-5 w-full h-[200px]">
+                        <Bar data={ageData} />
                       </div>
                     </div>
                   </div>

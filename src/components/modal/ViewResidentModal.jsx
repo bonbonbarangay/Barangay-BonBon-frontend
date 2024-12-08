@@ -109,7 +109,7 @@ const ViewResidentModal = ({
 
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">ADDRESS</h1>
+                      <h1 className="text-sm font-semibold">ZONE</h1>
                     </div>
                     <div>
                       <p className="mt-1">{houseHold?.addresshead1}</p>
@@ -294,7 +294,7 @@ const ViewResidentModal = ({
 
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">ADDRESS</h1>
+                      <h1 className="text-sm font-semibold">ZONE</h1>
                     </div>
                     <div>
                       <p className="mt-1">{houseHold?.addresshead2}</p>

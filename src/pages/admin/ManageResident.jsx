@@ -12,7 +12,7 @@ const ManageResident = () => {
   const [search, setSearch] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
-  const { handleDeleteFormStatus } = FormStatusHook();
+  const { handleUpdateFormData } = FormStatusHook();
   const {
     data,
     isError,
@@ -37,7 +37,11 @@ const ManageResident = () => {
   };
   const deleteForm = (data) => {
     handleDelete(data);
-    handleDeleteFormStatus(data.userid);
+    const dataForm = {
+      userid: data.userid,
+      status: "delete",
+    };
+    handleUpdateFormData(dataForm);
   };
   const handleOpenPDF = async () => {
     const blob = await pdf(<Pdf data={data} />).toBlob();
