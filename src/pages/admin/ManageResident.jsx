@@ -162,9 +162,6 @@ const ManageResident = () => {
                                   {item.addresshead1}
                                 </td>
                                 <td className="border border-gray-500 px-4 py-2 text-center">
-                                  <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 mr-2">
-                                    Edit
-                                  </button>
                                   <button
                                     className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 mr-2"
                                     onClick={() => handleViewOpen(item.userid)}
