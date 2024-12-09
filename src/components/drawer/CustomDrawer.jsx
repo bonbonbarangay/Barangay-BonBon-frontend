@@ -24,10 +24,11 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
       label: "PROJECT MANAGEMENT",
       path: "/user/projectmanagement",
     },
+
     {
       id: 2,
-      label: "ACCOUNT SETTING",
-      path: `/user/setting/${userid}`,
+      label: "STRATEGIC ROAD",
+      path: "/user/strategic",
     },
     {
       id: 3,
@@ -37,6 +38,12 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
     },
     {
       id: 4,
+      label: "ACCOUNT SETTING",
+      path: `/user/setting/${userid}`,
+    },
+
+    {
+      id: 5,
       label: "LOGOUT",
       onClick: handleLogout,
     },

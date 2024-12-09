@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RightBar from "../../components/user/RightBar";
-import logo from "../../assets/logo.png";
+import newlogo from "../../assets/newlogo.png";
 import OfficialHook from "../../hooks/official/Official";
 import ViewOfficialModal from "../../components/modal/ViewOfficialModal";
 const Transparency = () => {
@@ -31,7 +31,7 @@ const Transparency = () => {
               <div className="bg-[#F0F0F0] w-[90%] overflow-y-auto h-[100vh] py-5 px-10 mt-5 border-2 border-[#000] ">
                 <div>
                   <div className="flex items-center justify-center flex-col">
-                    <img src={logo} className="w-[150px]" />
+                    <img src={newlogo} className="w-[150px]" />
                   </div>
                   <div className="w-[90%] mt-5 ">
                     <div

@@ -1,6 +1,6 @@
 import React from "react";
-import logo from "../../assets/logo.png";
-import logo2 from "../../assets/logo2.png";
+import newlogo from "../../assets/newlogo.png";
+import newlogo2 from "../../assets/newlogo2.png";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
@@ -47,14 +47,14 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-5 ">
+          <div className="flex items-center ">
             <div>
               <Link to="https://www.facebook.com/brgybonboncdoofficial?mibextid=LQQJ4d&rdid=aYoKzs075zWVpD4s&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15dRzKSbiR%2F%3Fmibextid%3DLQQJ4d#">
-                <img src={logo} className="w-auto h-[120px]" />
+                <img src={newlogo} className="w-auto h-[120px]" />
               </Link>
             </div>
             <div>
-              <img src={logo2} className="w-auto h-[120px]" />
+              <img src={newlogo2} className="w-auto h-[150px]" />
             </div>
           </div>
         </div>

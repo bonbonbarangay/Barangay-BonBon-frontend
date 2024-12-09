@@ -60,10 +60,10 @@ const ViewOfficialModal = ({
                             className="w-full h-[150px] object-cover rounded-t-lg"
                           />
                           <div className="mt-3">
-                            <h2 className="text-lg font-semibold text-gray-800">
+                            <h2 className="text-sm font-semibold text-gray-800">
                               Fullname: {item.fullname || "N/A"}
                             </h2>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 mt-1">
                               Position: {item.position || "N/A"}
                             </p>
                           </div>

@@ -530,8 +530,8 @@ const Profiling = ({
         <div className="mt-20 flex items-end justify-end">
           <button
             className="bg-[#B1C7F4] px-2 py-2  border border-[#000] w-[150px] rounded-lg"
-            disabled={mutation.isPending}
             onClick={submit}
+            disabled={mutation.isPending}
           >
             {mutation.isPending ? "Loading..." : "SUBMIT"}
           </button>

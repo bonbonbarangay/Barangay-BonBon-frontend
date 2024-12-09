@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import CreateProjectManagementModa from "../../components/modal/CreateProjectManagementModa";
 import { Toaster } from "react-hot-toast";
-
+import StrategicMap from "../../components/modal/StrategicMap";
 const GeotaggingAdmin = () => {
   const [openProjectManage, setOpenProjectManage] = useState(false);
+  const [openStrategic, setOpenStrategic] = useState(false);
   const handleCloseProjectManage = () => {
     setOpenProjectManage(false);
   };
   const handleOpen = () => {
     setOpenProjectManage(true);
+  };
+  const handleCloseStrategic = () => {
+    setOpenStrategic(false);
   };
   return (
     <div className="w-full ">
@@ -29,8 +33,10 @@ const GeotaggingAdmin = () => {
                   Project Management
                 </h1>
               </div>
-              <div>
-                <h1 className="text-xl font-bold">Strategic Road</h1>
+              <div onClick={() => setOpenStrategic(true)}>
+                <h1 className="text-xl font-bold cursor-pointer">
+                  Strategic Road
+                </h1>
               </div>
             </div>
             <div className="w-full h-auto mt-5">
@@ -51,6 +57,11 @@ const GeotaggingAdmin = () => {
       <CreateProjectManagementModa
         handleCloseProjectManage={handleCloseProjectManage}
         openProjectManage={openProjectManage}
+      />
+      <StrategicMap
+        handleCloseStrategic={handleCloseStrategic}
+        openStrategic={openStrategic}
+        setOpenStrategic={setOpenStrategic}
       />
       <Toaster />
     </div>

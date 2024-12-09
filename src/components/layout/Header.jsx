@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/logo.png";
+import newlogo from "../../assets/newlogo.png";
 import { Link } from "react-router-dom";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import CustomDrawer from "../drawer/CustomDrawer";
@@ -86,7 +86,7 @@ const Header = () => {
       <div className="border-b-2 border-[#000] py-2">
         <div className="flex items-center gap-1">
           <div className="ml-16 ">
-            <img src={logo} className="w-[90px]" />
+            <img src={newlogo} className="w-[90px] h-[80px]" />
           </div>
           <div>
             <h1 className="text-xl font-serif	font-semibold">BARANGAY BONBON</h1>

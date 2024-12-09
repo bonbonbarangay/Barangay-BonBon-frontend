@@ -3,7 +3,7 @@ import MapHook from "../../hooks/map/Map";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 const Map = () => {
   const { data, isLoading, isError } = MapHook();
-  const position = [8.50892060310247, 124.649098318599];
+  const position = [8.508866488411472, 124.6491032995961];
 
   const getIcon = (colorSelection) => {
     let color;
@@ -31,7 +31,7 @@ const Map = () => {
   return (
     <MapContainer
       center={position}
-      zoom={13}
+      zoom={16}
       style={{ height: "550px", width: "100%" }}
     >
       <TileLayer

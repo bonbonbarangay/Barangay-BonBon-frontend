@@ -14,7 +14,7 @@ import {
 const Maps = () => {
   const { data, isLoading, handleDelete, deleteMutation, handleDrag } =
     MapHook();
-  const position = [8.50892060310247, 124.649098318599];
+  const position = [8.508866488411472, 124.6491032995961];
   const [locationData, setLocationData] = useState(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
@@ -107,7 +107,7 @@ const Maps = () => {
       <div>
         <MapContainer
           center={position}
-          zoom={13}
+          zoom={16}
           style={{ height: "300px", width: "100%" }}
         >
           <TileLayer
@@ -263,26 +263,47 @@ const Maps = () => {
           <LocationFinder />
         </MapContainer>
       </div>
-
-      <div className="mt-10 flex items-center justify-around ">
-        <div
-          className="bg-green-500 text-white px-2 py-2 rounded  mr-2"
-          onClick={createLocation}
-        >
-          <button className="text-sm">CREATE</button>
+      <div className="mt-10 flex items-center justify-between">
+        <div>
+          <div className="flex gap-2">
+            <div className="w-[100px] h-[20px] bg-green-500"></div>
+            <div>
+              <h1 className="font-semibold">Satisfactory</h1>
+            </div>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <div className="w-[100px] h-[20px] bg-red-500"></div>
+            <div>
+              <h1 className="font-semibold">With Serious Defenciencies</h1>
+            </div>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <div className="w-[100px] h-[20px] bg-yellow-500"></div>
+            <div>
+              <h1 className="font-semibold">Minor Defenciencies</h1>
+            </div>
+          </div>
         </div>
+        <div>
+          <div
+            className="bg-green-500 text-white px-2 py-2 rounded  mr-2 "
+            onClick={createLocation}
+          >
+            <button className="text-sm">CREATE</button>
+          </div>
 
-        <div
-          className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 "
-          onClick={handleUpdateOpen}
-        >
-          <button className="text-sm">UPDATE</button>
-        </div>
-        <div
-          className="bg-red-500 text-white px-2 py-2 rounded  mr-2 "
-          onClick={deleteLocation}
-        >
-          <button className="text-sm">DELETE</button>
+          <div
+            className="bg-orange-500 text-white px-2 py-2 rounded  mr-2 mt-2"
+            onClick={handleUpdateOpen}
+          >
+            <button className="text-sm">UPDATE</button>
+          </div>
+          <div
+            className="bg-red-500 text-white px-2 py-2 rounded  mr-2 mt-2"
+            onClick={deleteLocation}
+          >
+            <button className="text-sm">DELETE</button>
+          </div>
         </div>
       </div>
 

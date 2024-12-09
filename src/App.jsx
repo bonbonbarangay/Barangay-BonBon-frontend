@@ -19,6 +19,7 @@ import GeotaggingAdmin from "./pages/admin/Geotagging";
 import Setting from "./pages/admin/Setting";
 import ManageResident from "./pages/admin/ManageResident";
 import Official from "./pages/admin/Official";
+import Strategic from "./pages/user/Strategic";
 import "leaflet/dist/leaflet.css";
 
 function App() {
@@ -33,8 +34,10 @@ function App() {
             <Route path="/user/demographic" element={<Demographic />} />
             <Route path="/user/setting/:id" element={<AccoutSetting />} />
             <Route path="/user/geotagging" element={<Geotagging />} />
+            <Route path="/user/strategic" element={<Strategic />} />
+
             <Route
-              path="/user/ProjectManagement"
+              path="/user/projectmanagement"
               element={<ProjectManagement />}
             />
             <Route
