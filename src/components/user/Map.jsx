@@ -1,33 +1,13 @@
 import React from "react";
 import MapHook from "../../hooks/map/Map";
+import MarkerCustomize from "../../utils/MarkerCustomize";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 const Map = () => {
   const { data, isLoading, isError } = MapHook();
+  const { getIcon } = MarkerCustomize();
+
   const position = [8.508866488411472, 124.6491032995961];
 
-  const getIcon = (colorSelection) => {
-    let color;
-    switch (colorSelection) {
-      case "Satisfactory":
-        color = "green";
-        break;
-      case "Serious Deficiencies":
-        color = "red";
-        break;
-      case "Minor Deficiencies":
-        color = "yellow";
-        break;
-      default:
-        color = "gray";
-        break;
-    }
-
-    console.log(colorSelection);
-    return new L.DivIcon({
-      className: "custom-icon",
-      html: `<div style="background-color:${color}; width: 30px; height: 30px; border-radius: 50%; border: 2px solid black;"></div>`,
-    });
-  };
   return (
     <MapContainer
       center={position}
