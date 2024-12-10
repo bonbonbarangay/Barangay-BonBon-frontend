@@ -102,7 +102,7 @@ const Signin = () => {
           </div>
 
           <button
-            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg"
+            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg "
             onClick={handleLogin}
             disabled={mutation.isPending}
           >

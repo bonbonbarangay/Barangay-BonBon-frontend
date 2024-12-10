@@ -22,6 +22,7 @@ const Demographic = () => {
     totalOutOfSchoolYouths,
     total18below,
     totalabove18,
+    totalSenior,
   } = PopulationGraph();
   const lineData = {
     labels: ["2024", "2025", "2026", "2027", "2028"],
@@ -133,7 +134,9 @@ const Demographic = () => {
                       </div>
 
                       <div>
-                        <h1 className="text-2xl font-semibold mt-3">0</h1>
+                        <h1 className="text-2xl font-semibold mt-3">
+                          {totalSenior.toString()}
+                        </h1>
                       </div>
                     </div>
                   </div>

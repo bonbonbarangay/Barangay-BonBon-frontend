@@ -217,6 +217,28 @@ const PopulationGraph = () => {
     above18head1.length + above18head2.length + above18members.length;
 
   const totalOutOfSchoolYouths = outOfSchoolYouths.length;
+
+  //senior
+
+  const seniorHead1 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== "" &&
+      Number(item.agehead1) >= 60
+  );
+
+  const seniorHead2 = dataHouseHold?.filter(
+    (item) =>
+      item.firstnamehead2 !== "" &&
+      item.lastnamehead2 !== "" &&
+      Number(item.agehead2) >= 60
+  );
+  const seniorMembers = dataHouseMembers?.filter(
+    (item) => item.fullname !== "" && Number(item.age) >= 60
+  );
+
+  const totalSenior =
+    seniorHead1.length + seniorHead2.length + seniorMembers.length;
   return {
     totalPopulation2024,
     totalPopulation2025,
@@ -230,6 +252,7 @@ const PopulationGraph = () => {
     totalOutOfSchoolYouths,
     total18below,
     totalabove18,
+    totalSenior,
   };
 };
 

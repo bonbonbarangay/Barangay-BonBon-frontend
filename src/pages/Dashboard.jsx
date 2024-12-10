@@ -20,7 +20,7 @@ const Dashboard = () => {
                     <div className="w-[50%]">
                       <img
                         src={item.image}
-                        className="w-full h-[150px] object-cover"
+                        className="w-full h-[150px] object-center"
                       />
                     </div>
                     <div className="w-[50%]">

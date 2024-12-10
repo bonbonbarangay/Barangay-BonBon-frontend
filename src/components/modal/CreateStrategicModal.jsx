@@ -19,7 +19,8 @@ const CreateStrategicModal = ({
   createStrategic,
   handleCLoseModalStrategic,
 }) => {
-  const { handleCreatePolyData, createPolyLineMutation } = StrategicHook();
+  const { handleCreatePolyData, createPolyLineMutation, data } =
+    StrategicHook();
   const { customIcon } = MarkerCustomize();
 
   const position = [8.508866488411472, 124.6491032995961];
@@ -123,7 +124,14 @@ const CreateStrategicModal = ({
                   positions={polynLineData}
                   weight={10}
                 />
-
+                {data?.map((polyline, index) => (
+                  <Polyline
+                    key={polyline.id}
+                    positions={polyline.polylinedata}
+                    pathOptions={{ color: polyline.color }}
+                    weight={10}
+                  />
+                ))}
                 <LocationFinder />
               </MapContainer>
             </div>
