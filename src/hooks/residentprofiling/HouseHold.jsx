@@ -28,7 +28,7 @@ const HouseHoldHook = () => {
   const mutation = useMutation({
     mutationFn: createHouseHold,
     onSuccess: (data) => {
-      handleSucess("Sucess");
+      handleSucess("success created resident form");
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {

@@ -28,9 +28,11 @@ const Signin = () => {
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
       <div>
-        <h1 className="text-3xl font-semibold font-sans	">USER ACCOUNT</h1>
+        <h1 className="text-3xl font-semibold font-sans	max-lg:text-2xl max-sm:text-xl">
+          USER ACCOUNT
+        </h1>
       </div>
-      <div className="mt-5 bg-[#76A0EE] w-[40%] z-10 rounded-xl	relative">
+      <div className="mt-5 bg-[#76A0EE] w-[40%] z-10 rounded-xl	relative max-lg:w-[60%] max-sm:w-[90%]">
         <div className="w-full  h-auto py-5 px-5">
           <div className="relative ">
             <div className="absolute top-[10px] z-20 px-2 right-0 ">
@@ -102,11 +104,11 @@ const Signin = () => {
           </div>
 
           <button
-            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg "
+            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg max-lg:text-xl max-sm:text-lg "
             onClick={handleLogin}
             disabled={mutation.isPending}
           >
-            SIGN IN
+            {mutation.isPending ? "Loading" : "SIGN IN"}
           </button>
           <div>
             <Link to="/signup">

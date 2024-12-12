@@ -1,6 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getFromLocalStorage } from "../../utils/localStorage";
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 const Profiling = ({
   handleSubmit,
   houseHoldHead,
@@ -13,7 +18,10 @@ const Profiling = ({
   mutation,
 }) => {
   const currentYear = new Date().getFullYear(); // Get the current year
-
+  const [currentDate, setCurrentDate] = useState(dayjs());
+  const formatDate = (date) => {
+    return date ? date.format("MM/DD/YYYY") : "";
+  };
   const [formData, setFormData] = useState([
     {
       userid: getFromLocalStorage("id"),
@@ -23,7 +31,7 @@ const Profiling = ({
       pwd: "",
       gender: "",
       age: "",
-      dob: "",
+      dob: formatDate(currentDate),
       education: "",
       occupation: "",
     },
@@ -40,7 +48,7 @@ const Profiling = ({
         pwd: "",
         gender: "",
         age: "",
-        dob: "",
+        dob: formatDate(currentDate),
         education: "",
         occupation: "",
       },
@@ -49,8 +57,7 @@ const Profiling = ({
 
   const handleInputChange = (index, field, value) => {
     const updatedFormData = [...formData];
-    console.log(index, field);
-    updatedFormData[index][field] = value;
+    updatedFormData[index][field] = value.toUpperCase();
     setFormData(updatedFormData);
   };
 
@@ -67,8 +74,12 @@ const Profiling = ({
       return prevData;
     });
   };
-
-  const lenghtOfForm = formData.length;
+  const handleMembersAge = (index, field, value) => {
+    const updatedFormData = [...formData];
+    const convertValue = value ? value.format("MM/DD/YYYY") : "";
+    updatedFormData[index][field] = convertValue;
+    setFormData(updatedFormData);
+  };
 
   return (
     <div className="w-full">
@@ -107,12 +118,12 @@ const Profiling = ({
                   className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff]"
                 >
                   <option value="" disabled>
-                    Pwd
+                    Pwd?
                   </option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="YES">YES</option>
+                  <option value="NO">NO</option>
                 </select>
-                {["relation", "age", "dob"].map((field, i) => (
+                {["relation", "age"].map((field, i) => (
                   <input
                     key={i}
                     type="text"
@@ -134,11 +145,11 @@ const Profiling = ({
                   className="  border border-[#000] rounded-md p-2 w-full text-sm bg-[#fff]	"
                 >
                   <option value="" disabled>
-                    GENDER
+                    Gender
                   </option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="lgbtq">Lgbtq</option>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                  <option value="LGBTQ">LGBTQ</option>
                 </select>
               </div>
 
@@ -150,13 +161,28 @@ const Profiling = ({
                     onChange={(e) =>
                       handleInputChange(index, "education", e.target.value)
                     }
-                    className=" border border-[#000] rounded-md p-2 w-full text-sm	 bg-[#fff]"
+                    className="border border-[#000] rounded-md p-2 w-full text-sm bg-[#fff]"
                   >
                     <option value="" disabled>
-                      Highest Educational Attainment
+                      HIGHEST EDUCATIONAL ATTAINMENT
                     </option>
-                    <option value="yes">No Out of School Youths</option>
-                    <option value="no">Out of School Youths</option>
+                    <option value="ELEMENTARY LEVEL">ELEMENTARY LEVEL</option>
+                    <option value="ELEMENTARY GRADUATE">
+                      ELEMENTARY GRADUATE
+                    </option>
+                    <option value="HIGH SCHOOL LEVEL">HIGH SCHOOL LEVEL</option>
+                    <option value="HIGH SCHOOL GRADUATE">
+                      HIGH SCHOOL GRADUATE
+                    </option>
+                    <option value="VOCATIONAL COURSE">VOCATIONAL COURSE</option>
+                    <option value="COLLEGE LEVEL">COLLEGE LEVEL</option>
+                    <option value="COLLEGE GRADUATE">COLLEGE GRADUATE</option>
+                    <option value="POSTGRADUATE (E.G, MASTER'S DOCTORATE)">
+                      POSTGRADUATE (E.G, MASTER'S DOCTORATE)
+                    </option>
+                    <option value="OUT OF SCHOOL YOUTHS">
+                      OUT OF SCHOOL YOUTHS
+                    </option>
                   </select>
                 </div>
                 <div className="w-[50%]">
@@ -171,12 +197,40 @@ const Profiling = ({
                   />
                 </div>
               </div>
+
+              <div className="mt-5  flex items-center gap-2 w-full">
+                <div className="w-[20%]">
+                  <h1>Date Of Birth</h1>
+                </div>
+                <div className="w-[80%]">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      components={[
+                        "DatePicker",
+                        "MobileDatePicker",
+                        "DesktopDatePicker",
+                        "StaticDatePicker",
+                      ]}
+                    >
+                      <DemoItem>
+                        <MobileDatePicker
+                          className=" border border-[#000] bg-white cursor-pointer "
+                          value={dayjs(data.dob)} // Ensure `data.dob` is a valid dayjs object
+                          onChange={(value) =>
+                            handleMembersAge(index, "dob", value)
+                          }
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
         <div className="mt-10 flex items-end justify-end gap-5 ">
-          {lenghtOfForm >= 2 ? (
+          {formData.length >= 2 ? (
             <div
               className="bg-red-500 py-3 px-3 cursor-pointer"
               onClick={handleRemoveField}
@@ -226,7 +280,7 @@ const Profiling = ({
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Yes</h1>
+                <h1>YES</h1>
               </div>
               <div>
                 <input
@@ -235,14 +289,14 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question1 === "Yes"}
-                  onChange={() => handleCheckboxChange("question1", "Yes")}
+                  checked={houseHoldHead.question1 === "YES"}
+                  onChange={() => handleCheckboxChange("question1", "YES")}
                 />
               </div>
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1>NO</h1>
               </div>
               <div>
                 <input
@@ -251,32 +305,15 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question1 === "No"}
-                  onChange={() => handleCheckboxChange("question1", "No")}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center  gap-2 ">
-              <div>
-                <h1>Renting: Yes</h1>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="vehicle1"
-                  name="vehicle1"
-                  value="Bike"
-                  className="w-5 h-5"
-                  checked={houseHoldHead.renting === "Yes"}
-                  onChange={() => handleCheckboxChange("renting", "Yes")}
+                  checked={houseHoldHead.question1 === "NO"}
+                  onChange={() => handleCheckboxChange("question1", "NO")}
                 />
               </div>
             </div>
 
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1>Renting: YES</h1>
               </div>
               <div>
                 <input
@@ -285,8 +322,25 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.renting === "No"}
-                  onChange={() => handleCheckboxChange("renting", "No")}
+                  checked={houseHoldHead.renting === "YES"}
+                  onChange={() => handleCheckboxChange("renting", "YES")}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center  gap-2 ">
+              <div>
+                <h1>NO</h1>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="vehicle1"
+                  name="vehicle1"
+                  value="Bike"
+                  className="w-5 h-5"
+                  checked={houseHoldHead.renting === "NO"}
+                  onChange={() => handleCheckboxChange("renting", "NO")}
                 />
               </div>
             </div>
@@ -317,7 +371,7 @@ const Profiling = ({
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Yes</h1>
+                <h1>YES</h1>
               </div>
               <div>
                 <input
@@ -326,14 +380,14 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question3 === "Yes"}
-                  onChange={() => handleCheckboxChange("question3", "Yes")}
+                  checked={houseHoldHead.question3 === "YES"}
+                  onChange={() => handleCheckboxChange("question3", "YES")}
                 />
               </div>
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1>NO</h1>
               </div>
               <div>
                 <input
@@ -342,8 +396,8 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question3 === "No"}
-                  onChange={() => handleCheckboxChange("question3", "No")}
+                  checked={houseHoldHead.question3 === "NO"}
+                  onChange={() => handleCheckboxChange("question3", "NO")}
                 />
               </div>
             </div>
@@ -359,9 +413,9 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question3 === "Precinct No"}
+                  checked={houseHoldHead.question3 === "PRECINCT NO"}
                   onChange={() =>
-                    handleCheckboxChange("question3", "Precinct No")
+                    handleCheckboxChange("question3", "PRECINCT NO")
                   }
                 />
               </div>
@@ -377,7 +431,7 @@ const Profiling = ({
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Yes</h1>
+                <h1>YES</h1>
               </div>
               <div>
                 <input
@@ -386,14 +440,14 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question4 === "Yes"}
-                  onChange={() => handleCheckboxChange("question4", "Yes")}
+                  checked={houseHoldHead.question4 === "YES"}
+                  onChange={() => handleCheckboxChange("question4", "YES")}
                 />
               </div>
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1>NO</h1>
               </div>
               <div>
                 <input
@@ -402,8 +456,8 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question4 === "No"}
-                  onChange={() => handleCheckboxChange("question4", "No")}
+                  checked={houseHoldHead.question4 === "NO"}
+                  onChange={() => handleCheckboxChange("question4", "NO")}
                 />
               </div>
             </div>
@@ -418,7 +472,7 @@ const Profiling = ({
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Yes</h1>
+                <h1>YES</h1>
               </div>
               <div>
                 <input
@@ -427,14 +481,14 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question5 === "Yes"}
-                  onChange={() => handleCheckboxChange("question5", "Yes")}
+                  checked={houseHoldHead.question5 === "YES"}
+                  onChange={() => handleCheckboxChange("question5", "YES")}
                 />
               </div>
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1>NO</h1>
               </div>
               <div>
                 <input
@@ -443,8 +497,8 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question5 === "No"}
-                  onChange={() => handleCheckboxChange("question5", "No")}
+                  checked={houseHoldHead.question5 === "NO"}
+                  onChange={() => handleCheckboxChange("question5", "NO")}
                 />
               </div>
             </div>
@@ -459,7 +513,7 @@ const Profiling = ({
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Yes</h1>
+                <h1>YES</h1>
               </div>
               <div>
                 <input
@@ -468,8 +522,8 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question6 === "Yes"}
-                  onChange={() => handleCheckboxChange("question6", "Yes")}
+                  checked={houseHoldHead.question6 === "YES"}
+                  onChange={() => handleCheckboxChange("question6", "YES")}
                 />
               </div>
             </div>
@@ -484,8 +538,8 @@ const Profiling = ({
                   name="vehicle1"
                   value="Bike"
                   className="w-5 h-5"
-                  checked={houseHoldHead.question6 === "No"}
-                  onChange={() => handleCheckboxChange("question6", "No")}
+                  checked={houseHoldHead.question6 === "NO"}
+                  onChange={() => handleCheckboxChange("question6", "NO")}
                 />
               </div>
             </div>

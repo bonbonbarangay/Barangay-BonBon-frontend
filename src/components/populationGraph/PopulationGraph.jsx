@@ -20,7 +20,7 @@ const PopulationGraph = () => {
   );
 
   const houseMembers2024 = dataHouseMembers?.filter(
-    (item) => item.year === "2024"
+    (item) => item.fullname !== "" && item.year === "2024"
   );
 
   const totalPopulation2024 =
@@ -42,7 +42,7 @@ const PopulationGraph = () => {
   );
 
   const houseMembers2025 = dataHouseMembers?.filter(
-    (item) => item.year === "2025"
+    (item) => item.fullname !== "" && item.year === "2025"
   );
 
   const totalPopulation2025 =
@@ -65,7 +65,7 @@ const PopulationGraph = () => {
   );
 
   const houseMembers2026 = dataHouseMembers?.filter(
-    (item) => item.year === "2026"
+    (item) => item.fullname !== "" && item.year === "2026"
   );
 
   const totalPopulation2026 =
@@ -88,7 +88,7 @@ const PopulationGraph = () => {
   );
 
   const houseMembers2027 = dataHouseMembers?.filter(
-    (item) => item.year === "2027"
+    (item) => item.fullname !== "" && item.year === "2027"
   );
 
   const totalPopulation2027 =
@@ -111,7 +111,7 @@ const PopulationGraph = () => {
   );
 
   const houseMembers2028 = dataHouseMembers?.filter(
-    (item) => item.year === "2028"
+    (item) => item.fullname !== "" && item.year === "2028"
   );
 
   const totalPopulation2028 =
@@ -120,43 +120,75 @@ const PopulationGraph = () => {
     houseMembers2028.length;
 
   // population total all
+
+  const houseHeadPopulation = dataHouseHold?.filter(
+    (item) => item.firstnamehead1 !== "" && item.lastnamehead1 !== ""
+  );
   const houseSpousePopulation = dataHouseHold?.filter(
-    (item) => item.firstnamehead2 !== ""
+    (item) => item.firstnamehead2 !== "" && item.lastnamehead2 !== ""
+  );
+
+  const houseMembersPopulation = dataHouseMembers?.filter(
+    (item) => item.fullname !== ""
   );
 
   const totalPopulation =
-    dataHouseHold.length +
-    dataHouseMembers.length +
-    houseSpousePopulation.length;
+    houseHeadPopulation.length +
+    houseSpousePopulation.length +
+    houseMembersPopulation.length;
 
   //population gender
 
   //male household
-  const maleHead1 = dataHouseHold?.filter((item) => item.genderhead1 == "male");
-  const maleHead2 = dataHouseHold?.filter((item) => item.genderhead2 == "male");
-  const malemembers = dataHouseMembers?.filter((item) => item.gender == "male");
+  const maleHead1 = dataHouseHold?.filter(
+    (item) =>
+      item.genderhead1 == "MALE" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
+  );
+  const maleHead2 = dataHouseHold?.filter(
+    (item) =>
+      item.genderhead2 == "MALE" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
+  );
+  const malemembers = dataHouseMembers?.filter(
+    (item) => item.gender == "MALE" && item.fullname
+  );
   //female household
   const femaleHead1 = dataHouseHold?.filter(
-    (item) => item.genderhead1 == "female"
+    (item) =>
+      item.genderhead1 == "FEMALE" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
 
   const femaleHead2 = dataHouseHold?.filter(
-    (item) => item.genderhead2 == "female"
+    (item) =>
+      item.genderhead2 == "FEMALE" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const femaleMembers = dataHouseMembers?.filter(
-    (item) => item.gender == "female"
+    (item) => item.gender == "FEMALE" && item.fullname
   );
 
   //lgbtq
   const lgbtqHead1 = dataHouseHold?.filter(
-    (item) => item.genderhead1 == "lgbtq"
+    (item) =>
+      item.genderhead1 == "LGBTQ" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
 
   const lgbtqHead2 = dataHouseHold?.filter(
-    (item) => item.genderhead2 == "lgbtq"
+    (item) =>
+      item.genderhead2 == "LGBTQ" &&
+      item.firstnamehead1 !== "" &&
+      item.lastnamehead1 !== ""
   );
   const lgbtqMembers = dataHouseMembers?.filter(
-    (item) => item.gender == "lgbtq"
+    (item) => item.gender == "LGBTQ" && item.fullname
   );
 
   //total
@@ -170,7 +202,7 @@ const PopulationGraph = () => {
 
   // Out of School Youths
   const outOfSchoolYouths = dataHouseMembers?.filter(
-    (item) => item.highesteducation == "yes"
+    (item) => item.highesteducation == "OUT OF SCHOOL YOUTHS"
   );
   // age below 18
   const below18head1 = dataHouseHold?.filter(
@@ -239,6 +271,7 @@ const PopulationGraph = () => {
 
   const totalSenior =
     seniorHead1.length + seniorHead2.length + seniorMembers.length;
+
   return {
     totalPopulation2024,
     totalPopulation2025,

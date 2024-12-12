@@ -14,6 +14,7 @@ const SignUpHook = () => {
     mutationFn: signUpServices,
     onSuccess: (data) => {
       handleSucess("Register Sucess");
+      navigate("/signin");
       queryClient.invalidateQueries({ queryKey: ["signup"] });
     },
     onError: (error) => {

@@ -35,7 +35,7 @@ export const getOfficialByPosition = async (position) => {
     const response = await axios.post(
       "https://barangay-bonbon-backend.onrender.com/official/position",
       {
-        position: position,
+        positiontype: position,
       }
     );
     return response.data;

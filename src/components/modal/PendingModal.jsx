@@ -2,11 +2,24 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { style } from "../../utils/style";
 import { useState } from "react";
 import ViewResidentModal from "./ViewResidentModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import FormStatusHook from "../../hooks/formstatus/FormStatus";
+
+export const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "85%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 3,
+};
+
 const PendingModal = ({ pendingOpen, handlePendingClose }) => {
   const [viewOpen, setViewOpen] = useState(false);
   const { handleUpdateFormData } = FormStatusHook();
@@ -81,7 +94,7 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
               <div className="container mx-auto p-4">
                 <div className="border border-gray-500 max-h-[60vh] overflow-y-auto">
                   <table className="table-auto w-full border-collapse">
-                    <thead className=" sticky top-0 z-10">
+                    <thead className="  top-0 z-10">
                       <tr>
                         <th className="border border-gray-500 px-4 py-2 text-center">
                           Full Name

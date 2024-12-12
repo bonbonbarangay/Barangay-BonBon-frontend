@@ -52,7 +52,6 @@ const CreateOfficialModal = ({
     setType("");
     setPhoto("");
   };
-  console.log(position);
   return (
     <div>
       <Modal
@@ -110,6 +109,27 @@ const CreateOfficialModal = ({
                         <option value="" disabled>
                           -- Select an Position --
                         </option>
+                        <option value="Barangay Captain">
+                          Barangay Captain
+                        </option>
+                        <option value="Barangay Secretary">
+                          Barangay Secretary
+                        </option>
+                        <option value="Barangay Kagawad">
+                          Barangay Kagawad
+                        </option>
+                      </select>
+                    </div>
+
+                    <div className="mt-5">
+                      <select
+                        className="w-full py-3 bg-[#fff] px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          -- Select an Position Type --
+                        </option>
                         <option value="Barangay Council">
                           Barangay Council
                         </option>
@@ -117,16 +137,6 @@ const CreateOfficialModal = ({
                           Sanguniang Kabataan
                         </option>
                       </select>
-                    </div>
-
-                    <div className="mt-5">
-                      <input
-                        type="text"
-                        placeholder="Enter Official Type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className="w-full py-3 px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
-                      />
                     </div>
 
                     <div className="mt-10 flex items-center justify-between">

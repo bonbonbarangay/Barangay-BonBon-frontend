@@ -6,12 +6,19 @@ import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
 import { Toaster } from "react-hot-toast";
 import { handleInvalid } from "../../components/toastify/Toastify";
 import FormStatusHook from "../../hooks/formstatus/FormStatus";
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
   const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
   const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
   const [addresshead1Selection, setAddressHead1Selection] = useState("Zone 1");
   const [addresshead2Selection, setAddressHead2Selection] = useState("Zone 1");
+  const [dateOfBirthHead1, setDateOfBirthHead1] = useState(dayjs());
+  const [dateOfBirthHead2, setDateOfBirthHead2] = useState(dayjs());
 
   const { handleCreateFormStatus } = FormStatusHook();
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
@@ -77,6 +84,21 @@ const ResidentProfiling = () => {
     question6: "",
     image: photo,
   });
+
+  const handleDateOfBirthHead1 = (date) => {
+    if (date) {
+      setDateOfBirthHead1(date);
+    }
+  };
+  const handleDateOfBirthHead2 = (date) => {
+    if (date) {
+      setDateOfBirthHead2(date);
+    }
+  };
+
+  const formatDate = (date) => {
+    return date ? date.format("MM/DD/YYYY") : "";
+  };
   const fileInputRef = useRef(null);
   const handleFileChangePhoto = (event) => {
     const file = event.target.files?.[0];
@@ -94,9 +116,10 @@ const ResidentProfiling = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const valueUpper = value.toUpperCase();
     setHouseHoldHead((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: valueUpper,
     }));
   };
 
@@ -125,10 +148,12 @@ const ResidentProfiling = () => {
     setHouseHoldHead((prev) => ({
       ...prev,
       image: photo,
-      genderhead1: genderSelectionHead1,
-      genderhead2: genderSelectionHead2,
-      addresshead1: addresshead1Selection,
-      addresshead2: addresshead2Selection,
+      genderhead1: genderSelectionHead1.toUpperCase(),
+      genderhead2: genderSelectionHead2.toUpperCase(),
+      addresshead1: addresshead1Selection.toUpperCase(),
+      addresshead2: addresshead2Selection.toUpperCase(),
+      dateofbirthhead1: formatDate(dateOfBirthHead1),
+      dateofbirthhead2: formatDate(dateOfBirthHead2),
     }));
 
     return () => {
@@ -139,6 +164,8 @@ const ResidentProfiling = () => {
         genderhead2: "",
         addresshead1: "",
         addresshead2: "",
+        dateofbirthhead1: "",
+        dateofbirthhead2: "",
       }));
     };
   }, [photo]);
@@ -221,18 +248,29 @@ const ResidentProfiling = () => {
               </div>
             </div>
             <div className="mt-5 flex items-center gap-2 w-full">
-              <div className="flex items-center gap-1 w-[40%]">
+              <div className="flex items-center gap-1 w-[50%]">
                 <div>
                   <h1>Date of Birth:</h1>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000]  "
-                    name="dateofbirthhead1"
-                    value={houseHoldHead.dateofbirthhead1}
-                    onChange={handleInputChange}
-                  />
+                <div className="w-[60%]">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      components={[
+                        "DatePicker",
+                        "MobileDatePicker",
+                        "DesktopDatePicker",
+                        "StaticDatePicker",
+                      ]}
+                    >
+                      <DemoItem>
+                        <MobileDatePicker
+                          className="px-1  border border-[#000] bg-white cursor-pointer "
+                          value={dateOfBirthHead1}
+                          onChange={handleDateOfBirthHead1}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
                 </div>
               </div>
 
@@ -532,14 +570,25 @@ const ResidentProfiling = () => {
                 <div>
                   <h1>Date of Birth:</h1>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000]  "
-                    name="dateofbirthhead2"
-                    value={houseHoldHead.dateofbirthhead2}
-                    onChange={handleInputChange}
-                  />
+                <div className="w-[60%]">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      components={[
+                        "DatePicker",
+                        "MobileDatePicker",
+                        "DesktopDatePicker",
+                        "StaticDatePicker",
+                      ]}
+                    >
+                      <DemoItem>
+                        <MobileDatePicker
+                          className="px-1  border border-[#000] bg-white cursor-pointer "
+                          value={dateOfBirthHead2}
+                          onChange={handleDateOfBirthHead2}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
                 </div>
               </div>
 

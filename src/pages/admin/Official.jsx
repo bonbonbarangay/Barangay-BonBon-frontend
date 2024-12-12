@@ -76,8 +76,9 @@ const Official = () => {
                   <button
                     className="bg-red-500	 px-2 py-1 text-lg font-semibold"
                     onClick={deleteData}
+                    disabled={deleteMutation.isPending}
                   >
-                    Delete
+                    {deleteMutation.isPending ? "Loading" : "Delete"}
                   </button>
                 </div>
               </div>
@@ -147,16 +148,15 @@ const Official = () => {
           handleCreateOfficial={handleCreateOfficial}
           mutation={mutation}
         />
-        {activeData && (
-          <UpdateOfficialModal
-            updateOpen={updateOpen}
-            handleCloseUpdate={handleCloseUpdate}
-            activeData={activeData}
-            handleUpdateOfficial={handleUpdateOfficial}
-            updateMutation={updateMutation}
-            setActiveData={setActiveData}
-          />
-        )}
+
+        <UpdateOfficialModal
+          updateOpen={updateOpen}
+          handleCloseUpdate={handleCloseUpdate}
+          activeData={activeData}
+          handleUpdateOfficial={handleUpdateOfficial}
+          updateMutation={updateMutation}
+          setActiveData={setActiveData}
+        />
       </div>
 
       <Toaster />
