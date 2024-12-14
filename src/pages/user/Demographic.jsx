@@ -86,90 +86,87 @@ const Demographic = () => {
             </div>
             <div className="w-full flex items-center justify-center flex-col">
               <div className="bg-[#F0F0F0] w-[90%] max-lg:w-full  max-md:w-full overflow-y-auto  h-[100vh] py-5 px-10 max-md:px-5 mt-5 border-2 border-[#000] ">
-                <div className="flex items-center justify-between max-md:gap-5">
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg max-sm:px-2">
+                <div className="flex  justify-between max-md:gap-5 max-sm:flex-col ">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs">
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Barangay Population
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalPopulation.toString()}
                       </h1>
                     </div>
                   </div>
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg max-sm:px-2">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs">
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Population of Male
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalMale.toString()}
                       </h1>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between max-md:gap-5 mt-5">
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2">
+                <div className="flex  justify-between max-md:gap-5 mt-5 max-sm:flex-col">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p
-                        className="font-semibold text-lg max-md:text-sm max-sm:text-xs
-"
-                      >
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Out of School Youths
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalOutOfSchoolYouths.toString()}
                       </h1>
                     </div>
                   </div>
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs">
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Senior Citizen
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalSenior.toString()}
                       </h1>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between max-md:gap-5 mt-5">
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2">
+                <div className="flex justify-between max-md:gap-5 mt-5 max-sm:flex-col">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs">
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Population of Female
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalFemale.toString()}
                       </h1>
                     </div>
                   </div>
-                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2">
+                  <div className="bg-[#739CE7] py-2 px-5 w-[40%] max-md:w-[50%] rounded-lg  max-sm:px-2 max-sm:w-full">
                     <div>
-                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs">
+                      <p className="font-semibold text-lg max-md:text-sm max-sm:text-xs max-sm:text-center">
                         Population of Lgbtq
                       </p>
                     </div>
 
                     <div>
-                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base">
+                      <h1 className="text-2xl font-semibold mt-3 max-md:text-lg max-sm:text-base max-sm:text-center">
                         {totalLgbtq.toString()}
                       </h1>
                     </div>
@@ -179,14 +176,14 @@ const Demographic = () => {
                   <div className="w-[50%] max-sm:w-full  bg-[#FFFBFB] px-3 py-2 border-2 border-[#000] h-auto mt-20 rounded-md">
                     <div className="flex  justify-between">
                       <div>
-                        <h1 className="font-semibold text-lg max-md:text-base">
+                        <h1 className="font-semibold text-lg max-md:text-base max-sm:text-center">
                           Population Details
                         </h1>
                       </div>
 
                       <div>
                         <h1 className="text-sm">Population </h1>
-                        <h1 className="text-lg font-bold text-center max-md:text-base">
+                        <h1 className="text-lg font-bold text-center max-md:text-base max-sm:text-center">
                           {totalPopulation.toString()}
                         </h1>
                       </div>
@@ -200,7 +197,7 @@ const Demographic = () => {
                   <div className="w-[50%] max-sm:w-full  bg-[#FFFBFB] px-3 py-2 border-2 border-[#000] h-auto mt-20 max-sm:mt-10 rounded-md">
                     <div>
                       <div>
-                        <h1 className="font-semibold text-lg max-md:text-base">
+                        <h1 className="font-semibold text-lg max-md:text-base ">
                           Population by Age
                         </h1>
                       </div>
