@@ -22,7 +22,7 @@ const Header = () => {
               <div className="max-sm:">
                 {id ? (
                   <div>
-                    <div className="max-sm:hidden cursor-pointer">
+                    <div className="cursor-pointer">
                       <Button variant="contained" onClick={() => setOpen(true)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -42,27 +42,6 @@ const Header = () => {
                         </svg>
                       </Button>
                     </div>
-                    <div
-                      className="hidden max-sm:block cursor-pointer "
-                      onClick={() => setOpen(true)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        className="text-3xl max-sm:text:2xl max-[360px]:text-xl"
-                      >
-                        <path
-                          fill="none"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 17h14M5 12h14M5 7h14"
-                        />
-                      </svg>
-                    </div>
                   </div>
                 ) : (
                   <svg
@@ -79,7 +58,7 @@ const Header = () => {
                   </svg>
                 )}
               </div>
-              <div>
+              <div className="max-sm:hidden block">
                 <Link to="/user ">
                   <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
                     HOME
@@ -87,21 +66,21 @@ const Header = () => {
                 </Link>
               </div>
             </div>
-            <div>
+            <div className="max-sm:hidden block">
               <Link to="/user/transparency">
                 <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
                   TRANSPARENCY
                 </h1>
               </Link>
             </div>
-            <div>
+            <div className="max-sm:hidden block">
               <Link to="/user/demographic">
                 <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs	max-[360px]:text-[10px]">
                   DEMOGRAPHICS
                 </h1>
               </Link>
             </div>
-            <div>
+            <div className="max-sm:hidden block">
               <Link to="/user/geotagging">
                 <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
                   GEOTAGGING

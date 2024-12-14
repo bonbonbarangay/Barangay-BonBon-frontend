@@ -11,6 +11,8 @@ import FormStatusHook from "../../hooks/formstatus/FormStatus";
 const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
   const userid = getFromLocalStorage("id");
   const { pending } = FormStatusHook();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     removeFromLocalStorage("id");
     removeFromLocalStorage("user");
@@ -21,39 +23,58 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
   const [sideBar, setSideBar] = useState([
     {
       id: 1,
+      label: "HOME",
+      path: "/user",
+    },
+    {
+      id: 2,
+      label: "TRANSPARENCY",
+      path: "/user/transparency",
+    },
+    {
+      id: 3,
+      label: "DEMOGRAPHIC",
+      path: "/user/demographic",
+    },
+    {
+      id: 4,
+      label: "GEOTAGGING",
+      path: "/user/geotagging",
+    },
+    {
+      id: 5,
       label: "PROJECT MANAGEMENT",
       path: "/user/projectmanagement",
     },
 
     {
-      id: 2,
+      id: 6,
       label: "STRATEGIC ROAD",
       path: "/user/strategic",
     },
     {
-      id: 3,
+      id: 7,
       label: "RESIDENT PROFILLING",
       path: "/user/residentprofiling",
       pending: pending,
     },
     {
-      id: 4,
+      id: 8,
       label: "ACCOUNT SETTING",
       path: `/user/setting/${userid}`,
     },
 
     {
-      id: 5,
+      id: 9,
       label: "LOGOUT",
       onClick: handleLogout,
     },
   ]);
   const location = useLocation();
   const isActive = (item) => location.pathname === item.path;
-  const navigate = useNavigate();
   useEffect(() => {
     setSideBar((prevSideBar) =>
-      prevSideBar.map((item) => (item.id === 3 ? { ...item, pending } : item))
+      prevSideBar.map((item) => (item.id === 7 ? { ...item, pending } : item))
     );
   }, [pending]);
   return (
@@ -61,7 +82,7 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
       <Box
         sx={{ width: 250 }}
         role="presentation"
-        className="bg-[#DEE5F8] h-[100vh]"
+        className="bg-[#DEE5F8] h-[100vh] overflow-y-auto"
       >
         <div className="w-full p-5">
           <div className="w-full flex items-end justify-end ">
@@ -70,7 +91,7 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 viewBox="0 0 24 24"
-                className="text-lg  "
+                className="text-lg "
                 onClick={handleToggleDrawer}
               >
                 <path
@@ -87,40 +108,86 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
           </div>
         </div>
 
-        <div className=" p-3">
-          {sideBar.map((item) => (
-            <div className="py-5" key={item.id}>
-              <Link key={item.path} to={item.path}>
-                <div
-                  onClick={item.onClick}
-                  className={` ${
-                    isActive(item) ? "bg-[#76A0EE] text-white" : ""
-                  } hover:bg-[#76A0EE] hover:text-white`}
-                >
-                  <h1 className="text-sm font-semibold px-3 py-3 max-sm:text-xs">
-                    {item.label}
-                    {item.pending === "pending" ? (
-                      <span className="text-xs ml-1 text-red-500 ">
-                        Pending
-                      </span>
-                    ) : item.pending === "sucess" ? (
-                      <span className="text-xs ml-1 text-green-500 font-bold">
-                        Sucess
-                      </span>
-                    ) : item.pending === "decline" ? (
-                      <span className="text-xs ml-1 text-red-500 font-bold">
-                        decline
-                      </span>
-                    ) : item.pending === "delete" ? (
-                      ""
-                    ) : (
-                      ""
-                    )}
-                  </h1>
+        <div className="p-3">
+          <div className="max-sm:hidden">
+            {sideBar
+              .filter(
+                (item) =>
+                  item.id !== 1 &&
+                  item.id !== 2 &&
+                  item.id !== 3 &&
+                  item.id !== 4
+              )
+              .map((item) => (
+                <div className="py-5" key={item.id}>
+                  <Link key={item.path} to={item.path}>
+                    <div
+                      onClick={item.onClick}
+                      className={` ${
+                        isActive(item) ? "bg-[#76A0EE] text-white" : ""
+                      } hover:bg-[#76A0EE] hover:text-white`}
+                    >
+                      <h1 className="text-sm font-semibold px-3 py-3 max-sm:text-xs">
+                        {item.label}
+                        {item.pending === "pending" ? (
+                          <span className="text-xs ml-1 text-red-500 ">
+                            Pending
+                          </span>
+                        ) : item.pending === "sucess" ? (
+                          <span className="text-xs ml-1 text-green-500 font-bold">
+                            Sucess
+                          </span>
+                        ) : item.pending === "decline" ? (
+                          <span className="text-xs ml-1 text-red-500 font-bold">
+                            decline
+                          </span>
+                        ) : item.pending === "delete" ? (
+                          ""
+                        ) : (
+                          ""
+                        )}
+                      </h1>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          ))}
+              ))}
+          </div>
+
+          <div className="max-sm:block hidden">
+            {sideBar.map((item) => (
+              <div className="py-5" key={item.id}>
+                <Link key={item.path} to={item.path}>
+                  <div
+                    onClick={item.onClick}
+                    className={` ${
+                      isActive(item) ? "bg-[#76A0EE] text-white" : ""
+                    } hover:bg-[#76A0EE] hover:text-white`}
+                  >
+                    <h1 className="text-sm font-semibold px-3 py-3 max-sm:text-xs">
+                      {item.label}
+                      {item.pending === "pending" ? (
+                        <span className="text-xs ml-1 text-red-500 ">
+                          Pending
+                        </span>
+                      ) : item.pending === "sucess" ? (
+                        <span className="text-xs ml-1 text-green-500 font-bold">
+                          Sucess
+                        </span>
+                      ) : item.pending === "decline" ? (
+                        <span className="text-xs ml-1 text-red-500 font-bold">
+                          decline
+                        </span>
+                      ) : item.pending === "delete" ? (
+                        ""
+                      ) : (
+                        ""
+                      )}
+                    </h1>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </Box>
     </Drawer>

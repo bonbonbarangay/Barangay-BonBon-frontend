@@ -12,7 +12,7 @@ const Map = () => {
     <MapContainer
       center={position}
       zoom={16}
-      style={{ height: "550px", width: "100%" }}
+      className="w-full h-[70vh] max-lg:h-[50vh] max-md:h-[40vh] max-sm:h-[32vh]"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -27,58 +27,29 @@ const Map = () => {
         >
           <Popup>
             <div>
-              <div className="flex items-center gap-4 justify-between">
+              <div className="flex items-center gap-4 justify-between ">
                 <div>
                   <div>
-                    <h1 className="font-semibold">Project title</h1>
+                    <h1 className="font-semibold max-md:text-xs">
+                      Project title
+                    </h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.projecttitle}</h1>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.projecttitle}
+                    </h1>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <h1 className="font-semibold">Project Location</h1>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Project Location
+                    </h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.projectlocation}</h1>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 mt-2 justify-between">
-                <div>
-                  <div>
-                    <h1 className="font-semibold">Contructor</h1>
-                  </div>
-                  <div>
-                    <h1 className="text-center">{item.contractor}</h1>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <h1 className="font-semibold">Contract Payment</h1>
-                  </div>
-                  <div>
-                    <h1 className="text-center">{item.contractpayment}</h1>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 mt-2 justify-between">
-                <div>
-                  <div>
-                    <h1 className="font-semibold">Contructor</h1>
-                  </div>
-                  <div>
-                    <h1 className="text-center">{item.contractor}</h1>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <h1 className="font-semibold">Contract Payment</h1>
-                  </div>
-                  <div>
-                    <h1 className="text-center">{item.contractpayment}</h1>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.projectlocation}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -86,15 +57,72 @@ const Map = () => {
               <div className="flex items-center gap-4 mt-2 justify-between">
                 <div>
                   <div>
-                    <h1 className="font-semibold">Update Status</h1>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Contructor
+                    </h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.updatestatus}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.contractor}
+                    </h1>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <h1 className="font-semibold">Date Monitoring</h1>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Contract Payment
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.contractpayment}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 mt-2 justify-between">
+                <div>
+                  <div>
+                    <h1 className="font-semibold max-md:text-xs">Contructor</h1>
+                  </div>
+                  <div>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.contractor}
+                    </h1>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Contract Payment
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.contractpayment}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 mt-2 justify-between">
+                <div>
+                  <div>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Update Status
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="text-center  max-md:text-xs">
+                      {item.updatestatus}
+                    </h1>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <h1 className="font-semibold  max-md:text-xs">
+                      Date Monitoring
+                    </h1>
                   </div>
                   <div>
                     <h1 className="text-center">{item.datemonitoring}</h1>
@@ -104,18 +132,24 @@ const Map = () => {
               <div className="flex items-center gap-4 mt-2 justify-between">
                 <div>
                   <div>
-                    <h1 className="font-semibold">Date Start</h1>
+                    <h1 className="font-semibold max-md:text-xs">Date Start</h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.datestart}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.datestart}
+                    </h1>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <h1 className="font-semibold">Project Engineer</h1>
+                    <h1 className="font-semibold max-md:text-xs">
+                      Project Engineer
+                    </h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.projectengineer}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.projectengineer}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -123,18 +157,22 @@ const Map = () => {
               <div className="flex items-center gap-4 mt-2 justify-around">
                 <div>
                   <div>
-                    <h1 className="font-semibold">issues</h1>
+                    <h1 className="font-semibold max-md:text-xs">issues</h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.issues}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.issues}
+                    </h1>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <h1 className="font-semibold">overall</h1>
+                    <h1 className="font-semibold max-md:text-xs">overall</h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.overall}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.overall}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -142,10 +180,12 @@ const Map = () => {
               <div className="flex items-center flex-col mt-2 justify-center">
                 <div>
                   <div>
-                    <h1 className="font-semibold">Budget</h1>
+                    <h1 className="font-semibold max-md:text-xs">Budget</h1>
                   </div>
                   <div>
-                    <h1 className="text-center">{item.budgetyear}</h1>
+                    <h1 className="text-center max-md:text-xs">
+                      {item.budgetyear}
+                    </h1>
                   </div>
                 </div>
               </div>
