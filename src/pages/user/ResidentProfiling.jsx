@@ -13,10 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
-  const [genderSelectionHead1, setGenderSelectionHead1] = useState("male");
-  const [genderSelectionHead2, setGenderSelectionHead2] = useState("male");
-  const [addresshead1Selection, setAddressHead1Selection] = useState("Zone 1");
-  const [addresshead2Selection, setAddressHead2Selection] = useState("Zone 1");
+  const [genderSelectionHead1, setGenderSelectionHead1] = useState("MALE");
+  const [genderSelectionHead2, setGenderSelectionHead2] = useState("MALE");
+  const [addresshead1Selection, setAddressHead1Selection] = useState("ZONE 1");
+  const [addresshead2Selection, setAddressHead2Selection] = useState("ZONE 1");
   const [dateOfBirthHead1, setDateOfBirthHead1] = useState(dayjs());
   const [dateOfBirthHead2, setDateOfBirthHead2] = useState(dayjs());
 
@@ -234,15 +234,15 @@ const ResidentProfiling = () => {
                     onChange={(e) => setAddressHead1Selection(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
                   >
-                    <option value="Zone 1">Zone 1</option>
-                    <option value="Zone 2">Zone 2</option>
-                    <option value="Zone 3">Zone 3</option>
-                    <option value="Zone 4">Zone 4</option>
-                    <option value="Zone 5">Zone 5</option>
-                    <option value="Zone 6">Zone 6</option>
-                    <option value="Zone 7">Zone 7</option>
-                    <option value="Zone 8">Zone 8</option>
-                    <option value="Zone 9">Zone 9</option>
+                    <option value="ZONE 1">ZONE 1</option>
+                    <option value="ZONE 2">ZONE 2</option>
+                    <option value="ZONE 3">ZONE 3</option>
+                    <option value="ZONE 4">ZONE 4</option>
+                    <option value="ZONE 5">ZONE 5</option>
+                    <option value="ZONE 6">ZONE 6</option>
+                    <option value="ZONE 7">ZONE 7</option>
+                    <option value="ZONE 8">ZONE 8</option>
+                    <option value="ZONE 9">ZONE 9</option>
                   </select>
                 </div>
               </div>
@@ -299,9 +299,9 @@ const ResidentProfiling = () => {
                     onChange={(e) => setGenderSelectionHead1(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-[70px] text-xs	bg-[#fff]"
                   >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="lgbtq">Lgbtq</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                    <option value="LGBTQ">LGBTQ</option>
                   </select>
                 </div>
               </div>
@@ -552,15 +552,15 @@ const ResidentProfiling = () => {
                     onChange={(e) => setAddressHead2Selection(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
                   >
-                    <option value="Zone 1">Zone 1</option>
-                    <option value="Zone 2">Zone 2</option>
-                    <option value="Zone 3">Zone 3</option>
-                    <option value="Zone 4">Zone 4</option>
-                    <option value="Zone 5">Zone 5</option>
-                    <option value="Zone 6">Zone 6</option>
-                    <option value="Zone 7">Zone 7</option>
-                    <option value="Zone 8">Zone 8</option>
-                    <option value="Zone 9">Zone 9</option>
+                    <option value="ZONE 1">ZONE 1</option>
+                    <option value="ZONE 2">ZONE 2</option>
+                    <option value="ZONE 3">ZONE 3</option>
+                    <option value="ZONE 4">ZONE 4</option>
+                    <option value="ZONE 5">ZONE 5</option>
+                    <option value="ZONE 6">ZONE 6</option>
+                    <option value="ZONE 7">ZONE 7</option>
+                    <option value="ZONE 8">ZONE 8</option>
+                    <option value="ZONE 9">ZONE 9</option>
                   </select>
                 </div>
               </div>
@@ -617,9 +617,9 @@ const ResidentProfiling = () => {
                     onChange={(e) => setGenderSelectionHead2(e.target.value)}
                     className=" border border-[#000] rounded-md p-2 w-[70px] text-xs	bg-[#fff]"
                   >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="lgbtq">Lgbtq</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                    <option value="LGBTQ">LGBTQ</option>
                   </select>
                 </div>
               </div>

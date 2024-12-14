@@ -40,8 +40,10 @@ const ViewModalEvent = ({ viewOpen, handleViewClose, eventData }) => {
                   className="h-[200px] w-full object-cover"
                 />
               </div>
-              <div className="mt-5">
-                <h1 className="text-center">{eventData?.description}</h1>
+              <div className="mt-5 w-full">
+                <h1 className="text-center line-clamp-5">
+                  {eventData?.description}
+                </h1>
               </div>
 
               <div className="mt-5">

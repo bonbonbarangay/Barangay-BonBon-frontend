@@ -53,17 +53,19 @@ const ViewOfficialModal = ({
                       {OfficialData.map((item, index) => (
                         <div
                           key={index}
-                          className="w-full max-w-xs bg-white rounded-lg shadow-md p-4"
+                          className="w-full max-w-xs bg-[#76A0EE] rounded-lg shadow-md p-4"
                         >
-                          <img
-                            src={item.image}
-                            className="w-full h-[150px] object-cover rounded-t-lg"
-                          />
+                          <div>
+                            <img
+                              src={item.image}
+                              className="w-full h-[150px] object-cover rounded-t-lg"
+                            />
+                          </div>
                           <div className="mt-3">
-                            <h2 className="text-sm font-semibold text-gray-800">
+                            <h2 className="text-sm font-semibold  text-white">
                               Fullname: {item.fullname || "N/A"}
                             </h2>
-                            <p className="text-gray-600 mt-1">
+                            <p className="text-white mt-1">
                               Position: {item.position || "N/A"}
                             </p>
                           </div>

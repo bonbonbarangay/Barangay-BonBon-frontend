@@ -141,11 +141,17 @@ const ManageResident = () => {
                           </tr>
                         ) : (
                           data
-                            .filter((item) => item.pending === false)
+                            .filter((item) => !item.pending)
                             .filter((item) => {
                               const fullName =
                                 `${item.firstnamehead1} ${item.lastnamehead1}`.toLowerCase();
-                              return fullName.includes(search.toLowerCase());
+                              const zone = item.addresshead1.toLowerCase();
+                              const searchQuery = search.toLowerCase();
+
+                              return (
+                                fullName.includes(searchQuery) ||
+                                zone.includes(searchQuery)
+                              );
                             })
                             .map((item) => (
                               <tr key={item.id} className="hover:bg-gray-100">
@@ -181,14 +187,20 @@ const ManageResident = () => {
                               </tr>
                             ))
                         )}
+
                         {!isLoading &&
-                          data.filter(
-                            (item) =>
-                              item.pending === false &&
-                              `${item.firstnamehead1} ${item.lastnamehead1}`
-                                .toLowerCase()
-                                .includes(search.toLowerCase())
-                          ).length === 0 && (
+                          data.filter((item) => {
+                            const fullName =
+                              `${item.firstnamehead1} ${item.lastnamehead1}`.toLowerCase();
+                            const zone = item.addresshead1.toLowerCase();
+                            const searchQuery = search.toLowerCase();
+
+                            return (
+                              !item.pending &&
+                              (fullName.includes(searchQuery) ||
+                                zone.includes(searchQuery))
+                            );
+                          }).length === 0 && (
                             <tr>
                               <td colSpan="5" className="text-center py-4">
                                 No results found.

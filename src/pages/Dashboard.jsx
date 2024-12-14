@@ -16,16 +16,18 @@ const Dashboard = () => {
             <div className="w-full flex items-center justify-center flex-col">
               <div className="bg-[#F0F0F0] w-[90%] py-5 px-10 mt-5 border-2 border-[#000]  max-h-[100vh] overflow-y-auto">
                 {data?.map((item) => (
-                  <div className="bg-[#DEE5F8] py-4 px-4 w-[100%] flex items-center gap-5">
-                    <div className="w-[50%]">
+                  <div className="bg-[#DEE5F8] py-4 px-4 w-full flex items-center gap-5">
+                    <div className="w-[50%] flex items-center justify-center">
                       <img
                         src={item.image}
-                        className="w-full h-[150px] object-center"
+                        className="w-[85%] h-[200px] object-center"
                       />
                     </div>
                     <div className="w-[50%]">
-                      <div>
-                        <h1>{item.description}</h1>
+                      <div className="w-full">
+                        <h1 className="w-full line-clamp-5	">
+                          {item.description}
+                        </h1>
                       </div>
                       <div className="mt-5">
                         <h1>
@@ -36,7 +38,6 @@ const Dashboard = () => {
                           <span className="font-semibold">WHERE: </span>
                           {item.location}
                         </h1>
-
                         <h1>
                           <span className="font-semibold">DATE: </span>
                           {item.date}

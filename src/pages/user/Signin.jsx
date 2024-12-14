@@ -112,7 +112,7 @@ const Signin = () => {
           </button>
           <div>
             <Link to="/signup">
-              <h1 className="mt-3 text-[#000000]">Don't have an account?</h1>
+              <h1 className="mt-3 text-[#000000] ">Don't have an account?</h1>
             </Link>
           </div>
         </div>
