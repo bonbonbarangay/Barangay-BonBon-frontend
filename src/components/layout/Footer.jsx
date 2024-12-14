@@ -4,7 +4,7 @@ import newlogo2 from "../../assets/newlogo2.png";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <div className="w-full h-auto bg-[#F0F0F0]">
+    <div className="w-full h-auto bg-[#F0F0F0] ">
       <div className="py-3 px-5 w-full">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between max-sm:grid max-sm:grid-cols-2 gap-4">
           <div>
