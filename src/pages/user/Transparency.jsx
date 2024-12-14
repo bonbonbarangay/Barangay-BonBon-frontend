@@ -33,7 +33,10 @@ const Transparency = () => {
               <div className="bg-[#F0F0F0] w-[90%] overflow-y-auto h-[100vh] max-lg:h-auto py-5 px-10 mt-5 border-2 border-[#000] max-sm:w-full max-sm:px-3">
                 <div>
                   <div className="flex items-center justify-center flex-col">
-                    <img src={newlogo} className="w-[150px] max-md:w-[140px]" />
+                    <img
+                      src={newlogo}
+                      className="w-[150px] max-md:w-[140px] max-sm:w-[100px]"
+                    />
                   </div>
                   <div className="w-[90%] mt-5 max-md:w-full">
                     <div
