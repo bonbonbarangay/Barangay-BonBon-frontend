@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 function SigninMain() {
   return (
     <div className="w-full h-screen flex justify-center items-center flex-col bg-[#FFFBFB]  ">
-      <div className="bg-[#76A0EE] w-[25%] shadow-md p-4 flex items-center justify-center flex-col rounded-xl max-lg:w-[60%] max-sm:w-[90%]">
-        <div className="w-[60%] max-sm:w-[35%]">
+      <div className="bg-[#76A0EE] w-[25%] shadow-md p-4 flex items-center justify-center flex-col rounded-xl max-lg:w-[40%] max-md:w-[45%] max-sm:w-[90%] ">
+        <div className="w-[60%] max-lg:w-[50%]">
           <img className=" w-full" src={newlogo} alt="Logo" />
         </div>
 

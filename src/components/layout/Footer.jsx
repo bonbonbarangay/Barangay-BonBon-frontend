@@ -6,25 +6,29 @@ const Footer = () => {
   return (
     <div className="w-full h-auto bg-[#F0F0F0]">
       <div className="py-3 px-5 w-full">
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between max-sm:grid max-sm:grid-cols-2 gap-4">
           <div>
-            <h1 className="text-lg font-semibold">Contact Information</h1>
-            <div className="ml-10 mt-5">
-              <h1 className="font-semibold text-sm">
+            <h1 className="text-lg font-semibold max-lg:text-base max-md:text-sm">
+              Contact Information
+            </h1>
+            <div className="ml-10 mt-5 max-md:ml-0">
+              <h1 className="font-semibold text-sm max-md:text-xs">
                 Barangay Bonbon, Cagayan de Oro City,9000
               </h1>
               <div className="mt-5">
-                <h1 className="font-semibold text-sm">
+                <h1 className="font-semibold text-sm max-md:text-xs">
                   Telephone : (062) 992-0420 | 991-4525
                 </h1>
-                <h1 className="font-semibold text-sm">
-                  Email Address :barangaybonbon@gmail.com
+                <h1 className="font-semibold text-sm max-md:text-xs">
+                  Email Address : barangaybonbon@gmail.com
                 </h1>
               </div>
             </div>
           </div>
           <div>
-            <h1 className="text-lg font-semibold">Our Social Media</h1>
+            <h1 className="text-lg font-semibold max-lg:text-base max-md:text-sm text-center">
+              Our Social Media
+            </h1>
             <div className="text-center flex items-center justify-center mt-2">
               <Link to="https://www.facebook.com/brgybonboncdoofficial?mibextid=LQQJ4d&rdid=aYoKzs075zWVpD4s&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15dRzKSbiR%2F%3Fmibextid%3DLQQJ4d#">
                 <svg
@@ -32,7 +36,7 @@ const Footer = () => {
                   width="1em"
                   height="1em"
                   viewBox="0 0 256 256"
-                  className="text-2xl "
+                  className="text-2xl"
                 >
                   <path
                     fill="#1877f2"
@@ -47,14 +51,20 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center ">
+          <div className="flex items-center gap-4">
             <div>
               <Link to="https://www.facebook.com/brgybonboncdoofficial?mibextid=LQQJ4d&rdid=aYoKzs075zWVpD4s&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15dRzKSbiR%2F%3Fmibextid%3DLQQJ4d#">
-                <img src={newlogo} className="w-auto h-[120px]" />
+                <img
+                  src={newlogo}
+                  className="w-auto h-[120px] max-lg:h-[100px] max-md:h-[80px]"
+                />
               </Link>
             </div>
             <div>
-              <img src={newlogo2} className="w-auto h-[150px]" />
+              <img
+                src={newlogo2}
+                className="w-auto h-[150px] max-lg:h-[130px] max-md:h-[100px]"
+              />
             </div>
           </div>
         </div>

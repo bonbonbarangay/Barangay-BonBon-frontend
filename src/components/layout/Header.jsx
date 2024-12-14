@@ -16,36 +16,61 @@ const Header = () => {
   return (
     <div className="w-full h-auto bg-[#DEE5F8]">
       <div className="w-full bg-[#76A0EE]">
-        <div className="py-3 px-5 w-full ">
+        <div className="py-3 px-5 w-full  max-sm:px-2  ">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-10">
-              <div>
+            <div className="flex items-center gap-10 max-sm:gap-1">
+              <div className="max-sm:">
                 {id ? (
-                  <Button variant="contained" onClick={() => setOpen(true)}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      className="text-3xl"
+                  <div>
+                    <div className="max-sm:hidden cursor-pointer">
+                      <Button variant="contained" onClick={() => setOpen(true)}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          className="text-3xl max-sm:text:2xl"
+                        >
+                          <path
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 17h14M5 12h14M5 7h14"
+                          />
+                        </svg>
+                      </Button>
+                    </div>
+                    <div
+                      className="hidden max-sm:block cursor-pointer "
+                      onClick={() => setOpen(true)}
                     >
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 17h14M5 12h14M5 7h14"
-                      />
-                    </svg>
-                  </Button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        className="text-3xl max-sm:text:2xl max-[360px]:text-xl"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 17h14M5 12h14M5 7h14"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1em"
                     height="1em"
                     viewBox="0 0 16 16"
-                    className="text-3xl"
+                    className="text-3xl max-sm:text:2xl"
                   >
                     <path
                       fill="currentColor"
@@ -55,28 +80,32 @@ const Header = () => {
                 )}
               </div>
               <div>
-                <Link to="/user">
-                  <h1 className="text-lg	font-bold cursor-pointer">HOME</h1>
+                <Link to="/user ">
+                  <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
+                    HOME
+                  </h1>
                 </Link>
               </div>
             </div>
             <div>
               <Link to="/user/transparency">
-                <h1 className="text-lg	font-bold cursor-pointer">
+                <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
                   TRANSPARENCY
                 </h1>
               </Link>
             </div>
             <div>
               <Link to="/user/demographic">
-                <h1 className="text-lg	font-bold cursor-pointer">
+                <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs	max-[360px]:text-[10px]">
                   DEMOGRAPHICS
                 </h1>
               </Link>
             </div>
             <div>
               <Link to="/user/geotagging">
-                <h1 className="text-lg	font-bold cursor-pointer">GEOTAGGING</h1>
+                <h1 className="text-lg	font-bold cursor-pointer max-lg:text-sm max-sm:text-xs max-[360px]:text-[10px]">
+                  GEOTAGGING
+                </h1>
               </Link>
             </div>
           </div>
@@ -85,12 +114,19 @@ const Header = () => {
 
       <div className="border-b-2 border-[#000] py-2">
         <div className="flex items-center gap-1">
-          <div className="ml-16 ">
-            <img src={newlogo} className="w-[90px] h-[80px]" />
+          <div className="ml-16 max-sm:ml-5">
+            <img
+              src={newlogo}
+              className="w-[90px] h-[80px] max-lg:w-[70px] max-lg:h-[70px] max-sm:w-[50px] max-sm:h-[50px]"
+            />
           </div>
           <div>
-            <h1 className="text-xl font-serif	font-semibold">BARANGAY BONBON</h1>
-            <h1 className="text-lg font-semibold">Cagayan de Oro City</h1>
+            <h1 className="text-xl font-serif	font-semibold max-lg:text-lg max-sm:text-sm">
+              BARANGAY BONBON
+            </h1>
+            <h1 className="text-lg font-semibold max-sm:text-sm">
+              Cagayan de Oro City
+            </h1>
           </div>
         </div>
       </div>

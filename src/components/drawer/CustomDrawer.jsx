@@ -81,7 +81,7 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
             </div>
           </div>
           <div className="mt-5">
-            <h3 className="text-lg  font-semibold">
+            <h3 className="text-lg  font-semibold  max-sm:text-base">
               {username ? username.toUpperCase() : ""}
             </h3>
           </div>
@@ -97,10 +97,12 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
                     isActive(item) ? "bg-[#76A0EE] text-white" : ""
                   } hover:bg-[#76A0EE] hover:text-white`}
                 >
-                  <h1 className="text-sm font-semibold px-3 py-3 ">
+                  <h1 className="text-sm font-semibold px-3 py-3 max-sm:text-xs">
                     {item.label}
                     {item.pending === "pending" ? (
-                      <span className="text-xs ml-1 text-red-500">Pending</span>
+                      <span className="text-xs ml-1 text-red-500 ">
+                        Pending
+                      </span>
                     ) : item.pending === "sucess" ? (
                       <span className="text-xs ml-1 text-green-500 font-bold">
                         Sucess
