@@ -85,30 +85,32 @@ const Profiling = ({
     <div className="w-full">
       <div className="h-auto pb-5">
         <div>
-          <h1 className="text-lg font-semibold">
+          <h1 className="text-center text-xl font-bold max-md:text-lg max-sm:text-sm">
             Name of all Household Members living in the house:
           </h1>
         </div>
         <div className="h-auto">
           {formData.map((data, index) => (
             <div key={index} className="mb-5 border-b pb-4">
-              <div className="mt-5">
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] w-full"
-                  placeholder="(Last Name, First Name, M.I)"
-                  value={data.lastNameFirstName}
-                  onChange={(e) =>
-                    handleInputChange(
-                      index,
-                      "lastNameFirstName",
-                      e.target.value
-                    )
-                  }
-                />
+              <div className="mt-5 max-xl:flex max-xl:items-center max-xl:justify-center max-sm:items-start  max-sm:justify-start">
+                <div className="max-xl:w-[60%] max-sm:w-full">
+                  <input
+                    type="text"
+                    className="px-2 py-1 border border-[#000] w-full"
+                    placeholder="(Last Name, First Name, M.I)"
+                    value={data.lastNameFirstName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        index,
+                        "lastNameFirstName",
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center gap-2 mt-5">
+              <div className="flex items-center gap-2 mt-5 max-sm:flex-col max-sm:w-full">
                 <select
                   id="status"
                   value={data.pwd}
@@ -128,7 +130,7 @@ const Profiling = ({
                     key={i}
                     type="text"
                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                    className="px-2 py-1  border border-[#000]  w-[100px] bg-[#fff]"
+                    className="px-2 py-1  border border-[#000]  w-[100px] bg-[#fff] max-sm:w-full"
                     value={data[field]} // Access dynamic field value
                     onChange={(e) =>
                       handleInputChange(index, field, e.target.value)
@@ -153,15 +155,15 @@ const Profiling = ({
                 </select>
               </div>
 
-              <div className="mt-5 flex items-center gap-2">
-                <div className="w-[50%]">
+              <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:w-full">
+                <div className="w-[50%] max-sm:w-full">
                   <select
                     id="status"
                     value={data.education}
                     onChange={(e) =>
                       handleInputChange(index, "education", e.target.value)
                     }
-                    className="border border-[#000] rounded-md p-2 w-full text-sm bg-[#fff]"
+                    className="border border-[#000] rounded-md p-2 w-full text-sm bg-[#fff] max-sm:w-full"
                   >
                     <option value="" disabled>
                       HIGHEST EDUCATIONAL ATTAINMENT
@@ -185,7 +187,7 @@ const Profiling = ({
                     </option>
                   </select>
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[50%] max-sm:w-full">
                   <input
                     type="text"
                     className="px-2 py-1 border border-[#000] w-full"
@@ -198,11 +200,11 @@ const Profiling = ({
                 </div>
               </div>
 
-              <div className="mt-5  flex items-center gap-2 w-full">
-                <div className="w-[20%]">
-                  <h1>Date Of Birth</h1>
+              <div className="mt-5  flex items-center gap-2 w-full max-sm:w-full max-sm:flex-col max-sm:items-start">
+                <div className="w-[20%] max-xl:w-auto">
+                  <h1 className="max-sm:text-sm">Date Of Birth</h1>
                 </div>
-                <div className="w-[80%]">
+                <div className="w-[80%]  max-xl:w-[30%] max-sm:w-full">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer
                       components={[
@@ -269,18 +271,20 @@ const Profiling = ({
       </div>
       <div className="mt-10">
         <div>
-          <h1 className="text-lg font-semibold">Household Census Questions:</h1>
+          <h1 className="text-lg font-semibold max-sm:text-sm">
+            Household Census Questions:
+          </h1>
         </div>
         <div className="mt-5">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               1. Do you own the house you are living?
             </h1>
           </div>
-          <div className="flex items-center gap-5 ml-12 mt-3">
+          <div className="flex items-center gap-5 ml-12 mt-3 max-sm:ml-0 max-sm:items-start">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>YES</h1>
+                <h1 className="max-sm:text-sm">YES</h1>
               </div>
               <div>
                 <input
@@ -288,7 +292,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question1 === "YES"}
                   onChange={() => handleCheckboxChange("question1", "YES")}
                 />
@@ -296,7 +300,7 @@ const Profiling = ({
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>NO</h1>
+                <h1 className="max-sm:text-sm">NO</h1>
               </div>
               <div>
                 <input
@@ -304,7 +308,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question1 === "NO"}
                   onChange={() => handleCheckboxChange("question1", "NO")}
                 />
@@ -313,7 +317,7 @@ const Profiling = ({
 
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>Renting: YES</h1>
+                <h1 className="max-sm:text-sm">Renting: YES</h1>
               </div>
               <div>
                 <input
@@ -321,7 +325,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.renting === "YES"}
                   onChange={() => handleCheckboxChange("renting", "YES")}
                 />
@@ -330,7 +334,7 @@ const Profiling = ({
 
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>NO</h1>
+                <h1 className="max-sm:text-sm">NO</h1>
               </div>
               <div>
                 <input
@@ -338,7 +342,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.renting === "NO"}
                   onChange={() => handleCheckboxChange("renting", "NO")}
                 />
@@ -346,9 +350,9 @@ const Profiling = ({
             </div>
           </div>
         </div>
-        <div className="mt-5 flex items-center gap-2">
+        <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:items-start">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               2. How long have you been staying in Barangay Bonbon:
             </h1>
           </div>
@@ -364,14 +368,14 @@ const Profiling = ({
         </div>
         <div className="mt-5">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               3. Are you registered voters in Barangay?
             </h1>
           </div>
-          <div className="flex items-center gap-5 ml-12 mt-3">
+          <div className="flex items-center gap-5 ml-12 mt-3 max-sm:ml-0">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>YES</h1>
+                <h1 className="max-sm:text-sm">YES</h1>
               </div>
               <div>
                 <input
@@ -379,7 +383,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question3 === "YES"}
                   onChange={() => handleCheckboxChange("question3", "YES")}
                 />
@@ -387,7 +391,7 @@ const Profiling = ({
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>NO</h1>
+                <h1 className="max-sm:text-sm">NO</h1>
               </div>
               <div>
                 <input
@@ -395,7 +399,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question3 === "NO"}
                   onChange={() => handleCheckboxChange("question3", "NO")}
                 />
@@ -404,7 +408,7 @@ const Profiling = ({
 
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>VOTER's ID Precinct No.</h1>
+                <h1 className="max-sm:text-sm">VOTER's ID Precinct No.</h1>
               </div>
               <div>
                 <input
@@ -412,7 +416,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question3 === "PRECINCT NO"}
                   onChange={() =>
                     handleCheckboxChange("question3", "PRECINCT NO")
@@ -424,14 +428,14 @@ const Profiling = ({
         </div>
         <div className="mt-5">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               4. Do you have your own C.R?
             </h1>
           </div>
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>YES</h1>
+                <h1 className="max-sm:text-sm">YES</h1>
               </div>
               <div>
                 <input
@@ -439,7 +443,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question4 === "YES"}
                   onChange={() => handleCheckboxChange("question4", "YES")}
                 />
@@ -447,7 +451,7 @@ const Profiling = ({
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>NO</h1>
+                <h1 className="max-sm:text-sm">NO</h1>
               </div>
               <div>
                 <input
@@ -455,7 +459,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question4 === "NO"}
                   onChange={() => handleCheckboxChange("question4", "NO")}
                 />
@@ -465,14 +469,14 @@ const Profiling = ({
         </div>
         <div className="mt-5">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               5. Do you have your own source of water supply?
             </h1>
           </div>
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>YES</h1>
+                <h1 className="max-sm:text-sm">YES</h1>
               </div>
               <div>
                 <input
@@ -480,7 +484,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question5 === "YES"}
                   onChange={() => handleCheckboxChange("question5", "YES")}
                 />
@@ -488,7 +492,7 @@ const Profiling = ({
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>NO</h1>
+                <h1 className="max-sm:text-sm">NO</h1>
               </div>
               <div>
                 <input
@@ -496,7 +500,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question5 === "NO"}
                   onChange={() => handleCheckboxChange("question5", "NO")}
                 />
@@ -506,14 +510,14 @@ const Profiling = ({
         </div>
         <div className="mt-5">
           <div>
-            <h1 className="mt-lg font-semibold">
+            <h1 className="mt-lg font-semibold max-sm:text-sm">
               6. Do you have your own electricity?
             </h1>
           </div>
           <div className="flex items-center gap-5 ml-12 mt-3">
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>YES</h1>
+                <h1 className="max-sm:text-sm">YES</h1>
               </div>
               <div>
                 <input
@@ -521,7 +525,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question6 === "YES"}
                   onChange={() => handleCheckboxChange("question6", "YES")}
                 />
@@ -529,7 +533,7 @@ const Profiling = ({
             </div>
             <div className="flex items-center  gap-2 ">
               <div>
-                <h1>No</h1>
+                <h1 className="max-sm:text-sm">No</h1>
               </div>
               <div>
                 <input
@@ -537,7 +541,7 @@ const Profiling = ({
                   id="vehicle1"
                   name="vehicle1"
                   value="Bike"
-                  className="w-5 h-5"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question6 === "NO"}
                   onChange={() => handleCheckboxChange("question6", "NO")}
                 />

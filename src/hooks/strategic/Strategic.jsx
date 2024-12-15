@@ -14,7 +14,7 @@ const StrategicHook = () => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["strategic"],
     queryFn: getAllPolylineData,
-  });
+  }); 
 
   const createPolyLineMutation = useMutation({
     mutationFn: createPolyLine,
