@@ -3,7 +3,7 @@ import axios from "axios";
 export const createLocation = async (locationdata) => {
   try {
     const response = await axios.post(
-      "https://barangay-bonbon-backend.onrender.com/map",
+      "http://localhost:4000/map",
       locationdata
     );
     return response.data;
@@ -17,9 +17,7 @@ export const createLocation = async (locationdata) => {
 };
 export const getAllLocations = async () => {
   try {
-    const response = await axios.get(
-      "https://barangay-bonbon-backend.onrender.com/map"
-    );
+    const response = await axios.get("http://localhost:4000/map");
 
     return response.data;
   } catch (error) {
@@ -32,9 +30,7 @@ export const getAllLocations = async () => {
 };
 export const deleteLocation = async (id) => {
   try {
-    const response = await axios.delete(
-      `https://barangay-bonbon-backend.onrender.com/map/${id}`
-    );
+    const response = await axios.delete(`http://localhost:4000/map/${id}`);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -47,7 +43,7 @@ export const deleteLocation = async (id) => {
 export const updateLocationDrag = async (data) => {
   try {
     const response = await axios.put(
-      `https://barangay-bonbon-backend.onrender.com/map/draglocation/${data.id}`,
+      `http://localhost:4000/map/draglocation/${data.id}`,
       {
         latitude: data.latitude,
         longitude: data.longitude,
@@ -64,25 +60,22 @@ export const updateLocationDrag = async (data) => {
 };
 export const updateData = async (data) => {
   try {
-    const response = await axios.put(
-      `https://barangay-bonbon-backend.onrender.com/map/${data.id}`,
-      {
-        projecttitle: data.projecttitle,
-        projectlocation: data.projectlocation,
-        contractor: data.contractor,
-        contractpayment: data.contractpayment,
-        updatestatus: data.updatestatus,
-        datemonitoring: data.datemonitoring,
-        issues: data.issues,
-        projectengineer: data.projectengineer,
-        datestart: data.datestart,
-        overall: data.overall,
-        color: data.color,
-        budgetyear: data.budgetyear,
-        latitude: data.latitude,
-        longitude: data.longitude,
-      }
-    );
+    const response = await axios.put(`http://localhost:4000/map/${data.id}`, {
+      projecttitle: data.projecttitle,
+      projectlocation: data.projectlocation,
+      contractor: data.contractor,
+      contractpayment: data.contractpayment,
+      updatestatus: data.updatestatus,
+      datemonitoring: data.datemonitoring,
+      issues: data.issues,
+      projectengineer: data.projectengineer,
+      datestart: data.datestart,
+      overall: data.overall,
+      color: data.color,
+      budgetyear: data.budgetyear,
+      latitude: data.latitude,
+      longitude: data.longitude,
+    });
     return response.data;
   } catch (error) {
     if (error.response) {

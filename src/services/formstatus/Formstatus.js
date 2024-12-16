@@ -2,7 +2,7 @@ import axios from "axios";
 export const getFormbyUserId = async (userid) => {
   try {
     const response = await axios.get(
-      `https://barangay-bonbon-backend.onrender.com/formstatus/${userid}`
+      `http://localhost:4000/formstatus/${userid}`
     );
 
     return response.data;
@@ -18,7 +18,7 @@ export const getFormbyUserId = async (userid) => {
 export const createFormStatus = async (formstatusdata) => {
   try {
     const response = await axios.post(
-      "https://barangay-bonbon-backend.onrender.com/formstatus",
+      "http://localhost:4000/formstatus",
       formstatusdata
     );
     return response.data;
@@ -34,7 +34,7 @@ export const createFormStatus = async (formstatusdata) => {
 export const updateFormStatus = async (formstatusdata) => {
   try {
     const response = await axios.put(
-      `https://barangay-bonbon-backend.onrender.com/formstatus/${formstatusdata.userid}`,
+      `http://localhost:4000/formstatus/${formstatusdata.userid}`,
       {
         status: formstatusdata.status,
       }

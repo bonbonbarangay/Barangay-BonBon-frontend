@@ -3,7 +3,7 @@ import axios from "axios";
 export const createHouseHold = async (household) => {
   try {
     const response = await axios.post(
-      "https://barangay-bonbon-backend.onrender.com/household",
+      "http://localhost:4000/household",
       household
     );
     return response.data;
@@ -17,9 +17,7 @@ export const createHouseHold = async (household) => {
 };
 export const getAllHouseHold = async () => {
   try {
-    const response = await axios.get(
-      "https://barangay-bonbon-backend.onrender.com/household"
-    );
+    const response = await axios.get("http://localhost:4000/household");
 
     return response.data;
   } catch (error) {
@@ -32,9 +30,7 @@ export const getAllHouseHold = async () => {
 };
 export const acceptPending = async (id) => {
   try {
-    const response = await axios.put(
-      `https://barangay-bonbon-backend.onrender.com/household/${id}`
-    );
+    const response = await axios.put(`http://localhost:4000/household/${id}`);
 
     return response.data;
   } catch (error) {
@@ -49,7 +45,7 @@ export const acceptPending = async (id) => {
 export const getHouseHoldAndHouseMembersByUserid = async (userid) => {
   try {
     const response = await axios.get(
-      `https://barangay-bonbon-backend.onrender.com/household/${userid}`
+      `http://localhost:4000/household/${userid}`
     );
 
     return response.data;
@@ -64,7 +60,7 @@ export const getHouseHoldAndHouseMembersByUserid = async (userid) => {
 export const deleteHouseHoldAndHouseMembersByUserid = async (data) => {
   try {
     const response = await axios.delete(
-      `https://barangay-bonbon-backend.onrender.com/household/${data.userid}`,
+      `http://localhost:4000/household/${data.userid}`,
       {
         data: { cloudinaryid: data.cloudinaryid },
       }
@@ -82,7 +78,7 @@ export const deleteHouseHoldAndHouseMembersByUserid = async (data) => {
 export const getHouseByUserid = async (userid) => {
   try {
     const response = await axios.get(
-      `https://barangay-bonbon-backend.onrender.com/household/user/${userid}`
+      `http://localhost:4000/household/user/${userid}`
     );
 
     return response.data;
