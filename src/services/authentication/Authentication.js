@@ -3,7 +3,7 @@ import axios from "axios";
 export const signInServices = async (user) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/authentication/signin",
+      "https://barangay-bonbon-backend.onrender.com/authentication/signin",
       user
     );
 
@@ -20,7 +20,7 @@ export const signInServices = async (user) => {
 export const signUpServices = async (user) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/authentication/signup",
+      "https://barangay-bonbon-backend.onrender.com/authentication/signup",
       user
     );
 
@@ -36,7 +36,7 @@ export const signUpServices = async (user) => {
 export const getByUserid = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/authentication/${id}`
+      `https://barangay-bonbon-backend.onrender.com/authentication/${id}`
     );
 
     return response.data;
@@ -52,7 +52,7 @@ export const getByUserid = async (id) => {
 export const updateUser = async (data) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/authentication/${data.id}`,
+      `https://barangay-bonbon-backend.onrender.com/authentication/${data.id}`,
       {
         username: data.username,
         emailaddress: data.emailaddress,

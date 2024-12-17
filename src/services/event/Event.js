@@ -2,7 +2,9 @@ import axios from "axios";
 
 export const getAllEvent = async () => {
   try {
-    const response = await axios.get("http://localhost:4000/event");
+    const response = await axios.get(
+      "https://barangay-bonbon-backend.onrender.com/event"
+    );
 
     return response.data;
   } catch (error) {
@@ -15,7 +17,10 @@ export const getAllEvent = async () => {
 };
 export const createEvent = async (eventdata) => {
   try {
-    const response = await axios.post("http://localhost:4000/event", eventdata);
+    const response = await axios.post(
+      "https://barangay-bonbon-backend.onrender.com/event",
+      eventdata
+    );
     console.log(response);
     return response.data;
   } catch (error) {
@@ -29,14 +34,17 @@ export const createEvent = async (eventdata) => {
 
 export const updateEvent = async (data) => {
   try {
-    const response = await axios.put(`http://localhost:4000/event/${data.id}`, {
-      title: data.title,
-      date: data.date,
-      location: data.location,
-      description: data.description,
-      image: data.image,
-      cloudinaryid: data.cloudinaryid,
-    });
+    const response = await axios.put(
+      `https://barangay-bonbon-backend.onrender.com/event/${data.id}`,
+      {
+        title: data.title,
+        date: data.date,
+        location: data.location,
+        description: data.description,
+        image: data.image,
+        cloudinaryid: data.cloudinaryid,
+      }
+    );
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -50,7 +58,7 @@ export const updateEvent = async (data) => {
 export const deleteEvent = async (data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:4000/event/${data?.id}`,
+      `https://barangay-bonbon-backend.onrender.com/event/${data?.id}`,
       {
         data: { cloudinaryid: data?.cloudinaryid },
       }
