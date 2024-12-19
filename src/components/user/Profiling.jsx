@@ -7,9 +7,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
-const letterInput = ["firstName", "lastName"];
-const numberInput = ["age"];
-
 const Profiling = ({
   handleSubmit,
   houseHoldHead,
@@ -409,7 +406,10 @@ const handleMembersAge = (index, field, value) => {
                   value="Bike"
                   className="w-5 h-5 max-sm:w-4 max-sm:h-4"
                   checked={houseHoldHead.question3 === "YES"}
-                  onChange={() => handleCheckboxChange("question3", "YES")}
+                  onChange={() =>{ 
+                    console.log("heerere")
+                    handleCheckboxChange("question3", "YES")
+                  }}
                 />
               </div>
             </div>
@@ -436,16 +436,12 @@ const handleMembersAge = (index, field, value) => {
               </div>
               <div>
                 <input
-                  type="checkbox"
-                  id="vehicle1"
-                  name="vehicle1"
-                  value="Bike"
-                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
-                  checked={houseHoldHead.question3 === "PRECINCT NO"}
-                  onChange={() =>
-                    handleCheckboxChange("question3", "PRECINCT NO")
-                  }
-                />
+              type="text"
+              className="w-[50px] px-1 py-1"
+              name="questionPrecinctNo"
+              value={houseHoldHead.questionPrecinctNo}
+              onChange={handleInput}
+            />
               </div>
             </div>
           </div>

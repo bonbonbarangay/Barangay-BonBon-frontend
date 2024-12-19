@@ -44,7 +44,6 @@ const ResidentProfiling = () => {
     exthead1: "",
     addresshead1: "",
     dateofbirthhead1: "",
-    agehead1: "",
     genderhead1: genderSelectionHead1,
     civilstatushead1: "",
     religionhead1: "",
@@ -65,7 +64,6 @@ const ResidentProfiling = () => {
     exthead2: "",
     addresshead2: "",
     dateofbirthhead2: "",
-    agehead2: "",
     genderhead2: genderSelectionHead2,
     civilstatushead2: "",
     religionhead2: "",
@@ -84,6 +82,7 @@ const ResidentProfiling = () => {
     members: "",
     children: "",
     //data 4
+    questionPrecinctNo: "",
     question1: "",
     question2: "",
     renting: "",
@@ -94,6 +93,36 @@ const ResidentProfiling = () => {
     image: photo,
   });
 
+   const areAllFieldsFilled = (object, isExcluded=false) => {
+    // List of keys to exclude from validation
+    const excludedKeys = [
+        'addresshead2', 
+        'lastnamehead2', 
+        'firstnamehead2', 
+        'mihead2', 
+        'exthead2', 
+        'dateofbirthhead2', 
+        'genderhead2', 
+        'civilstatushead2', 
+        'religionhead2', 
+        'typeofidhead2', 
+        'idnohead2', 
+        'mobilenohead2', 
+        'occupationhead2', 
+        'skillshead2', 
+        'companyaddresshead2', 
+        'collegehead2', 
+        'highschoolhead2', 
+        'elementaryhead2', 
+        'vocationalcoursehead2'
+    ];
+
+    // Determine which keys to filter based on the isExcluded flag
+    const keysToCheck = isExcluded ? Object.keys(object).filter(key => !excludedKeys.includes(key)) : Object.keys(object);
+
+    // Check if all relevant fields are filled
+    return keysToCheck.every(key => object[key] !== "");
+};
   const handleDateOfBirthHead1 = (date) => {
     if (date) {
       setDateOfBirthHead1(date);
@@ -156,9 +185,20 @@ const ResidentProfiling = () => {
       handleInvalid("Update ID Photo");
       return;
     }
-    handleCreateHouseHold(houseHoldHead);
-    handleCreateHouseMembers(household);
-    handleCreateFormStatus(data);
+
+    const isSingleOrWidow = houseHoldHead.civilstatushead1 === "SINGLE" || houseHoldHead.civilstatushead1 === "WIDOW";
+    console.log({isSingleOrWidow,status:houseHoldHead.civilstatushead1})
+    const validHouseHoldHead = areAllFieldsFilled(houseHoldHead, isSingleOrWidow);
+    const validHouseHoldMembers = areAllFieldsFilled(household);
+    const validData = areAllFieldsFilled(data);
+    if(validHouseHoldHead && validHouseHoldMembers && validData){
+        handleCreateHouseHold(houseHoldHead);
+        handleCreateHouseMembers(household);
+        handleCreateFormStatus(data);
+    }else{
+      console.log({houseHoldHead,household,data});
+        handleInvalid("All fields are required");
+    }
   };
 
   useEffect(() => {
@@ -334,7 +374,10 @@ const ResidentProfiling = () => {
                   <select
                     id="status"
                     value={houseHoldHead.civilstatushead1}
-                    onChange={(e) => handleMaritalStatus("civilstatushead1",e.target.value)}
+                    onChange={(e) =>{ handleMaritalStatus("civilstatushead1",e.target.value)
+handleMaritalStatus("civilstatushead2",e.target.value)
+
+                    }}
                     className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
                   >
                     <option value="SINGLE">SINGLE</option>
@@ -349,13 +392,21 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Religion:</h1>
                 </div>
                 <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[100px] max-sm:w-full"
-                    name="religionhead1"
-                    value={houseHoldHead.religionhead1}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                  id="religion"
+                  value={houseHoldHead.religionhead1} // Assume you have a state variable for the selected religion
+                  onChange={(e) => handleMaritalStatus("religionhead1", e.target.value)} // Function to handle changes
+                  className="border border-[#000] rounded-md p-2 max-xl:w-full text-xs bg-[#fff]"
+              >
+                  <option value="" disabled>Select Religion</option>
+                  <option value="CATHOLIC">Roman Catholic</option>
+                  <option value="PROTESTANT">Protestant</option>
+                  <option value="ISLAM">Islam</option>
+                  <option value="IGLESIA NI CRISTO">Iglesia Ni Cristo</option>
+                  <option value="SEVENTH-DAY ADVENTIST">Seventh-Day Adventist</option>
+                  <option value="ATHEIST">Atheist</option>
+                  <option value="OTHER">Other</option> {/* Option for those who may not identify with the listed religions */}
+              </select>
                 </div>
               </div>
             </div>
@@ -695,13 +746,21 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Religion:</h1>
                 </div>
                 <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[100px] max-sm:w-full"
-                    name="religionhead2"
-                    value={houseHoldHead.religionhead2}
-                    onChange={handleInputChange}
-                  />
+                  <select
+                  id="religion"
+                  value={houseHoldHead.religionhead2} // Assume you have a state variable for the selected religion
+                  onChange={(e) => handleMaritalStatus("religionhead2", e.target.value)} // Function to handle changes
+                  className="border border-[#000] rounded-md p-2 max-xl:w-full text-xs bg-[#fff]"
+              >
+                  <option value="" disabled>Select Religion</option>
+                  <option value="CATHOLIC">Roman Catholic</option>
+                  <option value="PROTESTANT">Protestant</option>
+                  <option value="ISLAM">Islam</option>
+                  <option value="IGLESIA NI CRISTO">Iglesia Ni Cristo</option>
+                  <option value="SEVENTH-DAY ADVENTIST">Seventh-Day Adventist</option>
+                  <option value="ATHEIST">Atheist</option>
+                  <option value="OTHER">Other</option> {/* Option for those who may not identify with the listed religions */}
+              </select>
                 </div>
               </div>
             </div>
