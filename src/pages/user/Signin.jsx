@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { handleInvalid } from "../../components/toastify/Toastify";
 
 const Signin = () => {
-  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
 
@@ -16,12 +16,12 @@ const Signin = () => {
   };
 
   const handleLogin = () => {
-    if (username == "" || password == "") {
+    if (email == "" || password == "") {
       handleInvalid("invalid");
       return;
     }
     handleSignin({
-      username: username,
+      emailaddress: email,
       password: password,
     });
   };
@@ -51,11 +51,12 @@ const Signin = () => {
             </div>
             <div className="relative">
               <input
-                type="text"
-                placeholder="Username"
+                type="email"
+                name="email"
+                placeholder="Email"
                 className="w-full py-3 px-3"
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>

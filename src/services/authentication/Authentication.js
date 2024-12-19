@@ -6,7 +6,6 @@ export const signInServices = async (user) => {
       "https://barangay-bonbon-backend.onrender.com/authentication/signin",
       user
     );
-
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -58,6 +57,36 @@ export const updateUser = async (data) => {
         emailaddress: data.emailaddress,
         password: data.password,
       }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+
+export const verifyAccount = async (id) => {
+  try {
+    const response = await axios.put(
+      `https://barangay-bonbon-backend.onrender.com/authentication/verifyaccount/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+export const verifyOtp = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://barangay-bonbon-backend.onrender.com/authentication/verifyotp`,
+      data
     );
     return response.data;
   } catch (error) {
