@@ -11,7 +11,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-
+import "../../App.css"
 const getAgeByBirthdate = (birthdate) => {
   const birthDate = dayjs(birthdate);
   const today = dayjs();
@@ -82,7 +82,7 @@ const ResidentProfiling = () => {
     members: "",
     children: "",
     //data 4
-    questionPrecinctNo: "",
+    questionPrecinctNo: "0",
     question1: "",
     question2: "",
     renting: "",
@@ -227,90 +227,93 @@ const ResidentProfiling = () => {
     };
   }, [photo]);
   return (
-    <div className="w-full bg-[#DEE5F8] px-5 py-3 h-auto">
+    <div className="w-full bg-[#DEE5F8] py-3 h-auto">
       <div>
-        <h1 className="text-center text-xl font-bold max-md:text-lg max-sm:text-sm">
+        <h1 className="text-center text-3xl font-bold max-md:text-lg max-sm:text-sm">
           RESIDENT AND HOUSEHOLD PROFILING
         </h1>
       </div>
 
-      <div className="w-full flex  gap-5 mt-5 max-xl:flex-col">
-        <div className="w-[60%] pr-3 border-r-2 border-[#000] max-xl:w-full">
-          <div className="mt-5 w-full">
-            <div className="mt-5 flex items-center  w-full max-xl:gap-2 max-sm:flex-col max-sm:items-start">
-              <div className="w-[25%] max-xl:w-auto ">
-                <h1 className="max-sm:text-sm">Name of Household Head:</h1>
-              </div>
-              <div className="flex items-center gap-5 w-[75%] max-sm:w-full  max-sm:flex-col">
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[40%] max-sm:w-full"
-                  placeholder="Last Name  "
-                  name="lastnamehead1"
-                  value={houseHoldHead.lastnamehead1}
-                  onChange={handleInputChange}
-                />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[40%] max-sm:w-full"
-                  placeholder="First Name "
-                  name="firstnamehead1"
-                  value={houseHoldHead.firstnamehead1}
-                  onChange={handleInputChange}
-                />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%] max-sm:w-full"
-                  placeholder="M. I"
-                  name="mihead1"
+    <div className="flex flex-row justify-center items-center gap-4">
+        <table id="tbl-profiling">
+        <tr className="noborder">
+          <td className="font-bold" colSpan={2}>
+            <p className="text-2xl">Household Head Information</p>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Last Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="lastnamehead1"
+              value={houseHoldHead.lastnamehead1}
+              onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>First Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="firstnamehead1"
+              value={houseHoldHead.firstnamehead1}
+              onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Middle Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="mihead1"
                   value={houseHoldHead.mihead1}
                   onChange={handleInputChange}
                 />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%] max-sm:w-full"
-                  placeholder="Ext."
-                  name="exthead1"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Extension Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="exthead1"
                   value={houseHoldHead.exthead1}
                   onChange={handleInputChange}
                 />
-              </div>
-            </div>
-            <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start">
-              <div>
-                <h1 className="max-sm:text-sm">Zone:</h1>
-              </div>
-              <div className=" w-[80%] max-xl:w-[60%] max-sm:w-full">
-                <div className="w-full">
-                  <select
-                    id="status"
-                    value={addresshead1Selection}
-                    onChange={(e) => setAddressHead1Selection(e.target.value)}
-                    className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
-                  >
-                    <option value="ZONE 1">ZONE 1</option>
-                    <option value="ZONE 2">ZONE 2</option>
-                    <option value="ZONE 3">ZONE 3</option>
-                    <option value="ZONE 4">ZONE 4</option>
-                    <option value="ZONE 5">ZONE 5</option>
-                    <option value="ZONE 6">ZONE 6</option>
-                    <option value="ZONE 7">ZONE 7</option>
-                    <option value="ZONE 8">ZONE 8</option>
-                    <option value="ZONE 9">ZONE 9</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center gap-2 w-full max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 w-[50%] max-xl:w-auto max-sm:w-full max-sm:flex-col max-sm:items-start ">
-                <div>
-                  <h1 className="max-sm:text-sm">Date of Birth:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Zone</td>
+          <td>
+           <select
+            id="status"
+            value={addresshead1Selection}
+            onChange={(e) => setAddressHead1Selection(e.target.value)}
+            className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+          >
+            <option value="ZONE 1">ZONE 1</option>
+            <option value="ZONE 2">ZONE 2</option>
+            <option value="ZONE 3">ZONE 3</option>
+            <option value="ZONE 4">ZONE 4</option>
+            <option value="ZONE 5">ZONE 5</option>
+            <option value="ZONE 6">ZONE 6</option>
+            <option value="ZONE 7">ZONE 7</option>
+            <option value="ZONE 8">ZONE 8</option>
+            <option value="ZONE 9">ZONE 9</option>
+          </select>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Date of Birth</td>
+          <td>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer
                       components={[
                         "DatePicker",
@@ -321,7 +324,7 @@ const ResidentProfiling = () => {
                     >
                       <DemoItem>
                         <MobileDatePicker
-                          className="px-1 border border-[#000] bg-white cursor-pointer "
+                          className="px-1 border  cursor-pointer"
                           value={dateOfBirthHead1}
                           onChange={handleDateOfBirthHead1}
             
@@ -330,75 +333,65 @@ const ResidentProfiling = () => {
                       </DemoItem>
                     </DemoContainer>
                   </LocalizationProvider>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-xl:w-[15%] max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Age:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[50px] max-xl:w-full "
-                    name="agehead1"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Age</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="agehead1"
                     value={getAgeByBirthdate(dateOfBirthHead1)}
                     onChange={handleInputChange}
                     readOnly={true}
                   />
-                </div>
-              </div>
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Gender:</h1>
-                </div>
-                <div className="max-xl:w-full">
-                  <select
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Gender</td>
+          <td>
+           <select
                     id="status"
                     value={genderSelectionHead1}
                     onChange={(e) => setGenderSelectionHead1(e.target.value)}
-                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
                   >
                     <option value="MALE">MALE</option>
                     <option value="FEMALE">FEMALE</option>
                     <option value="LGBTQ">LGBTQ</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Civil Status:</h1>
-                </div>
-                <div className="max-xl:w-[50%] max-sm:w-full">
-                  <select
+          </td>
+        </tr>
+             <tr className="tbl-row">
+          <td>Civil Status</td>
+          <td>
+             <select
                     id="status"
                     value={houseHoldHead.civilstatushead1}
                     onChange={(e) =>{ handleMaritalStatus("civilstatushead1",e.target.value)
 handleMaritalStatus("civilstatushead2",e.target.value)
 
                     }}
-                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                   >
                     <option value="SINGLE">SINGLE</option>
                     <option value="MARRIED">MARRIED</option>
                     <option value="WIDOW">WIDOW</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Religion:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <select
+          </td>
+        </tr>
+          <tr className="tbl-row">
+          <td>Religion</td>
+          <td>
+                   <select
                   id="religion"
                   value={houseHoldHead.religionhead1} // Assume you have a state variable for the selected religion
                   onChange={(e) => handleMaritalStatus("religionhead1", e.target.value)} // Function to handle changes
-                  className="border border-[#000] rounded-md p-2 max-xl:w-full text-xs bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
               >
-                  <option value="" disabled>Select Religion</option>
                   <option value="CATHOLIC">Roman Catholic</option>
                   <option value="PROTESTANT">Protestant</option>
                   <option value="ISLAM">Islam</option>
@@ -407,71 +400,55 @@ handleMaritalStatus("civilstatushead2",e.target.value)
                   <option value="ATHEIST">Atheist</option>
                   <option value="OTHER">Other</option> {/* Option for those who may not identify with the listed religions */}
               </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 w-full max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm ">Type of ID:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-full"
-                    name="typeofidhead1"
-                    value={houseHoldHead.typeofidhead1}
-                    onChange={handleInputChange}
-                    
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">ID No:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="number"
-                    className="px-2 py-1 border border-[#000] w-full"
-                    name="idnohead1"
-                    value={houseHoldHead.idnohead1}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Mobile/Tel No:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="number"
-                    className="px-2 py-1 border border-[#000] w-full "
-                    name="mobilenohead1"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Type of ID</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="typeofidhead1"
+              value={houseHoldHead.typeofidhead1}
+              onChange={handleInputChange}
+              
+            />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>ID No</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="idnohead1"
+                value={houseHoldHead.idnohead1}
+                onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Mobile/Tel No</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="mobilenohead1"
                     value={houseHoldHead.mobilenohead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Occupation:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                    <select
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Occupation</td>
+          <td>
+                 <select
                       id="job-category"
                       value={houseHoldHead.occupationhead1} // Assume you have a state variable for the selected job category
                       onChange={(e) => handleMaritalStatus("occupationhead1",e.target.value)} // Function to handle changes
-                      className="border border-[#000] rounded-md p-2  max-xl:w-full text-xs bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
                   >
-                      <option value="" disabled>Select Job Category</option>
                       <option value="IT">Information Technology</option>
                       <option value="BPO">Business Process Outsourcing</option>
                       <option value="HEALTHCARE">Healthcare</option>
@@ -494,181 +471,163 @@ handleMaritalStatus("civilstatushead2",e.target.value)
                       <option value="SOCIAL_SERVICES">Social Services</option>
                       <option value="OTHERS">Others</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Skills:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="skillshead1"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Skills</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+               name="skillshead1"
                     value={houseHoldHead.skillshead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start ">
-              <div>
-                <h1 className="max-sm:text-sm">Company Address:</h1>
-              </div>
-              <div className=" w-[60%] max-sm:w-full">
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000]  w-full"
-                  name="companyaddresshead1"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Company Address</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+               name="companyaddresshead1"
                   value={houseHoldHead.companyaddresshead1}
                   onChange={handleInputChange}
                 />
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:items-start max-sm:w-full">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">
-                    Educational Attainment: College:
-                  </h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full "
-                    name="collegehead1"
+          </td>
+        </tr>
+        <tr className="noborder">
+          <td colSpan={2}>Educational Attainment</td>
+        </tr>
+         <tr className="tbl-row">
+          <td>College</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="collegehead1"
                     value={houseHoldHead.collegehead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1>High School:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="highschoolhead1"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>High School</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="highschoolhead1"
                     value={houseHoldHead.highschoolhead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-2 flex items-center gap-2 border-b-2 border-[#000] py-3 max-sm:flex-col max-sm:items-start max-sm:w-full">
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Elementary:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="elementaryhead1"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Elementary School</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="elementaryhead1"
                     value={houseHoldHead.elementaryhead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Vocational Course:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="vocationalcoursehead1"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Vocational Course</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="vocationalcoursehead1"
                     value={houseHoldHead.vocationalcoursehead1}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
-          {houseHoldHead.civilstatushead1.toUpperCase() === "MARRIED" && <div className="mt-5 w-full">
-            <div className="mt-5 flex items-center  w-full max-xl:gap-2 max-sm:flex-col max-sm:items-start">
-              <div className="w-[25%] max-xl:w-auto xl:w-auto   xl:mr-2">
-                <h1 className="max-sm:text-sm">Spouse Name:</h1>
-              </div>
-              <div className="flex items-center gap-5 w-[75%] max-sm:w-full  max-sm:flex-col">
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[40%] max-sm:w-full"
-                  placeholder="Last Name  "
-                  name="lastnamehead2"
-                  value={houseHoldHead.lastnamehead2}
-                  onChange={handleInputChange}
-                />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[40%] max-sm:w-full"
-                  placeholder="First Name "
-                  name="firstnamehead2"
-                  value={houseHoldHead.firstnamehead2}
-                  onChange={handleInputChange}
-                />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%] max-sm:w-full"
-                  placeholder="M. I"
-                  name="mihead2"
+          </td>
+        </tr>
+      </table>
+      {houseHoldHead.civilstatushead1.toUpperCase() === "MARRIED" && <table id="tbl-profiling">
+        <tr className="noborder">
+          <td className="font-bold" colSpan={2}>
+            <p className="text-2xl">Spouse Information</p>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Last Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="lastnamehead2"
+              value={houseHoldHead.lastnamehead2}
+              onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>First Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="firstnamehead2"
+              value={houseHoldHead.firstnamehead2}
+              onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Middle Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="mihead2"
                   value={houseHoldHead.mihead2}
                   onChange={handleInputChange}
                 />
-
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000] placeholder-[#000] w-[10%] max-sm:w-full"
-                  placeholder="Ext."
-                  name="exthead2"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Extension Name</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="exthead2"
                   value={houseHoldHead.exthead2}
                   onChange={handleInputChange}
                 />
-              </div>
-            </div>
-            <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start">
-              <div>
-                <h1 className="max-sm:text-sm">Zone:</h1>
-              </div>
-              <div className=" w-[80%] max-xl:w-[60%] max-sm:w-full">
-                <div className="w-full">
-                  <select
-                    id="status"
-                    value={addresshead2Selection}
-                    onChange={(e) => setAddressHead2Selection(e.target.value)}
-                    className=" border border-[#000] rounded-md p-2 w-full text-sm	bg-[#fff] "
-                  >
-                    <option value="ZONE 1">ZONE 1</option>
-                    <option value="ZONE 2">ZONE 2</option>
-                    <option value="ZONE 3">ZONE 3</option>
-                    <option value="ZONE 4">ZONE 4</option>
-                    <option value="ZONE 5">ZONE 5</option>
-                    <option value="ZONE 6">ZONE 6</option>
-                    <option value="ZONE 7">ZONE 7</option>
-                    <option value="ZONE 8">ZONE 8</option>
-                    <option value="ZONE 9">ZONE 9</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center gap-2 w-full max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 w-[50%] max-xl:w-auto max-sm:w-full max-sm:flex-col max-sm:items-start ">
-                <div>
-                  <h1 className="max-sm:text-sm">Date of Birth:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Zone</td>
+          <td>
+           <select
+            id="status"
+            value={addresshead2Selection}
+            onChange={(e) => setAddressHead2Selection(e.target.value)}
+            className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+          >
+            <option value="ZONE 1">ZONE 1</option>
+            <option value="ZONE 2">ZONE 2</option>
+            <option value="ZONE 3">ZONE 3</option>
+            <option value="ZONE 4">ZONE 4</option>
+            <option value="ZONE 5">ZONE 5</option>
+            <option value="ZONE 6">ZONE 6</option>
+            <option value="ZONE 7">ZONE 7</option>
+            <option value="ZONE 8">ZONE 8</option>
+            <option value="ZONE 9">ZONE 9</option>
+          </select>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Date of Birth</td>
+          <td>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer
                       components={[
                         "DatePicker",
@@ -679,80 +638,71 @@ handleMaritalStatus("civilstatushead2",e.target.value)
                     >
                       <DemoItem>
                         <MobileDatePicker
-                          className="px-1 border border-[#000] bg-white cursor-pointer "
+                          className="px-1 border  cursor-pointer"
                           value={dateOfBirthHead2}
                           onChange={handleDateOfBirthHead2}
+            
                           maxDate={maxDate}
                         />
                       </DemoItem>
                     </DemoContainer>
                   </LocalizationProvider>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-xl:w-[15%] max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Age:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[50px] max-xl:w-full "
-                    name="agehead2"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Age</td>
+          <td>
+            <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="agehead2"
                     value={getAgeByBirthdate(dateOfBirthHead2)}
                     onChange={handleInputChange}
+                    readOnly={true}
                   />
-                </div>
-              </div>
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Gender:</h1>
-                </div>
-                <div className="max-xl:w-full">
-                  <select
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Gender</td>
+          <td>
+           <select
                     id="status"
                     value={genderSelectionHead2}
                     onChange={(e) => setGenderSelectionHead2(e.target.value)}
-                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
                   >
                     <option value="MALE">MALE</option>
                     <option value="FEMALE">FEMALE</option>
                     <option value="LGBTQ">LGBTQ</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Civil Status:</h1>
-                </div>
-                <div className="max-xl:w-[50%] max-sm:w-full">
-                 <select
+          </td>
+        </tr>
+             <tr className="tbl-row">
+          <td>Civil Status</td>
+          <td>
+             <select
                     id="status"
-                    value={houseHoldHead.civilstatushead1}
-                    onChange={(e) => handleMaritalStatus("civilstatushead2",e.target.value)}
-                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                    value={houseHoldHead.civilstatushead2}
                     disabled={true}
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                   >
                     <option value="SINGLE">SINGLE</option>
                     <option value="MARRIED">MARRIED</option>
                     <option value="WIDOW">WIDOW</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Religion:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <select
+          </td>
+        </tr>
+          <tr className="tbl-row">
+          <td>Religion</td>
+          <td>
+                   <select
                   id="religion"
                   value={houseHoldHead.religionhead2} // Assume you have a state variable for the selected religion
                   onChange={(e) => handleMaritalStatus("religionhead2", e.target.value)} // Function to handle changes
-                  className="border border-[#000] rounded-md p-2 max-xl:w-full text-xs bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
               >
-                  <option value="" disabled>Select Religion</option>
                   <option value="CATHOLIC">Roman Catholic</option>
                   <option value="PROTESTANT">Protestant</option>
                   <option value="ISLAM">Islam</option>
@@ -761,70 +711,55 @@ handleMaritalStatus("civilstatushead2",e.target.value)
                   <option value="ATHEIST">Atheist</option>
                   <option value="OTHER">Other</option> {/* Option for those who may not identify with the listed religions */}
               </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 w-full max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Type of ID:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-full"
-                    name="typeofidhead2"
-                    value={houseHoldHead.typeofidhead2}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">ID No:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="number"
-                    className="px-2 py-1 border border-[#000] w-full"
-                    name="idnohead2"
-                    value={houseHoldHead.idnohead2}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Mobile/Tel No:</h1>
-                </div>
-                <div className="w-[60%] max-sm:w-full">
-                  <input
-                    type="number"
-                    className="px-2 py-1 border border-[#000] w-full "
-                    name="mobilenohead2"
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Type of ID</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
+              name="typeofidhead2"
+              value={houseHoldHead.typeofidhead2}
+              onChange={handleInputChange}
+              
+            />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>ID No</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="idnohead2"
+                value={houseHoldHead.idnohead2}
+                onChange={handleInputChange}
+              />
+          </td>
+        </tr>
+        <tr className="tbl-row">
+          <td>Mobile/Tel No</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="mobilenohead2"
                     value={houseHoldHead.mobilenohead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:items-start">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Occupation:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                   <select
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Occupation</td>
+          <td>
+                 <select
                       id="job-category"
                       value={houseHoldHead.occupationhead2} // Assume you have a state variable for the selected job category
                       onChange={(e) => handleMaritalStatus("occupationhead2",e.target.value)} // Function to handle changes
-                      className="border border-[#000] rounded-md p-2  max-xl:w-full text-xs bg-[#fff]"
+                    className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+
                   >
-                      <option value="" disabled>Select Job Category</option>
                       <option value="IT">Information Technology</option>
                       <option value="BPO">Business Process Outsourcing</option>
                       <option value="HEALTHCARE">Healthcare</option>
@@ -847,153 +782,131 @@ handleMaritalStatus("civilstatushead2",e.target.value)
                       <option value="SOCIAL_SERVICES">Social Services</option>
                       <option value="OTHERS">Others</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">Skills:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="skillshead2"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Skills</td>
+          <td>
+             <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+               name="skillshead2"
                     value={houseHoldHead.skillshead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start ">
-              <div>
-                <h1 className="max-sm:text-sm">Company Address:</h1>
-              </div>
-              <div className=" w-[60%] max-sm:w-full">
-                <input
-                  type="text"
-                  className="px-2 py-1 border border-[#000]  w-full"
-                  name="companyaddresshead2"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Company Address</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+               name="companyaddresshead2"
                   value={houseHoldHead.companyaddresshead2}
                   onChange={handleInputChange}
                 />
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:items-start max-sm:w-full">
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">
-                    Educational Attainment: College:
-                  </h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full "
-                    name="collegehead2"
+          </td>
+        </tr>
+        <tr className="noborder">
+          <td colSpan={2}>Educational Attainment</td>
+        </tr>
+         <tr className="tbl-row">
+          <td>College</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+              name="collegehead2"
                     value={houseHoldHead.collegehead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:flex-col max-sm:items-start max-sm:w-full">
-                <div>
-                  <h1 className="max-sm:text-sm">High School:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="highschoolhead2"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>High School</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="highschoolhead2"
                     value={houseHoldHead.highschoolhead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-2 flex items-center gap-2 border-b-2 border-[#000] py-3 max-sm:flex-col max-sm:items-start max-sm:w-full">
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Elementary:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="elementaryhead2"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Elementary School</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="elementaryhead2"
                     value={houseHoldHead.elementaryhead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 max-sm:w-full max-sm:flex-col max-sm:items-start">
-                <div>
-                  <h1 className="max-sm:text-sm">Vocational Course:</h1>
-                </div>
-                <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="vocationalcoursehead2"
+          </td>
+        </tr>
+         <tr className="tbl-row">
+          <td>Vocational Course</td>
+          <td>
+             <input
+              type="text"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="vocationalcoursehead2"
                     value={houseHoldHead.vocationalcoursehead2}
                     onChange={handleInputChange}
                   />
-                </div>
-              </div>
-            </div>
-          </div>}
-          <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start">
-            <div>
-              <h1 className="max-sm:text-sm">
-                No. of Household members living in the house:
-              </h1>
-            </div>
-            <div className="w-[60%]">
-              <input
-                type="number" // Corrected type
-                name="members" // Added name attribute
-                className="px-2 py-1 border border-[#000] w-[20%]"
-                value={houseHoldHead.members}
+          </td>
+        </tr>
+      </table>}
+     
+    </div>
+    <div className="my-2 flex flex-col justify-center items-center">
+       <table id="tbl-profiling">
+        <tr className="noborder">
+          <td colSpan={2}>
+            <p className="font-bold text-2xl">Household Head Member Information</p>
+          </td>
+        </tr>
+        <tr className="tbl-row">
+        <td>No of Household memebers living in the house</td>
+        <td>
+          <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="members"
+                 value={houseHoldHead.members}
                 onChange={handleInputChange}
               />
-            </div>
-          </div>
-
-          <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start">
-            <div>
-              <h1 className="max-sm:text-sm">No. of Children:</h1>
-            </div>
-            <div className="w-[60%]">
-              <input
-                type="number"
-                className="px-2 py-1 border border-[#000] w-[20%] "
-                name="children"
+        </td>
+       </tr>
+<tr className="tbl-row">
+        <td>No. of Children:</td>
+        <td>
+          <input
+              type="number"
+              className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
+             name="children"
                 value={houseHoldHead.children}
                 onChange={handleInputChange}
               />
-            </div>
-          </div>
-        </div>
-        <div className="w-[40%] max-xl:w-full">
-          <Profiling
-            handleSubmit={handleSubmit}
-            houseHoldHead={houseHoldHead}
-            handleInput={handleInputChange}
-            handleCheckboxChange={handleCheckboxChange}
-            photo={photo}
-            handleIconClick={handleIconClick}
-            handleFileChangePhoto={handleFileChangePhoto}
-            fileInputRef={fileInputRef}
-            mutation={mutation}
-            noFutureDates={noFutureDates}
-          />
-        </div>
-      </div>
+        </td>
+       </tr>
+      </table>
+    </div>
+        <Profiling
+              handleSubmit={handleSubmit}
+              houseHoldHead={houseHoldHead}
+              handleInput={handleInputChange}
+              handleCheckboxChange={handleCheckboxChange}
+              photo={photo}
+              handleIconClick={handleIconClick}
+              handleFileChangePhoto={handleFileChangePhoto}
+              fileInputRef={fileInputRef}
+              mutation={mutation}
+              noFutureDates={noFutureDates}
+            />
       <Toaster />
     </div>
   );

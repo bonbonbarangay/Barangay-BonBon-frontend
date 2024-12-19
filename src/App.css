@@ -1,0 +1,31 @@
+#tbl-profiling{ 
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+#tbl-profiling td{
+    border: 1px solid black;
+    padding: .3em;
+    font-size: 1em;
+}
+
+#tbl-profiling .noborder td{
+    border: none;
+}
+
+.tbl-profiling2{ 
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tbl-profiling2 td{
+    border: 1px solid black;
+    padding: .3em;
+    font-size: 1em;
+}
+
+.tbl-profiling2 .noborder td{
+    border: none;
+}
