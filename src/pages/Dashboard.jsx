@@ -16,11 +16,11 @@ const Dashboard = () => {
             <div className="w-full flex items-center justify-center flex-col">
               <div className="bg-[#F0F0F0] max-md:w-full max-md:px-5 w-[90%]  max-lg:w-full max-lg py-5 px-10 mt-5 border-2 border-[#000]  max-h-[100vh] overflow-y-auto max-lg:max-h-[60vh]">
                 {data?.map((item) => (
-                  <div className="bg-[#DEE5F8] py-5 mt-2 px-4 w-full flex  gap-5 max-sm:flex-col ">
+                  <div className="bg-[#DEE5F8] py-5 flex-1 mt-2 px-4 w-full flex  gap-5 max-sm:flex-col ">
                     <div className="w-[50%] flex items-center justify-center max-sm:w-full">
                       <img
                         src={item.image}
-                        className="w-[85%] h-[200px] object-center max-md:h-[180px] max-sm:w-full  max-sm:h-[150px]"
+                        className="w-[85%] h-[250px] object-cover max-md:h-[180px] max-sm:w-full  max-sm:h-[250px]"
                       />
                     </div>
                     <div className="w-[50%] max-sm:w-full">

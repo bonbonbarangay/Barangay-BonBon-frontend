@@ -11,6 +11,13 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+
+const getAgeByBirthdate = (birthdate) => {
+  const birthDate = dayjs(birthdate);
+  const today = dayjs();
+  const age = today.diff(birthDate, 'year');
+  return age;
+}
 const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
   const [genderSelectionHead1, setGenderSelectionHead1] = useState("MALE");
@@ -19,10 +26,12 @@ const ResidentProfiling = () => {
   const [addresshead2Selection, setAddressHead2Selection] = useState("ZONE 1");
   const [dateOfBirthHead1, setDateOfBirthHead1] = useState(dayjs());
   const [dateOfBirthHead2, setDateOfBirthHead2] = useState(dayjs());
-
+  const maxDate = dayjs().subtract(365*18, 'day');
+  const noFutureDates = dayjs().subtract(1, 'day');
   const { handleCreateFormStatus } = FormStatusHook();
+  const [ headMaritalStatus, setHeadMaritalStatus ] = useState("");
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
-  const { handleCreateHouseMembers, createHouseMembersMutation } =
+  const { handleCreateHouseMembers } =
     HouseMembersHook();
   const [houseHoldHead, setHouseHoldHead] = useState({
     //additional
@@ -113,6 +122,14 @@ const ResidentProfiling = () => {
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
+
+  const handleMaritalStatus = (name,value)  =>{
+    const valueUpper = value.toUpperCase();
+    setHouseHoldHead((prevState) => ({
+      ...prevState,
+      [name]: valueUpper,
+    }));
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -267,6 +284,8 @@ const ResidentProfiling = () => {
                           className="px-1 border border-[#000] bg-white cursor-pointer "
                           value={dateOfBirthHead1}
                           onChange={handleDateOfBirthHead1}
+            
+                          maxDate={maxDate}
                         />
                       </DemoItem>
                     </DemoContainer>
@@ -283,8 +302,9 @@ const ResidentProfiling = () => {
                     type="text"
                     className="px-2 py-1 border border-[#000] w-[50px] max-xl:w-full "
                     name="agehead1"
-                    value={houseHoldHead.agehead1}
+                    value={getAgeByBirthdate(dateOfBirthHead1)}
                     onChange={handleInputChange}
+                    readOnly={true}
                   />
                 </div>
               </div>
@@ -311,13 +331,16 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Civil Status:</h1>
                 </div>
                 <div className="max-xl:w-[50%] max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[100px] max-xl:w-full max-sm:w-full"
-                    name="civilstatushead1"
+                  <select
+                    id="status"
                     value={houseHoldHead.civilstatushead1}
-                    onChange={handleInputChange}
-                  />
+                    onChange={(e) => handleMaritalStatus("civilstatushead1",e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                  >
+                    <option value="SINGLE">SINGLE</option>
+                    <option value="MARRIED">MARRIED</option>
+                    <option value="WIDOW">WIDOW</option>
+                  </select>
                 </div>
               </div>
 
@@ -349,6 +372,7 @@ const ResidentProfiling = () => {
                     name="typeofidhead1"
                     value={houseHoldHead.typeofidhead1}
                     onChange={handleInputChange}
+                    
                   />
                 </div>
               </div>
@@ -359,7 +383,7 @@ const ResidentProfiling = () => {
                 </div>
                 <div className="w-[60%] max-sm:w-full">
                   <input
-                    type="text"
+                    type="number"
                     className="px-2 py-1 border border-[#000] w-full"
                     name="idnohead1"
                     value={houseHoldHead.idnohead1}
@@ -374,7 +398,7 @@ const ResidentProfiling = () => {
                 </div>
                 <div className="w-[60%] max-sm:w-full">
                   <input
-                    type="text"
+                    type="number"
                     className="px-2 py-1 border border-[#000] w-full "
                     name="mobilenohead1"
                     value={houseHoldHead.mobilenohead1}
@@ -390,13 +414,35 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Occupation:</h1>
                 </div>
                 <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="occupationhead1"
-                    value={houseHoldHead.occupationhead1}
-                    onChange={handleInputChange}
-                  />
+                    <select
+                      id="job-category"
+                      value={houseHoldHead.occupationhead1} // Assume you have a state variable for the selected job category
+                      onChange={(e) => handleMaritalStatus("occupationhead1",e.target.value)} // Function to handle changes
+                      className="border border-[#000] rounded-md p-2  max-xl:w-full text-xs bg-[#fff]"
+                  >
+                      <option value="" disabled>Select Job Category</option>
+                      <option value="IT">Information Technology</option>
+                      <option value="BPO">Business Process Outsourcing</option>
+                      <option value="HEALTHCARE">Healthcare</option>
+                      <option value="EDUCATION">Education</option>
+                      <option value="ENGINEERING">Engineering</option>
+                      <option value="SALES_MARKETING">Sales and Marketing</option>
+                      <option value="FINANCE_ACCOUNTING">Finance and Accounting</option>
+                      <option value="CONSTRUCTION">Construction</option>
+                      <option value="HOSPITALITY_TOURISM">Hospitality and Tourism</option>
+                      <option value="MANUFACTURING">Manufacturing</option>
+                      <option value="LOGISTICS_SUPPLY_CHAIN">Logistics and Supply Chain</option>
+                      <option value="TELECOMMUNICATIONS">Telecommunications</option>
+                      <option value="CREATIVE_ARTS_DESIGN">Creative Arts and Design</option>
+                      <option value="REAL_ESTATE">Real Estate</option>
+                      <option value="LEGAL_SERVICES">Legal Services</option>
+                      <option value="AGRICULTURE">Agriculture</option>
+                      <option value="RESEARCH_DEVELOPMENT">Research and Development</option>
+                      <option value="HUMAN_RESOURCES">Human Resources</option>
+                      <option value="ENVIRONMENTAL_SERVICES">Environmental Services</option>
+                      <option value="SOCIAL_SERVICES">Social Services</option>
+                      <option value="OTHERS">Others</option>
+                  </select>
                 </div>
               </div>
 
@@ -497,7 +543,7 @@ const ResidentProfiling = () => {
               </div>
             </div>
           </div>
-          <div className="mt-5 w-full">
+          {houseHoldHead.civilstatushead1.toUpperCase() === "MARRIED" && <div className="mt-5 w-full">
             <div className="mt-5 flex items-center  w-full max-xl:gap-2 max-sm:flex-col max-sm:items-start">
               <div className="w-[25%] max-xl:w-auto xl:w-auto   xl:mr-2">
                 <h1 className="max-sm:text-sm">Spouse Name:</h1>
@@ -585,6 +631,7 @@ const ResidentProfiling = () => {
                           className="px-1 border border-[#000] bg-white cursor-pointer "
                           value={dateOfBirthHead2}
                           onChange={handleDateOfBirthHead2}
+                          maxDate={maxDate}
                         />
                       </DemoItem>
                     </DemoContainer>
@@ -601,7 +648,7 @@ const ResidentProfiling = () => {
                     type="text"
                     className="px-2 py-1 border border-[#000] w-[50px] max-xl:w-full "
                     name="agehead2"
-                    value={houseHoldHead.agehead2}
+                    value={getAgeByBirthdate(dateOfBirthHead2)}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -629,13 +676,17 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Civil Status:</h1>
                 </div>
                 <div className="max-xl:w-[50%] max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] w-[100px] max-xl:w-full max-sm:w-full"
-                    name="civilstatushead2"
-                    value={houseHoldHead.civilstatushead2}
-                    onChange={handleInputChange}
-                  />
+                 <select
+                    id="status"
+                    value={houseHoldHead.civilstatushead1}
+                    onChange={(e) => handleMaritalStatus("civilstatushead2",e.target.value)}
+                    className=" border border-[#000] rounded-md p-2 w-[70px]  max-xl:w-full text-xs	bg-[#fff]"
+                    disabled={true}
+                  >
+                    <option value="SINGLE">SINGLE</option>
+                    <option value="MARRIED">MARRIED</option>
+                    <option value="WIDOW">WIDOW</option>
+                  </select>
                 </div>
               </div>
 
@@ -677,7 +728,7 @@ const ResidentProfiling = () => {
                 </div>
                 <div className="w-[60%] max-sm:w-full">
                   <input
-                    type="text"
+                    type="number"
                     className="px-2 py-1 border border-[#000] w-full"
                     name="idnohead2"
                     value={houseHoldHead.idnohead2}
@@ -692,7 +743,7 @@ const ResidentProfiling = () => {
                 </div>
                 <div className="w-[60%] max-sm:w-full">
                   <input
-                    type="text"
+                    type="number"
                     className="px-2 py-1 border border-[#000] w-full "
                     name="mobilenohead2"
                     value={houseHoldHead.mobilenohead2}
@@ -708,13 +759,35 @@ const ResidentProfiling = () => {
                   <h1 className="max-sm:text-sm">Occupation:</h1>
                 </div>
                 <div className="max-sm:w-full">
-                  <input
-                    type="text"
-                    className="px-2 py-1 border border-[#000] max-sm:w-full"
-                    name="occupationhead2"
-                    value={houseHoldHead.occupationhead2}
-                    onChange={handleInputChange}
-                  />
+                   <select
+                      id="job-category"
+                      value={houseHoldHead.occupationhead2} // Assume you have a state variable for the selected job category
+                      onChange={(e) => handleMaritalStatus("occupationhead2",e.target.value)} // Function to handle changes
+                      className="border border-[#000] rounded-md p-2  max-xl:w-full text-xs bg-[#fff]"
+                  >
+                      <option value="" disabled>Select Job Category</option>
+                      <option value="IT">Information Technology</option>
+                      <option value="BPO">Business Process Outsourcing</option>
+                      <option value="HEALTHCARE">Healthcare</option>
+                      <option value="EDUCATION">Education</option>
+                      <option value="ENGINEERING">Engineering</option>
+                      <option value="SALES_MARKETING">Sales and Marketing</option>
+                      <option value="FINANCE_ACCOUNTING">Finance and Accounting</option>
+                      <option value="CONSTRUCTION">Construction</option>
+                      <option value="HOSPITALITY_TOURISM">Hospitality and Tourism</option>
+                      <option value="MANUFACTURING">Manufacturing</option>
+                      <option value="LOGISTICS_SUPPLY_CHAIN">Logistics and Supply Chain</option>
+                      <option value="TELECOMMUNICATIONS">Telecommunications</option>
+                      <option value="CREATIVE_ARTS_DESIGN">Creative Arts and Design</option>
+                      <option value="REAL_ESTATE">Real Estate</option>
+                      <option value="LEGAL_SERVICES">Legal Services</option>
+                      <option value="AGRICULTURE">Agriculture</option>
+                      <option value="RESEARCH_DEVELOPMENT">Research and Development</option>
+                      <option value="HUMAN_RESOURCES">Human Resources</option>
+                      <option value="ENVIRONMENTAL_SERVICES">Environmental Services</option>
+                      <option value="SOCIAL_SERVICES">Social Services</option>
+                      <option value="OTHERS">Others</option>
+                  </select>
                 </div>
               </div>
 
@@ -814,7 +887,7 @@ const ResidentProfiling = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
           <div className="mt-5 flex items-center gap-3 w-full max-sm:flex-col max-sm:items-start">
             <div>
               <h1 className="max-sm:text-sm">
@@ -823,7 +896,7 @@ const ResidentProfiling = () => {
             </div>
             <div className="w-[60%]">
               <input
-                type="text" // Corrected type
+                type="number" // Corrected type
                 name="members" // Added name attribute
                 className="px-2 py-1 border border-[#000] w-[20%]"
                 value={houseHoldHead.members}
@@ -838,7 +911,7 @@ const ResidentProfiling = () => {
             </div>
             <div className="w-[60%]">
               <input
-                type="text"
+                type="number"
                 className="px-2 py-1 border border-[#000] w-[20%] "
                 name="children"
                 value={houseHoldHead.children}
@@ -858,6 +931,7 @@ const ResidentProfiling = () => {
             handleFileChangePhoto={handleFileChangePhoto}
             fileInputRef={fileInputRef}
             mutation={mutation}
+            noFutureDates={noFutureDates}
           />
         </div>
       </div>

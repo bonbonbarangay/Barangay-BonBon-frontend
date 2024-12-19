@@ -6,6 +6,10 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+
+const letterInput = ["firstName", "lastName"];
+const numberInput = ["age"];
+
 const Profiling = ({
   handleSubmit,
   houseHoldHead,
@@ -16,6 +20,7 @@ const Profiling = ({
   handleFileChangePhoto,
   fileInputRef,
   mutation,
+  noFutureDates
 }) => {
   const currentYear = new Date().getFullYear(); // Get the current year
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -74,12 +79,25 @@ const Profiling = ({
       return prevData;
     });
   };
-  const handleMembersAge = (index, field, value) => {
+const handleMembersAge = (index, field, value) => {
     const updatedFormData = [...formData];
+    
+    // Format the value to MM/DD/YYYY if it's a valid Day.js object
     const convertValue = value ? value.format("MM/DD/YYYY") : "";
+    
+    if (convertValue) {
+        const birthDate = dayjs(convertValue);
+        const today = dayjs();
+        const age = today.isBefore(birthDate) ? 0 : today.diff(birthDate, 'year');
+        handleInputChange(index, "age", age.toString());
+    }
+    
+    // Update the form data with the new date value
     updatedFormData[index][field] = convertValue;
+    
+    // Set the updated form data state
     setFormData(updatedFormData);
-  };
+};
 
   return (
     <div className="w-full">
@@ -135,7 +153,9 @@ const Profiling = ({
                     onChange={(e) =>
                       handleInputChange(index, field, e.target.value)
                     }
+                    readOnly={field === "age"}
                   />
+                  // README: age field is read-only
                 ))}
 
                 <select
@@ -219,9 +239,13 @@ const Profiling = ({
                           className=" border border-[#000] bg-white cursor-pointer "
                           value={dayjs(data.dob)} // Ensure `data.dob` is a valid dayjs object
                           onChange={(value) =>
-                            handleMembersAge(index, "dob", value)
+                          { 
+                            console.log({value})
+                            handleMembersAge(index, "dob", value)}
                           }
+                          maxDate={noFutureDates}
                         />
+                        
                       </DemoItem>
                     </DemoContainer>
                   </LocalizationProvider>
