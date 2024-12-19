@@ -477,7 +477,7 @@ handleMaritalStatus("civilstatushead2",e.target.value)
           <td>Skills</td>
           <td>
              <input
-              type="number"
+              type="text"
               className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
                name="skillshead1"
                     value={houseHoldHead.skillshead1}
@@ -788,7 +788,7 @@ handleMaritalStatus("civilstatushead2",e.target.value)
           <td>Skills</td>
           <td>
              <input
-              type="number"
+              type="text"
               className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
                name="skillshead2"
                     value={houseHoldHead.skillshead2}
@@ -870,7 +870,7 @@ handleMaritalStatus("civilstatushead2",e.target.value)
           </td>
         </tr>
         <tr className="tbl-row">
-        <td>No of Household memebers living in the house</td>
+        <td>No of Household members living in the house</td>
         <td>
           <input
               type="number"

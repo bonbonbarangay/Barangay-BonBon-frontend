@@ -45,7 +45,7 @@ const Strategic = () => {
                   <div className="w-[100px] h-[20px] bg-gray-500"></div>
                   <div>
                     <h1 className="font-bold text-lg max-md:text-sm">
-                      Concreate
+                      Concrete
                     </h1>
                   </div>
                 </div>
