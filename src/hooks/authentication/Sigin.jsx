@@ -1,8 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signInServices } from "../../services/authentication/Authentication";
+import {
+  signInServices,
+  verifyOtp,
+} from "../../services/authentication/Authentication";
 import { saveToLocalStorage } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { handleInvalid } from "../../components/toastify/Toastify";
+import {
+  handleInvalid,
+  handleSucess,
+} from "../../components/toastify/Toastify";
 const SiginHook = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -10,30 +16,49 @@ const SiginHook = () => {
   const mutation = useMutation({
     mutationFn: signInServices,
     onSuccess: (data) => {
-      saveToLocalStorage("user", data.user);
-      saveToLocalStorage("id", data.id);
-      if (data.type == "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/user");
+      saveToLocalStorage("email", data.email);
+      handleSucess(data.message);
+      if (data.otpverification) {
+        setTimeout(() => {
+          navigate("/verifyotp");
+        }, 3000);
       }
 
       queryClient.invalidateQueries({ queryKey: ["signin"] });
     },
     onError: (error) => {
-      if (error?.status === 400) {
-        console.error("Bad request:", error?.data?.message || error?.message);
-        handleInvalid(error?.data?.message);
+      handleInvalid(error?.data?.message);
+    },
+  });
+  const verifyOtpMutation = useMutation({
+    mutationFn: verifyOtp,
+    onSuccess: (data) => {
+      saveToLocalStorage("id", data.id);
+      saveToLocalStorage("email", data.email);
+      saveToLocalStorage("username", data.username);
+      handleSucess(data.message);
+      if (data.type == "user") {
+        setTimeout(() => {
+          navigate("/user");
+        }, 2000);
       } else {
-        console.error("Error occurred:", error?.message);
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 2000);
       }
+      queryClient.invalidateQueries({ queryKey: ["signin"] });
+    },
+    onError: (error) => {
+      handleInvalid(error?.data?.message);
     },
   });
   const handleSignin = (data) => {
     mutation.mutate(data);
   };
-
-  return { handleSignin, mutation };
+  const handleVerifyOtp = (data) => {
+    verifyOtpMutation.mutate(data);
+  };
+  return { handleSignin, mutation, handleVerifyOtp, verifyOtpMutation };
 };
 
 export default SiginHook;

@@ -21,6 +21,11 @@ const Signup = () => {
       handleInvalid("did not match password");
       return;
     }
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+
     handleSignUp(data);
   };
   const handleShowConfirmPassword = () => {
@@ -57,6 +62,7 @@ const Signup = () => {
             <div className="relative">
               <input
                 type="text"
+                name="firstName"
                 placeholder="Account Name"
                 className="w-full py-3 px-3"
                 value={username}
@@ -82,6 +88,7 @@ const Signup = () => {
             <div className="relative">
               <input
                 type="email"
+                name="email"
                 placeholder="E-mail Address"
                 className="w-full py-3 px-3"
                 value={email}

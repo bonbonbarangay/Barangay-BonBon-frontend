@@ -8,15 +8,16 @@ import {
   getFromLocalStorage,
 } from "../../utils/localStorage";
 import FormStatusHook from "../../hooks/formstatus/FormStatus";
-const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
+const CustomDrawer = ({ open, handleToggleDrawer }) => {
   const userid = getFromLocalStorage("id");
+  const username = getFromLocalStorage("username");
   const { pending } = FormStatusHook();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     removeFromLocalStorage("id");
-    removeFromLocalStorage("user");
-
+    removeFromLocalStorage("username");
+    removeFromLocalStorage("email");
     navigate("/");
     window.location.reload();
   };
@@ -77,6 +78,7 @@ const CustomDrawer = ({ open, handleToggleDrawer, username }) => {
       prevSideBar.map((item) => (item.id === 7 ? { ...item, pending } : item))
     );
   }, [pending]);
+
   return (
     <Drawer anchor="left" open={open} onClose={handleToggleDrawer}>
       <Box

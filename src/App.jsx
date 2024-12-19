@@ -20,7 +20,9 @@ import Setting from "./pages/admin/Setting";
 import ManageResident from "./pages/admin/ManageResident";
 import Official from "./pages/admin/Official";
 import Strategic from "./pages/user/Strategic";
+import VerifyOtp from "./pages/user/VerifyOtp";
 import "leaflet/dist/leaflet.css";
+import VerifyAccount from "./pages/user/VerifyAccount";
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
           <Route index element={<SigninMain />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verifyotp" element={<VerifyOtp />} />
+          <Route path="/verify/:id" element={<VerifyAccount />} />
 
           {/* admin routes */}
           <Route path="/admin/official" element={<Official />} />
