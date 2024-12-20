@@ -34,10 +34,10 @@ const ViewModalEvent = ({ viewOpen, handleViewClose, eventData }) => {
               </div>
             </div>
             <div className="w-full mt-5">
-              <div className="w-full">
+              <div className="w-full flex items-center justify-center">
                 <img
                   src={eventData?.image}
-                  className="h-[200px] w-full object-cover"
+                  className="h-[200px] w-[40%] object-center "
                 />
               </div>
               <div className="mt-5 w-full">

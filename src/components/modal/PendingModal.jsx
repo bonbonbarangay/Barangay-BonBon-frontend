@@ -6,7 +6,7 @@ import { useState } from "react";
 import ViewResidentModal from "./ViewResidentModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import FormStatusHook from "../../hooks/formstatus/FormStatus";
-
+import EmailNotificationHook from "../../hooks/emailNotification/EmailNotification";
 export const style = {
   position: "absolute",
   top: "50%",
@@ -23,6 +23,7 @@ export const style = {
 const PendingModal = ({ pendingOpen, handlePendingClose }) => {
   const [viewOpen, setViewOpen] = useState(false);
   const { handleUpdateFormData } = FormStatusHook();
+  const { handleNotification } = EmailNotificationHook();
   const {
     data,
     isError,
@@ -46,6 +47,11 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
     setViewOpen(true);
   };
   const deleteForm = (data) => {
+    const notificationData = {
+      userid: data.userid,
+      status: "Decline",
+    };
+    handleNotification(notificationData);
     const dataForm = {
       userid: data.userid,
       status: "decline",
@@ -54,6 +60,11 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
     handleDelete(data);
   };
   const handleAccept = (userdata) => {
+    const notificationData = {
+      userid: userdata?.userid,
+      status: "Accepted",
+    };
+    handleNotification(notificationData);
     const dataForm = {
       userid: userdata.userid,
       status: "sucess",
