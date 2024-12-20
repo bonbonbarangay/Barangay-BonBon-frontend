@@ -1,11 +1,10 @@
 import axios from "axios";
-
+import dayjs from "dayjs";
 export const getAllEvent = async () => {
   try {
     const response = await axios.get(
       "https://barangay-bonbon-backend.onrender.com/event"
     );
-
     return response.data;
   } catch (error) {
     if (error.response) {

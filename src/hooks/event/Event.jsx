@@ -21,7 +21,6 @@ const EventHook = () => {
     mutationFn: createEvent,
     onSuccess: (data) => {
       handleSucess("Sucess Create");
-
       queryClient.invalidateQueries({ queryKey: ["event"] });
     },
     onError: (error) => {
