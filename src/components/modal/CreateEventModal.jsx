@@ -106,12 +106,12 @@ const CreateEventModal = ({
                     </div>
 
                     <div className="mt-5">
-                      <input
-                        type="text"
+                      <textarea
                         placeholder="Description"
                         className="w-full py-3 px-3 border border-[#000] placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        rows="1" // You can adjust this for more or fewer lines of space
                       />
                     </div>
 
