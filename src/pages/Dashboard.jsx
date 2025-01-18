@@ -52,16 +52,16 @@ const Dashboard = () => {
               </h1>
             </div>
             <div className="w-full flex items-center justify-center flex-col">
-              <div className="flex flex-row gap-2 justify-between w-[90%] max-sm:flex-col">
+              <div className="flex flex-row gap-2 justify-between w-[90%] max-sm:flex-col max-sm:w-full">
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="py-3 px-3 border border-[#000] flex-1 placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg rounded-lg"
+                  className="py-3 px-3 border border-[#000] flex-1 placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg rounded-lg max-sm:w-full"
                   onChange={(e) => setSearch(e.target.value)}
                 />
                 <input
                   type="date"
-                  className="h-full p-3"
+                  className="h-full p-3 max-sm:w-full"
                   onChange={handleChangeDate} // Update selectedDate on change
                 />
               </div>
