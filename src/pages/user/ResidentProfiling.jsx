@@ -240,7 +240,7 @@ const ResidentProfiling = () => {
         </h1>
       </div>
 
-      <div className="flex flex-row justify-center items-center gap-4 ">
+      <div className="flex flex-col justify-center items-center gap-4 ">
         <table id="tbl-profiling">
           <tr className="noborder">
             <td className="font-bold" colSpan={2}>
