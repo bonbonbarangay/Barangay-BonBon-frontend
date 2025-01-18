@@ -21,18 +21,21 @@ const Dashboard = () => {
     setSortData(sortedEventData);
   }, [data]);
 
-const filteredData = sortData?.filter((item) => {
+  const filteredData = sortData?.filter((item) => {
     const titleMatch = item.title.toLowerCase().includes(search.toLowerCase());
-    
+
     // Convert item.date from "MM/DD/YYYY" to "YYYY-MM-DD" for comparison
-    const [month, day, year] = item.date.split('/');
-    const formattedItemDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    const [month, day, year] = item.date.split("/");
+    const formattedItemDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+      2,
+      "0"
+    )}`;
 
     // Check if selectedDate matches formattedItemDate
-    const dateMatch = selectedDate ? formattedItemDate === selectedDate : true; 
+    const dateMatch = selectedDate ? formattedItemDate === selectedDate : true;
 
     return titleMatch && dateMatch; // Return true if both conditions are met
-});
+  });
 
   const handleChangeDate = (event) => {
     setSelectedDate(event.target.value); // Update selectedDate with the input value
@@ -49,22 +52,25 @@ const filteredData = sortData?.filter((item) => {
               </h1>
             </div>
             <div className="w-full flex items-center justify-center flex-col">
-              <div className="flex flex-row gap-2 justify-between w-[90%]">
-                <input 
+              <div className="flex flex-row gap-2 justify-between w-[90%] max-sm:flex-col">
+                <input
                   type="text"
                   placeholder="Search..."
                   className="py-3 px-3 border border-[#000] flex-1 placeholder-[#000] placeholder:text-lg placeholder:font-semibold text-lg rounded-lg"
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <input 
-                  type="date" 
-                  className="h-full p-3" 
+                <input
+                  type="date"
+                  className="h-full p-3"
                   onChange={handleChangeDate} // Update selectedDate on change
                 />
               </div>
               <div className="bg-[#F0F0F0] max-md:w-full max-md:px-5 w-[90%] max-lg:w-full max-lg py-5 px-10 mt-5 border-2 border-[#000] max-h-[100vh] overflow-y-auto max-lg:max-h-[60vh]">
                 {filteredData?.map((item, idx) => (
-                  <div key={idx} className="bg-[#DEE5F8] py-5 flex-1 mt-2 px-4 w-full flex gap-5 max-sm:flex-col ">
+                  <div
+                    key={idx}
+                    className="bg-[#DEE5F8] py-5 flex-1 mt-2 px-4 w-full flex gap-5 max-sm:flex-col "
+                  >
                     <div className="w-[50%] flex items-center justify-center max-sm:w-full">
                       <img
                         src={item.image}
