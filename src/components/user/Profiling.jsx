@@ -30,7 +30,7 @@ const Profiling = ({
       year: currentYear,
       lastNameFirstName: "",
       relation: "",
-      pwd: "",
+      pwd: "YES",
       gender: "",
       age: "",
       dob: formatDate(currentDate),

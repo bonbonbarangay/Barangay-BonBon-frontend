@@ -29,7 +29,6 @@ const ResidentProfiling = () => {
   const maxDate = dayjs().subtract(365 * 18, "day");
   const noFutureDates = dayjs().subtract(1, "day");
   const { handleCreateFormStatus } = FormStatusHook();
-  const [headMaritalStatus, setHeadMaritalStatus] = useState("");
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
   const { handleCreateHouseMembers } = HouseMembersHook();
   const [houseHoldHead, setHouseHoldHead] = useState({
@@ -44,12 +43,12 @@ const ResidentProfiling = () => {
     addresshead1: "",
     dateofbirthhead1: "",
     genderhead1: genderSelectionHead1,
-    civilstatushead1: "",
-    religionhead1: "",
+    civilstatushead1: "SINGLE",
+    religionhead1: "CATHOLIC",
     typeofidhead1: "",
     idnohead1: "",
     mobilenohead1: "",
-    occupationhead1: "",
+    occupationhead1: "IT",
     skillshead1: "",
     companyaddresshead1: "",
     collegehead1: "",
@@ -65,7 +64,7 @@ const ResidentProfiling = () => {
     dateofbirthhead2: "",
     genderhead2: genderSelectionHead2,
     civilstatushead2: "",
-    religionhead2: "",
+    religionhead2: "CATHOLIC",
     typeofidhead2: "",
     idnohead2: "",
     mobilenohead2: "",
@@ -206,7 +205,6 @@ const ResidentProfiling = () => {
       handleInvalid("All fields are required");
     }
   };
-
   useEffect(() => {
     setHouseHoldHead((prev) => ({
       ...prev,
@@ -396,7 +394,7 @@ const ResidentProfiling = () => {
                 value={houseHoldHead.religionhead1} // Assume you have a state variable for the selected religion
                 onChange={(e) =>
                   handleMaritalStatus("religionhead1", e.target.value)
-                } // Function to handle changes
+                }
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
                 <option value="CATHOLIC">Roman Catholic</option>
