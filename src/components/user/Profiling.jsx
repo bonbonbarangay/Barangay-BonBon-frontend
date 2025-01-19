@@ -79,7 +79,6 @@ const Profiling = ({
   const handleMembersAge = (index, field, value) => {
     const updatedFormData = [...formData];
 
-    // Format the value to MM/DD/YYYY if it's a valid Day.js object
     const convertValue = value ? value.format("MM/DD/YYYY") : "";
 
     if (convertValue) {
@@ -89,10 +88,8 @@ const Profiling = ({
       handleInputChange(index, "age", age.toString());
     }
 
-    // Update the form data with the new date value
     updatedFormData[index][field] = convertValue;
 
-    // Set the updated form data state
     setFormData(updatedFormData);
   };
 
@@ -155,17 +152,41 @@ const Profiling = ({
                   />
                 </td>
               </tr>
+
               <tr className="tbl-row">
                 <td>Relationship</td>
                 <td>
-                  <input
-                    type="text"
-                    className="px-2 py-1  w-full border-none bg-transparent focus:outline-none"
+                  <select
+                    id="status"
                     value={data.relation}
                     onChange={(e) =>
                       handleInputChange(index, "relation", e.target.value)
                     }
-                  />
+                    className="rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                  >
+                    <option value="" disabled>
+                      SELECT RELATIONSHIP
+                    </option>
+                    <option value="HUSBAND">Husband</option>
+                    <option value="WIFE">Wife</option>
+                    <option value="LIVE-IN-PARTNER">Live-in Partner</option>
+                    <option value="SON">Son</option>
+                    <option value="DAUGHTER">Daughter</option>
+                    <option value="FATHER">Father</option>
+                    <option value="MOTHER">Mother</option>
+                    <option value="BROTHER">Brother</option>
+                    <option value="SISTER">Sister</option>
+                    <option value="GRANDFATHER">Grandfather</option>
+                    <option value="GRANDMOTHER">Grandmother</option>
+                    <option value="GRANDSON">Grandson</option>
+                    <option value="GUARDIAN">Guardian</option>
+                    <option value="GRANDDAUGHTER">Granddaughter</option>
+                    <option value="UNCLE">Uncle</option>
+                    <option value="AUNT">Aunt</option>
+                    <option value="NEPHEW">Nephew</option>
+                    <option value="NIECE">Niece</option>
+                    <option value="COUSIN">Cousin</option>
+                  </select>
                 </td>
               </tr>
               <tr className="tbl-row">
@@ -191,7 +212,7 @@ const Profiling = ({
                     className="px-2 py-1  w-full border-none bg-transparent focus:outline-none"
                   >
                     <option value="" disabled>
-                      Gender
+                      SELECT GENDER
                     </option>
                     <option value="MALE">MALE</option>
                     <option value="FEMALE">FEMALE</option>
@@ -211,7 +232,7 @@ const Profiling = ({
                     className="rounded-md p-2 w-full text-sm bg-transparent focus:outline-none max-sm:w-full"
                   >
                     <option value="" disabled>
-                      HIGHEST EDUCATIONAL ATTAINMENT
+                      SELECT HIGHEST EDUCATIONAL ATTAINMENT
                     </option>
                     <option value="ELEMENTARY LEVEL">ELEMENTARY LEVEL</option>
                     <option value="ELEMENTARY GRADUATE">

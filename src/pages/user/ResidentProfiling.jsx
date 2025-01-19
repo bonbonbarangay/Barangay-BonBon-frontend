@@ -20,10 +20,6 @@ const getAgeByBirthdate = (birthdate) => {
 };
 const ResidentProfiling = () => {
   const [photo, setPhoto] = useState("");
-  const [genderSelectionHead1, setGenderSelectionHead1] = useState("MALE");
-  const [genderSelectionHead2, setGenderSelectionHead2] = useState("MALE");
-  const [addresshead1Selection, setAddressHead1Selection] = useState("ZONE 1");
-  const [addresshead2Selection, setAddressHead2Selection] = useState("ZONE 1");
   const [dateOfBirthHead1, setDateOfBirthHead1] = useState(dayjs());
   const [dateOfBirthHead2, setDateOfBirthHead2] = useState(dayjs());
   const maxDate = dayjs().subtract(365 * 18, "day");
@@ -37,18 +33,19 @@ const ResidentProfiling = () => {
 
     // data1
     lastnamehead1: "",
+    agehead1: "",
     firstnamehead1: "",
     mihead1: "",
     exthead1: "",
     addresshead1: "",
     dateofbirthhead1: "",
-    genderhead1: genderSelectionHead1,
-    civilstatushead1: "SINGLE",
-    religionhead1: "CATHOLIC",
+    genderhead1: "",
+    civilstatushead1: "",
+    religionhead1: "",
     typeofidhead1: "",
     idnohead1: "",
     mobilenohead1: "",
-    occupationhead1: "IT",
+    occupationhead1: "",
     skillshead1: "",
     companyaddresshead1: "",
     collegehead1: "",
@@ -62,9 +59,9 @@ const ResidentProfiling = () => {
     exthead2: "",
     addresshead2: "",
     dateofbirthhead2: "",
-    genderhead2: genderSelectionHead2,
+    genderhead2: "",
     civilstatushead2: "",
-    religionhead2: "CATHOLIC",
+    religionhead2: "",
     typeofidhead2: "",
     idnohead2: "",
     mobilenohead2: "",
@@ -75,7 +72,7 @@ const ResidentProfiling = () => {
     highschoolhead2: "",
     elementaryhead2: "",
     vocationalcoursehead2: "",
-
+    agehead2: "",
     //data3
     members: "",
     children: "",
@@ -90,10 +87,9 @@ const ResidentProfiling = () => {
     question6: "",
     image: photo,
   });
-
   const areAllFieldsFilled = (object, isExcluded = false) => {
-    // List of keys to exclude from validation
     const excludedKeys = [
+      "agehead2",
       "addresshead2",
       "lastnamehead2",
       "firstnamehead2",
@@ -115,25 +111,39 @@ const ResidentProfiling = () => {
       "vocationalcoursehead2",
     ];
 
-    // Determine which keys to filter based on the isExcluded flag
     const keysToCheck = isExcluded
       ? Object.keys(object).filter((key) => !excludedKeys.includes(key))
       : Object.keys(object);
 
-    // Check if all relevant fields are filled
-    return keysToCheck.every((key) => object[key] !== "");
+    return keysToCheck.every(
+      (key) =>
+        object[key] !== "" && object[key] !== null && object[key] !== undefined
+    );
   };
   const handleDateOfBirthHead1 = (date) => {
     if (date) {
+      // Calculate the age and update both dateofbirthhead2 and agehead2
+      const calculatedAge = getAgeByBirthdate(date);
       setDateOfBirthHead1(date);
+
+      setHouseHoldHead((prevState) => ({
+        ...prevState,
+        agehead1: calculatedAge.toString(),
+      }));
     }
   };
   const handleDateOfBirthHead2 = (date) => {
     if (date) {
+      // Calculate the age and update both dateofbirthhead2 and agehead2
+      const calculatedAge = getAgeByBirthdate(date);
       setDateOfBirthHead2(date);
+
+      setHouseHoldHead((prevState) => ({
+        ...prevState,
+        agehead2: calculatedAge.toString(),
+      }));
     }
   };
-
   const formatDate = (date) => {
     return date ? date.format("MM/DD/YYYY") : "";
   };
@@ -154,6 +164,7 @@ const ResidentProfiling = () => {
 
   const handleMaritalStatus = (name, value) => {
     const valueUpper = value.toUpperCase();
+
     setHouseHoldHead((prevState) => ({
       ...prevState,
       [name]: valueUpper,
@@ -163,6 +174,7 @@ const ResidentProfiling = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const valueUpper = value.toUpperCase();
+    console.log(valueUpper);
     setHouseHoldHead((prevState) => ({
       ...prevState,
       [name]: valueUpper,
@@ -181,7 +193,8 @@ const ResidentProfiling = () => {
       userid: getFromLocalStorage("id"),
       status: "pending",
     };
-    if (photo == "") {
+
+    if (photo === "") {
       handleInvalid("Update ID Photo");
       return;
     }
@@ -189,19 +202,27 @@ const ResidentProfiling = () => {
     const isSingleOrWidow =
       houseHoldHead.civilstatushead1 === "SINGLE" ||
       houseHoldHead.civilstatushead1 === "WIDOW";
-    console.log({ isSingleOrWidow, status: houseHoldHead.civilstatushead1 });
+
     const validHouseHoldHead = areAllFieldsFilled(
       houseHoldHead,
       isSingleOrWidow
     );
     const validHouseHoldMembers = areAllFieldsFilled(household);
     const validData = areAllFieldsFilled(data);
+
     if (validHouseHoldHead && validHouseHoldMembers && validData) {
       handleCreateHouseHold(houseHoldHead);
       handleCreateHouseMembers(household);
       handleCreateFormStatus(data);
+      setHouseHoldHead((prev) => ({
+        ...prev,
+
+        dateofbirthhead2:
+          houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE"
+            ? ""
+            : formatDate(dateOfBirthHead2),
+      }));
     } else {
-      console.log({ houseHoldHead, household, data });
       handleInvalid("All fields are required");
     }
   };
@@ -209,22 +230,17 @@ const ResidentProfiling = () => {
     setHouseHoldHead((prev) => ({
       ...prev,
       image: photo,
-      genderhead1: genderSelectionHead1.toUpperCase(),
-      genderhead2: genderSelectionHead2.toUpperCase(),
-      addresshead1: addresshead1Selection.toUpperCase(),
-      addresshead2: addresshead2Selection.toUpperCase(),
       dateofbirthhead1: formatDate(dateOfBirthHead1),
-      dateofbirthhead2: formatDate(dateOfBirthHead2),
+      dateofbirthhead2:
+        houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE"
+          ? "" // Set empty string if civilstatushead1 is "SINGLE"
+          : formatDate(dateOfBirthHead2),
     }));
 
     return () => {
       setHouseHoldHead((prev) => ({
         ...prev,
         image: "",
-        genderhead1: "",
-        genderhead2: "",
-        addresshead1: "",
-        addresshead2: "",
         dateofbirthhead1: "",
         dateofbirthhead2: "",
       }));
@@ -283,16 +299,28 @@ const ResidentProfiling = () => {
               />
             </td>
           </tr>
+
           <tr className="tbl-row">
             <td>Extension Name</td>
             <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="exthead1"
+              <select
+                id="status"
                 value={houseHoldHead.exthead1}
-                onChange={handleInputChange}
-              />
+                onChange={(e) =>
+                  handleMaritalStatus("exthead1", e.target.value)
+                }
+                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+              >
+                <option value="" disabled>
+                  SELECT EXTENSION NAME
+                </option>
+                <option value="JR">JR</option>
+                <option value="SR">SR</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="NONE">NONE</option>
+              </select>
             </td>
           </tr>
           <tr className="tbl-row">
@@ -300,10 +328,15 @@ const ResidentProfiling = () => {
             <td>
               <select
                 id="status"
-                value={addresshead1Selection}
-                onChange={(e) => setAddressHead1Selection(e.target.value)}
+                value={houseHoldHead.addresshead1} // Assume you have a state variable for the selected religion
+                onChange={(e) =>
+                  handleMaritalStatus("addresshead1", e.target.value)
+                }
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
+                <option value="" disabled>
+                  SELECT ZONE
+                </option>
                 <option value="ZONE 1">ZONE 1</option>
                 <option value="ZONE 2">ZONE 2</option>
                 <option value="ZONE 3">ZONE 3</option>
@@ -358,10 +391,15 @@ const ResidentProfiling = () => {
             <td>
               <select
                 id="status"
-                value={genderSelectionHead1}
-                onChange={(e) => setGenderSelectionHead1(e.target.value)}
+                value={houseHoldHead.genderhead1} // Assume you have a state variable for the selected religion
+                onChange={(e) =>
+                  handleMaritalStatus("genderhead1", e.target.value)
+                }
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
+                <option value="" disabled>
+                  SELECT GENDER
+                </option>
                 <option value="MALE">MALE</option>
                 <option value="FEMALE">FEMALE</option>
                 <option value="LGBTQ">LGBTQ</option>
@@ -375,11 +413,24 @@ const ResidentProfiling = () => {
                 id="status"
                 value={houseHoldHead.civilstatushead1}
                 onChange={(e) => {
-                  handleMaritalStatus("civilstatushead1", e.target.value);
-                  handleMaritalStatus("civilstatushead2", e.target.value);
+                  const selectedValue = e.target.value.toUpperCase();
+
+                  handleMaritalStatus("civilstatushead1", selectedValue);
+
+                  if (selectedValue !== "SINGLE") {
+                    handleMaritalStatus("civilstatushead2", selectedValue);
+                  } else {
+                    setHouseHoldHead((prevState) => ({
+                      ...prevState,
+                      civilstatushead2: "",
+                    }));
+                  }
                 }}
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
+                <option value="" disabled>
+                  SELECT CIVILSTATUS
+                </option>
                 <option value="SINGLE">SINGLE</option>
                 <option value="MARRIED">MARRIED</option>
                 <option value="WIDOW">WIDOW</option>
@@ -397,6 +448,9 @@ const ResidentProfiling = () => {
                 }
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
+                <option value="" disabled>
+                  SELECT RELIGION
+                </option>
                 <option value="CATHOLIC">Roman Catholic</option>
                 <option value="PROTESTANT">Protestant</option>
                 <option value="ISLAM">Islam</option>
@@ -405,28 +459,57 @@ const ResidentProfiling = () => {
                   Seventh-Day Adventist
                 </option>
                 <option value="ATHEIST">Atheist</option>
-                <option value="OTHER">Other</option>{" "}
-                {/* Option for those who may not identify with the listed religions */}
+                <option value="OTHER">Other</option>
               </select>
             </td>
           </tr>
+
           <tr className="tbl-row">
             <td>Type of ID</td>
             <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="typeofidhead1"
+              <select
+                id="status"
                 value={houseHoldHead.typeofidhead1}
-                onChange={handleInputChange}
-              />
+                onChange={(e) =>
+                  handleMaritalStatus("typeofidhead1", e.target.value)
+                }
+                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+              >
+                <option value="" disabled>
+                  SELECT ID TYPE
+                </option>
+                <option value="BIR">
+                  BIR (Bureau of Internal Revenue) ID{" "}
+                </option>
+                <option value="DRIVER LICENSE">Driver’s License</option>
+                <option value="GSIS">
+                  Government Service Insurance System (GSIS) eCard
+                </option>
+                <option value="PHILSYS">
+                  Philippine National ID (PhilSys)
+                </option>
+                <option value="PHILIPPHINE PASSSPORT">
+                  Philippine Passport
+                </option>
+                <option value="POSTAL ID">Postal ID</option>
+                <option value="PRC">
+                  Professional Regulation Commission (PRC) ID
+                </option>
+                <option value="SSS">Social Security System (SSS) ID</option>
+                <option value="TIN">Tax Identification Number (TIN) ID</option>
+                <option value="UMID">
+                  Unified Multi-Purpose ID (UMID) (issued by the SSS, GSIS,
+                  Pag-IBIG, and PhilHealth)
+                </option>
+                <option value="VOTERS ID">Voter’s ID</option>
+              </select>
             </td>
           </tr>
           <tr className="tbl-row">
             <td>ID No</td>
             <td>
               <input
-                type="number"
+                type="text"
                 className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
                 name="idnohead1"
                 value={houseHoldHead.idnohead1}
@@ -457,6 +540,9 @@ const ResidentProfiling = () => {
                 } // Function to handle changes
                 className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
+                <option value="" disabled>
+                  SELECT OCCUPATION
+                </option>
                 <option value="IT">Information Technology</option>
                 <option value="BPO">Business Process Outsourcing</option>
                 <option value="HEALTHCARE">Healthcare</option>
@@ -615,13 +701,24 @@ const ResidentProfiling = () => {
             <tr className="tbl-row">
               <td>Extension Name</td>
               <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="exthead2"
+                <select
+                  id="status"
                   value={houseHoldHead.exthead2}
-                  onChange={handleInputChange}
-                />
+                  onChange={(e) =>
+                    handleMaritalStatus("exthead2", e.target.value)
+                  }
+                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                >
+                  <option value="" disabled>
+                    SELECT EXTENSION NAME
+                  </option>
+                  <option value="JR">JR</option>
+                  <option value="SR">SR</option>
+                  <option value="II">II</option>
+                  <option value="III">III</option>
+                  <option value="IV">IV</option>
+                  <option value="NONE">NONE</option>
+                </select>
               </td>
             </tr>
             <tr className="tbl-row">
@@ -629,10 +726,15 @@ const ResidentProfiling = () => {
               <td>
                 <select
                   id="status"
-                  value={addresshead2Selection}
-                  onChange={(e) => setAddressHead2Selection(e.target.value)}
+                  value={houseHoldHead.addresshead2} // Assume you have a state variable for the selected religion
+                  onChange={(e) =>
+                    handleMaritalStatus("addresshead2", e.target.value)
+                  }
                   className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                 >
+                  <option value="" disabled>
+                    SELECT ZONE
+                  </option>
                   <option value="ZONE 1">ZONE 1</option>
                   <option value="ZONE 2">ZONE 2</option>
                   <option value="ZONE 3">ZONE 3</option>
@@ -661,7 +763,9 @@ const ResidentProfiling = () => {
                       <MobileDatePicker
                         className="px-1 border  cursor-pointer"
                         value={dateOfBirthHead2}
-                        onChange={handleDateOfBirthHead2}
+                        onChange={(date) => {
+                          handleDateOfBirthHead2(date);
+                        }}
                         maxDate={maxDate}
                       />
                     </DemoItem>
@@ -687,10 +791,15 @@ const ResidentProfiling = () => {
               <td>
                 <select
                   id="status"
-                  value={genderSelectionHead2}
-                  onChange={(e) => setGenderSelectionHead2(e.target.value)}
+                  value={houseHoldHead.genderhead2} // Assume you have a state variable for the selected religion
+                  onChange={(e) =>
+                    handleMaritalStatus("genderhead2", e.target.value)
+                  }
                   className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                 >
+                  <option value="" disabled>
+                    SELECT GENDER
+                  </option>
                   <option value="MALE">MALE</option>
                   <option value="FEMALE">FEMALE</option>
                   <option value="LGBTQ">LGBTQ</option>
@@ -706,6 +815,9 @@ const ResidentProfiling = () => {
                   disabled={true}
                   className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                 >
+                  <option value="" disabled>
+                    SELECT CIVILSTATUS
+                  </option>
                   <option value="SINGLE">SINGLE</option>
                   <option value="MARRIED">MARRIED</option>
                   <option value="WIDOW">WIDOW</option>
@@ -723,6 +835,9 @@ const ResidentProfiling = () => {
                   } // Function to handle changes
                   className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                 >
+                  <option value="" disabled>
+                    SELECT RELIGION
+                  </option>
                   <option value="CATHOLIC">Roman Catholic</option>
                   <option value="PROTESTANT">Protestant</option>
                   <option value="ISLAM">Islam</option>
@@ -731,7 +846,7 @@ const ResidentProfiling = () => {
                     Seventh-Day Adventist
                   </option>
                   <option value="ATHEIST">Atheist</option>
-                  <option value="OTHER">Other</option>{" "}
+                  <option value="OTHER">Other</option>
                   {/* Option for those who may not identify with the listed religions */}
                 </select>
               </td>
@@ -739,20 +854,51 @@ const ResidentProfiling = () => {
             <tr className="tbl-row">
               <td>Type of ID</td>
               <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="typeofidhead2"
+                <select
+                  id="status"
                   value={houseHoldHead.typeofidhead2}
-                  onChange={handleInputChange}
-                />
+                  onChange={(e) =>
+                    handleMaritalStatus("typeofidhead2", e.target.value)
+                  }
+                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                >
+                  <option value="" disabled>
+                    SELECT ID TYPE
+                  </option>
+                  <option value="BIR">
+                    BIR (Bureau of Internal Revenue) ID{" "}
+                  </option>
+                  <option value="DRIVER LICENSE">Driver’s License</option>
+                  <option value="GSIS">
+                    Government Service Insurance System (GSIS) eCard
+                  </option>
+                  <option value="PHILSYS">
+                    Philippine National ID (PhilSys)
+                  </option>
+                  <option value="PHILIPPHINE PASSSPORT">
+                    Philippine Passport
+                  </option>
+                  <option value="POSTAL ID">Postal ID</option>
+                  <option value="PRC">
+                    Professional Regulation Commission (PRC) ID
+                  </option>
+                  <option value="SSS">Social Security System (SSS) ID</option>
+                  <option value="TIN">
+                    Tax Identification Number (TIN) ID
+                  </option>
+                  <option value="UMID">
+                    Unified Multi-Purpose ID (UMID) (issued by the SSS, GSIS,
+                    Pag-IBIG, and PhilHealth)
+                  </option>
+                  <option value="VOTERS ID">Voter’s ID</option>
+                </select>
               </td>
             </tr>
             <tr className="tbl-row">
               <td>ID No</td>
               <td>
                 <input
-                  type="number"
+                  type="text"
                   className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
                   name="idnohead2"
                   value={houseHoldHead.idnohead2}
@@ -783,6 +929,9 @@ const ResidentProfiling = () => {
                   } // Function to handle changes
                   className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
                 >
+                  <option value="" disabled>
+                    SELECT OCCUPATION
+                  </option>
                   <option value="IT">Information Technology</option>
                   <option value="BPO">Business Process Outsourcing</option>
                   <option value="HEALTHCARE">Healthcare</option>

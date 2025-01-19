@@ -1,102 +1,42 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import SignUpHook from "../../hooks/authentication/Signup";
 import { Toaster } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import { handleInvalid } from "../../components/toastify/Toastify";
-const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import AccountSettingHook from "../../hooks/authentication/AccountSetting";
+export const ResetPassword = () => {
+  const { id } = useParams();
+  const { handleResetPassword, resetPasswordMutation } = AccountSettingHook();
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
+  const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
-  const [confirmShowPassword, setConfirmShowPassword] = useState(false);
-  const { handleSignUp, mutation } = SignUpHook();
-
-  const handleConfirmPassword = (data) => {
-    if (username == "" || email == "" || password == "") {
-      handleInvalid("Invalid");
-      return;
-    }
-    if (password !== confirmPassword) {
-      handleInvalid("did not match password");
-      return;
-    }
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-
-    handleSignUp(data);
-  };
-  const handleShowConfirmPassword = () => {
-    setConfirmShowPassword(!confirmShowPassword);
-  };
   const handleShowPassword = () => {
     setPasswordShow(!passwordShow);
+  };
+  const handleShowConfirmPassword = () => {
+    setConfirmPasswordShow(!confirmPasswordShow);
+  };
+  const handleSubmit = () => {
+    if (password !== confirmPassword) {
+      handleInvalid("Passwords do not match.");
+      return;
+    }
+    const data = {
+      id: id,
+      password: password,
+    };
+    handleResetPassword(data);
   };
   return (
     <div className="w-full h-screen	 bg-[#FFFBFB] flex items-center justify-center flex-col ">
       <div>
         <h1 className="text-3xl font-semibold font-sans	max-lg:text-2xl max-sm:text-xl mb-2">
-          Create Resident Account
+          RESET ACCOUNT PASSWORD
         </h1>
       </div>
+
       <div className=" bg-[#76A0EE] w-[40%] z-10 rounded-xl	relative max-lg:w-[60%] max-sm:w-[90%]">
         <div className="w-full  h-auto py-5 px-5">
-          <div className="relative ">
-            <div className="absolute top-[10px] z-20 px-2 right-0 ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-                className="text-2xl ]"
-              >
-                <rect width="24" height="24" fill="none" />
-                <path
-                  fill="currentColor"
-                  d="M22 3H2c-1.09.04-1.96.91-2 2v14c.04 1.09.91 1.96 2 2h20c1.09-.04 1.96-.91 2-2V5a2.074 2.074 0 0 0-2-2m0 16H2V5h20zm-8-2v-1.25c0-1.66-3.34-2.5-5-2.5s-5 .84-5 2.5V17zM9 7a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 9 12a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 9 7m5 0v1h6V7zm0 2v1h6V9zm0 2v1h4v-1z"
-                />
-              </svg>
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                name="firstName"
-                placeholder="Account Name"
-                className="w-full py-3 px-3"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="relative mt-5">
-            <div className="absolute top-[10px] z-20 px-2 right-0 ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-                className="text-2xl "
-              >
-                <path
-                  fill="currentColor"
-                  d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"
-                />
-              </svg>
-            </div>
-            <div className="relative">
-              <input
-                type="email"
-                name="email"
-                placeholder="E-mail Address"
-                className="w-full py-3 px-3"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          </div>
-
           <div className="relative mt-5">
             <div className="absolute top-[10px] z-20 px-2 right-0 ">
               {passwordShow ? (
@@ -139,10 +79,9 @@ const Signup = () => {
               />
             </div>
           </div>
-
           <div className="relative mt-5">
             <div className="absolute top-[10px] z-20 px-2 right-0 ">
-              {confirmShowPassword ? (
+              {confirmPasswordShow ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1em"
@@ -174,7 +113,7 @@ const Signup = () => {
             </div>
             <div className="relative">
               <input
-                type={confirmShowPassword ? "text" : "password"}
+                type={confirmPasswordShow ? "text" : "password"}
                 placeholder="Confirm Password"
                 className="w-full py-3 px-3"
                 value={confirmPassword}
@@ -182,34 +121,18 @@ const Signup = () => {
               />
             </div>
           </div>
-          <button
-            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg  max-lg:text-xl "
-            disabled={mutation.isPending}
-            onClick={() =>
-              handleConfirmPassword({
-                username: username,
-                emailaddress: email,
-                password: password,
-                type: "user",
-              })
-            }
-          >
-            {mutation.isPending ? "Loading" : "SIGN UP"}
-          </button>
 
-          <div className="flex items-center justify-between max-sm:flex-col">
-            <Link to="/signin">
-              <h1 className="mt-3 text-[#000000]">Already have an Account</h1>
-            </Link>
-            <Link to="/forgotpassword">
-              <h1 className="mt-3 text-[#000000] ">Forgot Password</h1>
-            </Link>
-          </div>
+          <button
+            className="text-2xl	 font-bold py-3 px-3 w-full bg-[#FFFBFB] mt-5 text-center rounded-lg max-lg:text-xl max-sm:text-lg "
+            onClick={handleSubmit}
+            disabled={resetPasswordMutation.isPending}
+          >
+            {resetPasswordMutation.isPending ? "Loading" : "SUBMIT"}
+          </button>
         </div>
       </div>
+
       <Toaster />
     </div>
   );
 };
-
-export default Signup;

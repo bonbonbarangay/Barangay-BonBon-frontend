@@ -23,7 +23,8 @@ import Strategic from "./pages/user/Strategic";
 import VerifyOtp from "./pages/user/VerifyOtp";
 import "leaflet/dist/leaflet.css";
 import VerifyAccount from "./pages/user/VerifyAccount";
-
+import { ForgotPassword } from "./pages/user/ForgotPassword";
+import { ResetPassword } from "./pages/user/ResetPassword";
 function App() {
   return (
     <>
@@ -52,6 +53,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/verifyotp" element={<VerifyOtp />} />
           <Route path="/verify/:id" element={<VerifyAccount />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword/:id" element={<ResetPassword />} />
 
           {/* admin routes */}
           <Route path="/admin/official" element={<Official />} />

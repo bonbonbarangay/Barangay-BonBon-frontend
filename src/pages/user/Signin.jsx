@@ -111,9 +111,12 @@ const Signin = () => {
           >
             {mutation.isPending ? "Loading" : "SIGN IN"}
           </button>
-          <div>
+          <div className="flex items-center justify-between max-sm:flex-col">
             <Link to="/signup">
               <h1 className="mt-3 text-[#000000] ">Don't have an account?</h1>
+            </Link>
+            <Link to="/forgotpassword">
+              <h1 className="mt-3 text-[#000000] ">Forgot Password</h1>
             </Link>
           </div>
         </div>

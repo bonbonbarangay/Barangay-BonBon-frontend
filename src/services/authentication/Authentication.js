@@ -97,3 +97,38 @@ export const verifyOtp = async (data) => {
     }
   }
 };
+
+export const forgotPassword = async (emailaddress) => {
+  try {
+    const response = await axios.post(
+      `https://barangay-bonbon-backend.onrender.com/authentication/forgotpasssword`,
+      {
+        emailaddress: emailaddress,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+export const resetPassword = async (data) => {
+  try {
+    const response = await axios.put(
+      `https://barangay-bonbon-backend.onrender.com/authentication/resetpassword/${data.id}`,
+      {
+        password: data.password,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response;
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
