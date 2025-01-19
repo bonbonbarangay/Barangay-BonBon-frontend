@@ -214,15 +214,8 @@ const ResidentProfiling = () => {
       handleCreateHouseHold(houseHoldHead);
       handleCreateHouseMembers(household);
       handleCreateFormStatus(data);
-      setHouseHoldHead((prev) => ({
-        ...prev,
-
-        dateofbirthhead2:
-          houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE"
-            ? ""
-            : formatDate(dateOfBirthHead2),
-      }));
     } else {
+      console.log(houseHoldHead);
       handleInvalid("All fields are required");
     }
   };
@@ -232,8 +225,9 @@ const ResidentProfiling = () => {
       image: photo,
       dateofbirthhead1: formatDate(dateOfBirthHead1),
       dateofbirthhead2:
-        houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE"
-          ? "" // Set empty string if civilstatushead1 is "SINGLE"
+        houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE" ||
+        houseHoldHead.civilstatushead1.toUpperCase() === "WIDOW"
+          ? ""
           : formatDate(dateOfBirthHead2),
     }));
 
@@ -245,7 +239,7 @@ const ResidentProfiling = () => {
         dateofbirthhead2: "",
       }));
     };
-  }, [photo]);
+  }, [photo, houseHoldHead.civilstatushead1]);
   return (
     <div className="w-full bg-[#DEE5F8] py-3 h-auto">
       <div>
@@ -417,19 +411,21 @@ const ResidentProfiling = () => {
 
                   handleMaritalStatus("civilstatushead1", selectedValue);
 
-                  if (selectedValue !== "SINGLE") {
-                    handleMaritalStatus("civilstatushead2", selectedValue);
-                  } else {
+                  if (selectedValue === "SINGLE" || selectedValue === "WIDOW") {
+                    // If the selected value is "SINGLE" or "WIDOW", clear civilstatushead2
                     setHouseHoldHead((prevState) => ({
                       ...prevState,
-                      civilstatushead2: "",
+                      civilstatushead2: "", // Clear the value of civilstatushead2
                     }));
+                  } else {
+                    // Otherwise, set the value of civilstatushead2
+                    handleMaritalStatus("civilstatushead2", selectedValue);
                   }
                 }}
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                className="border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
               >
                 <option value="" disabled>
-                  SELECT CIVILSTATUS
+                  SELECT CIVIL STATUS
                 </option>
                 <option value="SINGLE">SINGLE</option>
                 <option value="MARRIED">MARRIED</option>
