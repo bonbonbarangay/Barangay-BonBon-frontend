@@ -20,7 +20,7 @@ const CreateProjectManagementModal = ({
   const [projectlocation, setProjectLocation] = useState("");
   const [contractor, setContractor] = useState("");
   const [contractPayment, setContractPayment] = useState("");
-  const [updateStatus, setUpdateStatus] = useState("");
+  const [updateStatus, setUpdateStatus] = useState("In-Progress");
   const [dateMonitoring, setDateMonitoring] = useState(dayjs());
   const [issues, setIssues] = useState("");
   const [projectEngineer, setProjectEngineer] = useState("");
@@ -28,6 +28,7 @@ const CreateProjectManagementModal = ({
   const [overall, setOverall] = useState("");
   const [colorSelection, setColorSelection] = useState("");
   const [budgetYear, setBudgetYear] = useState("");
+  const [percentage, setPercentage] = useState("00%");
 
   const handleDateMonitoring = (date) => {
     if (date) {
@@ -55,7 +56,8 @@ const CreateProjectManagementModal = ({
       projectEngineer == "" ||
       overall == "" ||
       colorSelection == "" ||
-      budgetYear == ""
+      budgetYear == "" ||
+      percentage == ""
     ) {
       handleInvalid("Pls Complete");
       return;
@@ -75,6 +77,7 @@ const CreateProjectManagementModal = ({
       latitude: clickedPosition.latitude,
       longitude: clickedPosition.longitude,
       budgetyear: budgetYear,
+      percentage: percentage,
     };
     handleCreateLocation(data);
   };
@@ -174,12 +177,15 @@ const CreateProjectManagementModal = ({
                     <h1 className="text-xl font-bold mb-2">Update Status</h1>
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      className="w-full py-3 px-3 border border-[#000]  text-lg"
+                    <select
+                      className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
                       value={updateStatus}
                       onChange={(e) => setUpdateStatus(e.target.value)}
-                    />
+                    >
+                      <option value="In-Progress">In-Progress</option>
+                      <option value="On-Hold">On-Hold</option>
+                      <option value="Completed">Completed</option>
+                    </select>
                   </div>
                 </div>
 
@@ -277,7 +283,32 @@ const CreateProjectManagementModal = ({
                     </div>
                   </div>
                 </div>
-
+                <div className="mt-5">
+                  <div>
+                    <h1 className="text-xl font-bold mb-2">
+                      OVERALL COMPLETION
+                    </h1>
+                  </div>
+                  <div>
+                    <select
+                      className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
+                      value={percentage}
+                      onChange={(e) => setPercentage(e.target.value)}
+                    >
+                      <option value="0%">0%</option>
+                      <option value="10%">10</option>
+                      <option value="20%">20%</option>
+                      <option value="30%">30%</option>
+                      <option value="40%">40%</option>
+                      <option value="50%">50%</option>
+                      <option value="60%">60%</option>
+                      <option value="70%">70%</option>
+                      <option value="80%">80%</option>
+                      <option value="90%">90%</option>
+                      <option value="100%">100%</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="mt-5">
                   <div>
                     <h1 className="text-xl font-bold mb-2">Project Color</h1>
@@ -349,7 +380,7 @@ const CreateProjectManagementModal = ({
                       onClick={handleCreate}
                       disabled={mutation.isPending}
                     >
-                      {mutation.isPending ? "Loading" : "Create Project"}{" "}
+                      {mutation.isPending ? "Loading" : "Create Project"}
                     </button>
                   </div>
                 </div>

@@ -11,7 +11,6 @@ import {
   deleteHouseHoldAndHouseMembersByUserid,
   getHouseByUserid,
 } from "../../services/residentprofiling/HouseHold";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getFromLocalStorage } from "../../utils/localStorage";
 const HouseHoldHook = () => {
@@ -28,7 +27,7 @@ const HouseHoldHook = () => {
   const mutation = useMutation({
     mutationFn: createHouseHold,
     onSuccess: (data) => {
-      handleSucess("success created resident form");
+      handleSucess("Sucess Created");
       queryClient.invalidateQueries({ queryKey: ["household"] });
     },
     onError: (error) => {

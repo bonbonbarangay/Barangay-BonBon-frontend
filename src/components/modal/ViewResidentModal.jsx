@@ -157,7 +157,11 @@ const ViewResidentModal = ({
                       <h1 className="text-sm font-semibold">RELIGION</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.religionhead1}</p>
+                      <p className="mt-1">
+                        {houseHold?.religionhead1 == "OTHERS"
+                          ? houseHold?.religionotherhead1
+                          : houseHold?.religionhead1}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -193,7 +197,11 @@ const ViewResidentModal = ({
                       <h1 className="text-sm font-semibold">OCCUPATION</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.occupationhead1}</p>
+                      <p className="mt-1">
+                        {houseHold?.occupationhead1 == "OTHERS"
+                          ? houseHold?.occupationotherhead1
+                          : houseHold?.occupationhead1}
+                      </p>
                     </div>
                   </div>
 
@@ -253,186 +261,257 @@ const ViewResidentModal = ({
                 </div>
               </div>
 
+              {houseHold?.civilstatushead1 == "MARRIED" && (
+                <div className="border-b-2  border-[#000] py-3">
+                  <div>
+                    <h1 className="text-sm font-bold">Spouse</h1>
+                  </div>
+                  <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">LAST NAME</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.lastnamehead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">FIRST NAME</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.firstnamehead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">M. I</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.mihead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">Ext</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.exthead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">ZONE</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.addresshead2}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">DATE OF BIRTH</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.dateofbirthhead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">AGE</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.agehead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">GENDER</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.genderhead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">CIVIL STATUS</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.civilstatushead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">RELIGION</h1>
+                      </div>
+                      <div>
+                        {houseHold?.religionhead2 == "OTHERS"
+                          ? houseHold?.religionotherhead2
+                          : houseHold?.religionhead2}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">TYPE OF ID</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.typeofidhead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">ID NO</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.idnohead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">
+                          MOBILE/TEL NO:
+                        </h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.mobilenohead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">OCCUPATION</h1>
+                      </div>
+                      <div>
+                        {houseHold?.occupationhead2 == "OTHERS"
+                          ? houseHold?.occupationotherhead2
+                          : houseHold?.occupationhead2}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">SKILLS</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.skillshead2}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">
+                          COMPANY ADDRESS
+                        </h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.companyaddresshead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">COLLEGE</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.collegehead2}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">HIGHSCHOOL</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.highschoolhead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">ELEMENTARY</h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">{houseHold?.elementaryhead2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center flex-col">
+                      <div>
+                        <h1 className="text-sm font-semibold">
+                          VOCATION COURSE
+                        </h1>
+                      </div>
+                      <div>
+                        <p className="mt-1">
+                          {houseHold?.vocationalcoursehead2}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="border-b-2  border-[#000] py-3">
                 <div>
-                  <h1 className="text-sm font-bold">Spouse</h1>
+                  <h1 className="text-sm font-bold">Type of Beneficiaries</h1>
                 </div>
                 <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">LAST NAME</h1>
+                      <h1 className="text-sm font-semibold">4ps</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.lastnamehead2}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">FIRST NAME</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.firstnamehead2}</p>
+                      <p className="mt-1">{houseHold?.fourps}</p>
                     </div>
                   </div>
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">M. I</h1>
+                      <h1 className="text-sm font-semibold">UCT</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.mihead2}</p>
+                      <p className="mt-1">{houseHold?.uct}</p>
                     </div>
                   </div>
-
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">Ext</h1>
+                      <h1 className="text-sm font-semibold">Solo Parent</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.exthead2}</p>
+                      <p className="mt-1">{houseHold?.soloparent}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">ZONE</h1>
+                      <h1 className="text-sm font-semibold">Senior Citizen</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.addresshead2}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">DATE OF BIRTH</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.dateofbirthhead2}</p>
+                      <p className="mt-1">{houseHold?.seniorcitizen}</p>
                     </div>
                   </div>
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">AGE</h1>
+                      <h1 className="text-sm font-semibold">PWD</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.agehead2}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">GENDER</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.genderhead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">CIVIL STATUS</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.civilstatushead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">RELIGION</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.religionhead2}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">TYPE OF ID</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.typeofidhead2}</p>
+                      <p className="mt-1">{houseHold?.pwd}</p>
                     </div>
                   </div>
                   <div className="flex items-center flex-col">
                     <div>
-                      <h1 className="text-sm font-semibold">ID NO</h1>
+                      <h1 className="text-sm font-semibold">IP</h1>
                     </div>
                     <div>
-                      <p className="mt-1">{houseHold?.idnohead2}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">MOBILE/TEL NO:</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.mobilenohead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">OCCUPATION</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.occupationhead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">SKILLS</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.skillshead2}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full grid grid-cols-5 place-items-center gap-5 mt-5">
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">COMPANY ADDRESS</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.companyaddresshead2}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">COLLEGE</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.collegehead2}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">HIGHSCHOOL</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.highschoolhead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">ELEMENTARY</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.elementaryhead2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-col">
-                    <div>
-                      <h1 className="text-sm font-semibold">VOCATION COURSE</h1>
-                    </div>
-                    <div>
-                      <p className="mt-1">{houseHold?.vocationalcoursehead2}</p>
+                      <p className="mt-1">{houseHold?.ip}</p>
                     </div>
                   </div>
                 </div>
@@ -532,7 +611,11 @@ const ViewResidentModal = ({
                             </h1>
                           </div>
                           <div>
-                            <p className="mt-1">{item.occupation}</p>
+                            <p className="mt-1">
+                              {item.occupation == "OTHERS"
+                                ? item.occupationother
+                                : item.occupation}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -562,14 +645,16 @@ const ViewResidentModal = ({
                         <p>{houseHold?.question1}</p>
                       </div>
                     </div>
-                    <div className="flex gap-2 items-center">
-                      <div>
-                        <h1 className="text-sm semibold">RENTING:</h1>
+                    {houseHold?.question1 === "NO" && (
+                      <div className="flex gap-2 items-center">
+                        <div>
+                          <h1 className="text-sm semibold">RENTING:</h1>
+                        </div>
+                        <div>
+                          <p>{houseHold?.renting}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p>{houseHold?.renting}</p>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
 
@@ -597,7 +682,7 @@ const ViewResidentModal = ({
                       3. ARE YOU REGISTERED VOTERS IN BARANGAY?
                     </h1>
                   </div>
-                  <div className=" pl-4 mt-2">
+                  <div className="flex gap-10 pl-4 mt-2">
                     <div className="flex gap-2 items-center">
                       <div>
                         <h1 className="text-sm semibold">Answer:</h1>
@@ -606,6 +691,16 @@ const ViewResidentModal = ({
                         <p>{houseHold?.question3}</p>
                       </div>
                     </div>
+                    {houseHold?.question3 === "YES" && (
+                      <div className="flex gap-2 items-center">
+                        <div>
+                          <h1 className="text-sm semibold">Precint Number:</h1>
+                        </div>
+                        <div>
+                          <p>{houseHold?.questionprecinctno}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

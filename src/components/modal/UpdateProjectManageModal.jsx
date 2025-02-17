@@ -47,6 +47,7 @@ const UpdateProjectManageModal = ({
   const datestart = locationData?.datestart
     ? dayjs(locationData.datestart, "MM/DD/YYYY")
     : null;
+  const [percentage, setPercentage] = useState(locationData?.percentage || "");
 
   const handleDateMonitoring = (date) => {
     if (date && dayjs(date).isValid()) {
@@ -76,6 +77,7 @@ const UpdateProjectManageModal = ({
       setOverall(locationData.overall);
       setColorSelection(locationData.color);
       setBudgetYear(locationData.budgetyear);
+      setPercentage(locationData.percentage);
     }
   }, [locationData]);
 
@@ -100,6 +102,7 @@ const UpdateProjectManageModal = ({
       budgetyear: budgetYear,
       latitude: locationData?.latitude,
       longitude: locationData?.longitude,
+      percentage: percentage,
     };
     handleUpdateData(data);
   };
@@ -200,12 +203,15 @@ const UpdateProjectManageModal = ({
                     <h1 className="text-xl font-bold mb-2">Update Status</h1>
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      className="w-full py-3 px-3 border border-[#000]  text-lg"
+                    <select
+                      className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
                       value={updateStatus}
                       onChange={(e) => setUpdateStatus(e.target.value)}
-                    />
+                    >
+                      <option value="In-Progress">In-Progress</option>
+                      <option value="On-Hold">On-Hold</option>
+                      <option value="Completed">Completed</option>
+                    </select>
                   </div>
                 </div>
 
@@ -303,7 +309,32 @@ const UpdateProjectManageModal = ({
                     </div>
                   </div>
                 </div>
-
+                <div className="mt-5">
+                  <div>
+                    <h1 className="text-xl font-bold mb-2">
+                      OVERALL COMPLETION
+                    </h1>
+                  </div>
+                  <div>
+                    <select
+                      className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
+                      value={percentage}
+                      onChange={(e) => setPercentage(e.target.value)}
+                    >
+                      <option value="0%">0%</option>
+                      <option value="10%">10</option>
+                      <option value="20%">20%</option>
+                      <option value="30%">30%</option>
+                      <option value="40%">40%</option>
+                      <option value="50%">50%</option>
+                      <option value="60%">60%</option>
+                      <option value="70%">70%</option>
+                      <option value="80%">80%</option>
+                      <option value="90%">90%</option>
+                      <option value="100%">100%</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="mt-5">
                   <div>
                     <h1 className="text-xl font-bold mb-2">Project Color</h1>

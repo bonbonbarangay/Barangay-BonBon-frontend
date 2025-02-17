@@ -6,7 +6,7 @@ import { useState } from "react";
 import ViewResidentModal from "./ViewResidentModal";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
 import FormStatusHook from "../../hooks/formstatus/FormStatus";
-import EmailNotificationHook from "../../hooks/emailNotification/EmailNotification";
+import DeclineModal from "./DeclineModal";
 export const style = {
   position: "absolute",
   top: "50%",
@@ -22,19 +22,16 @@ export const style = {
 
 const PendingModal = ({ pendingOpen, handlePendingClose }) => {
   const [viewOpen, setViewOpen] = useState(false);
+  const [declineOpen, setDeclineOpen] = useState(false);
+  const [declineData, setDeclineData] = useState();
   const { handleUpdateFormData } = FormStatusHook();
-  const { handleNotification } = EmailNotificationHook();
   const {
     data,
-    isError,
     isLoading,
     handleAcceptPending,
     acceptPendingMutation,
     houseHold,
     houseMembers,
-    viewByUserIdMutation,
-    deleteByUserIdMutation,
-    handleDelete,
     handleView,
   } = HouseHoldHook();
 
@@ -46,18 +43,13 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
     handleView(userid);
     setViewOpen(true);
   };
-  const deleteForm = (data) => {
-    const notificationData = {
-      userid: data.userid,
-      status: "Decline",
-    };
-    handleNotification(notificationData);
-    const dataForm = {
-      userid: data.userid,
-      status: "decline",
-    };
-    handleUpdateFormData(dataForm);
-    handleDelete(data);
+  const handleOpenDecline = (data) => {
+    setDeclineOpen(true);
+    setDeclineData(data);
+    handlePendingClose();
+  };
+  const handleCloseDecline = () => {
+    setDeclineOpen(false);
   };
   const handleAccept = (userdata) => {
     const notificationData = {
@@ -72,6 +64,7 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
     handleUpdateFormData(dataForm);
     handleAcceptPending(userdata.id);
   };
+
   return (
     <div>
       <Modal
@@ -166,12 +159,9 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
                                 </button>
                                 <button
                                   className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
-                                  disabled={deleteByUserIdMutation.isPending}
-                                  onClick={() => deleteForm(item)}
+                                  onClick={() => handleOpenDecline(item)}
                                 >
-                                  {deleteByUserIdMutation.isPending
-                                    ? "Loading"
-                                    : "Decline"}
+                                  Decline
                                 </button>
                               </td>
                             </tr>
@@ -191,6 +181,12 @@ const PendingModal = ({ pendingOpen, handlePendingClose }) => {
         handleViewClose={handleViewClose}
         houseMembers={houseMembers}
         houseHold={houseHold}
+      />
+
+      <DeclineModal
+        declineOpen={declineOpen}
+        handleCloseDecline={handleCloseDecline}
+        declineData={declineData}
       />
     </div>
   );

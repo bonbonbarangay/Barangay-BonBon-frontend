@@ -81,6 +81,7 @@ export const updateData = async (data) => {
         budgetyear: data.budgetyear,
         latitude: data.latitude,
         longitude: data.longitude,
+        percentage: data.percentage,
       }
     );
     return response.data;

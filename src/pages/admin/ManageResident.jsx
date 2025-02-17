@@ -12,15 +12,14 @@ const ManageResident = () => {
   const [search, setSearch] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
+
   const { handleUpdateFormData } = FormStatusHook();
   const {
     data,
-    isError,
     isLoading,
     handleView,
     houseHold,
     houseMembers,
-    viewByUserIdMutation,
     handleDelete,
     deleteByUserIdMutation,
   } = HouseHoldHook();

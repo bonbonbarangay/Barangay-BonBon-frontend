@@ -1,544 +1,398 @@
-import React, { useState, useRef, useEffect } from "react";
-import Profiling from "../../components/user/Profiling";
+import { useState, useEffect } from "react";
+import { houseHeadSchema } from "../../zod/schema";
+import { calculateAge } from "../../utils/computeAge";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import HouseHoldHook from "../../hooks/residentprofiling/HouseHold";
-import { getFromLocalStorage } from "../../utils/localStorage";
 import HouseMembersHook from "../../hooks/residentprofiling/HouseMembers";
 import { Toaster } from "react-hot-toast";
-import { handleInvalid } from "../../components/toastify/Toastify";
-import FormStatusHook from "../../hooks/formstatus/FormStatus";
-import dayjs from "dayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import "../../App.css";
-const getAgeByBirthdate = (birthdate) => {
-  const birthDate = dayjs(birthdate);
-  const today = dayjs();
-  const age = today.diff(birthDate, "year");
-  return age;
-};
+
 const ResidentProfiling = () => {
-  const [photo, setPhoto] = useState("");
-  const [dateOfBirthHead1, setDateOfBirthHead1] = useState(dayjs());
-  const [dateOfBirthHead2, setDateOfBirthHead2] = useState(dayjs());
-  const maxDate = dayjs().subtract(365 * 18, "day");
-  const noFutureDates = dayjs().subtract(1, "day");
-  const { handleCreateFormStatus } = FormStatusHook();
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(houseHeadSchema),
+    defaultValues: {
+      members: "",
+      householdMembers: [],
+      exthead1: "JR",
+      genderhead1: "FEMALE",
+      civilstatushead1: "SINGLE",
+      religionhead1: "CATHOLIC",
+    },
+  });
+  const [preview, setPreview] = useState(null);
+  const civilStatus = watch("civilstatushead1");
+  const question1 = watch("question1");
+  const question3 = watch("question3");
+  const selectedDate = watch("dateofbirthhead1");
+  const selectedDateSpouse = watch("dateofbirthhead2");
   const { handleCreateHouseHold, mutation } = HouseHoldHook();
   const { handleCreateHouseMembers } = HouseMembersHook();
-  const [houseHoldHead, setHouseHoldHead] = useState({
-    //additional
-    userid: getFromLocalStorage("id"),
-
-    // data1
-    lastnamehead1: "",
-    agehead1: "",
-    firstnamehead1: "",
-    mihead1: "",
-    exthead1: "",
-    addresshead1: "",
-    dateofbirthhead1: "",
-    genderhead1: "",
-    civilstatushead1: "",
-    religionhead1: "",
-    typeofidhead1: "",
-    idnohead1: "",
-    mobilenohead1: "",
-    occupationhead1: "",
-    skillshead1: "",
-    companyaddresshead1: "",
-    collegehead1: "",
-    highschoolhead1: "",
-    elementaryhead1: "",
-    vocationalcoursehead1: "",
-    // data2
-    lastnamehead2: "",
-    firstnamehead2: "",
-    mihead2: "",
-    exthead2: "",
-    addresshead2: "",
-    dateofbirthhead2: "",
-    genderhead2: "",
-    civilstatushead2: "",
-    religionhead2: "",
-    typeofidhead2: "",
-    idnohead2: "",
-    mobilenohead2: "",
-    occupationhead2: "",
-    skillshead2: "",
-    companyaddresshead2: "",
-    collegehead2: "",
-    highschoolhead2: "",
-    elementaryhead2: "",
-    vocationalcoursehead2: "",
-    agehead2: "",
-    //data3
-    members: "",
-    children: "",
-    //data 4
-    questionPrecinctNo: "0",
-    question1: "",
-    question2: "",
-    renting: "",
-    question3: "",
-    question4: "",
-    question5: "",
-    question6: "",
-    image: photo,
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "householdMembers",
   });
-  const areAllFieldsFilled = (object, isExcluded = false) => {
-    const excludedKeys = [
-      "agehead2",
-      "addresshead2",
-      "lastnamehead2",
-      "firstnamehead2",
-      "mihead2",
-      "exthead2",
-      "dateofbirthhead2",
-      "genderhead2",
-      "civilstatushead2",
-      "religionhead2",
-      "typeofidhead2",
-      "idnohead2",
-      "mobilenohead2",
-      "occupationhead2",
-      "skillshead2",
-      "companyaddresshead2",
-      "collegehead2",
-      "highschoolhead2",
-      "elementaryhead2",
-      "vocationalcoursehead2",
-    ];
+  const householdMembers = watch("householdMembers");
+  const religionHead1 = watch("religionhead1");
 
-    const keysToCheck = isExcluded
-      ? Object.keys(object).filter((key) => !excludedKeys.includes(key))
-      : Object.keys(object);
+  const religionHead2 = watch("religionhead2");
+  const occupationHead1 = watch("occupationhead1");
+  const occupationHead2 = watch("occupationhead2");
+  const numberOfMembers = watch("members");
 
-    return keysToCheck.every(
-      (key) =>
-        object[key] !== "" && object[key] !== null && object[key] !== undefined
-    );
-  };
-  const handleDateOfBirthHead1 = (date) => {
-    if (date) {
-      // Calculate the age and update both dateofbirthhead2 and agehead2
-      const calculatedAge = getAgeByBirthdate(date);
-      setDateOfBirthHead1(date);
-
-      setHouseHoldHead((prevState) => ({
-        ...prevState,
-        agehead1: calculatedAge.toString(),
-      }));
+  useEffect(() => {
+    if (selectedDate) {
+      const age = calculateAge(selectedDate);
+      setValue("agehead1", age.toString(), { shouldValidate: true });
     }
-  };
-  const handleDateOfBirthHead2 = (date) => {
-    if (date) {
-      // Calculate the age and update both dateofbirthhead2 and agehead2
-      const calculatedAge = getAgeByBirthdate(date);
-      setDateOfBirthHead2(date);
+  }, [selectedDate, setValue]);
 
-      setHouseHoldHead((prevState) => ({
-        ...prevState,
-        agehead2: calculatedAge.toString(),
-      }));
+  useEffect(() => {
+    if (selectedDateSpouse) {
+      const age = calculateAge(selectedDate);
+      setValue("agehead2", age.toString(), { shouldValidate: true });
     }
-  };
-  const formatDate = (date) => {
-    return date ? date.format("MM/DD/YYYY") : "";
-  };
-  const fileInputRef = useRef(null);
-  const handleFileChangePhoto = (event) => {
-    const file = event.target.files?.[0];
+  }, [selectedDateSpouse, setValue]);
+
+  useEffect(() => {
+    if (civilStatus == "MARRIED") {
+      setValue("civilstatushead2", "MARRIED", { shouldValidate: true });
+    }
+  }, [civilStatus, setValue]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("Must be an image file");
+        return;
+      }
+
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhoto(reader.result);
+      reader.onload = () => {
+        const base64 = reader.result;
+        setValue("image", base64);
+        setPreview(base64);
+      };
+      reader.onerror = () => {
+        alert("Failed to read file");
       };
       reader.readAsDataURL(file);
-    }
-  };
-  const handleIconClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleMaritalStatus = (name, value) => {
-    const valueUpper = value.toUpperCase();
-
-    setHouseHoldHead((prevState) => ({
-      ...prevState,
-      [name]: valueUpper,
-    }));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    const valueUpper = value.toUpperCase();
-    console.log(valueUpper);
-    setHouseHoldHead((prevState) => ({
-      ...prevState,
-      [name]: valueUpper,
-    }));
-  };
-
-  const handleCheckboxChange = (questionKey, value) => {
-    setHouseHoldHead((prev) => ({
-      ...prev,
-      [questionKey]: prev[questionKey] === value ? "" : value,
-    }));
-  };
-
-  const handleSubmit = (household) => {
-    const data = {
-      userid: getFromLocalStorage("id"),
-      status: "pending",
-    };
-
-    if (photo === "") {
-      handleInvalid("Update ID Photo");
-      return;
-    }
-
-    const isSingleOrWidow =
-      houseHoldHead.civilstatushead1 === "SINGLE" ||
-      houseHoldHead.civilstatushead1 === "WIDOW";
-
-    const validHouseHoldHead = areAllFieldsFilled(
-      houseHoldHead,
-      isSingleOrWidow
-    );
-    const validHouseHoldMembers = areAllFieldsFilled(household);
-    const validData = areAllFieldsFilled(data);
-
-    if (validHouseHoldHead && validHouseHoldMembers && validData) {
-      handleCreateHouseHold(houseHoldHead);
-      handleCreateHouseMembers(household);
-      handleCreateFormStatus(data);
     } else {
-      console.log(houseHoldHead);
-      handleInvalid("All fields are required");
+      setValue("image", "");
+      setPreview(null);
     }
   };
+
   useEffect(() => {
-    setHouseHoldHead((prev) => ({
-      ...prev,
-      image: photo,
-      dateofbirthhead1: formatDate(dateOfBirthHead1),
-      dateofbirthhead2:
-        houseHoldHead.civilstatushead1.toUpperCase() === "SINGLE" ||
-        houseHoldHead.civilstatushead1.toUpperCase() === "WIDOW"
-          ? ""
-          : formatDate(dateOfBirthHead2),
-    }));
+    if (householdMembers) {
+      householdMembers.forEach((member, index) => {
+        console.log(member.dob);
+        if (member.dob) {
+          const age = calculateAge(member.dob);
+          setValue(`householdMembers.${index}.age`, age.toString(), {
+            shouldValidate: true,
+          });
+        }
+      });
+    }
+  }, [JSON.stringify(householdMembers), setValue]);
 
-    return () => {
-      setHouseHoldHead((prev) => ({
-        ...prev,
-        image: "",
-        dateofbirthhead1: "",
-        dateofbirthhead2: "",
-      }));
-    };
-  }, [photo, houseHoldHead.civilstatushead1]);
+  useEffect(() => {
+    const currentMembers = fields.length;
+    const newMembers = parseInt(numberOfMembers) || 0;
+
+    if (newMembers > currentMembers) {
+      for (let i = currentMembers; i < newMembers; i++) {
+        append({
+          lastNameFirstName: "",
+          dob: "",
+          age: "0",
+          relation: "HUSBAND",
+          pwd: "NO",
+          gender: "MALE",
+          education: "ELEMENTARY LEVEL",
+          occupation: "NONE",
+        });
+      }
+    } else if (newMembers < currentMembers) {
+      // Remove extra members
+      const membersToRemove = currentMembers - newMembers;
+      for (let i = 0; i < membersToRemove; i++) {
+        remove(currentMembers - 1 - i); // Remove from the end
+      }
+    }
+  }, [numberOfMembers, append, remove, fields.length]);
+  const onSubmit = (data) => {
+    const householdMembersOnly = data.householdMembers;
+    const { householdMembers, ...restOfData } = data;
+    handleCreateHouseHold(restOfData);
+    handleCreateHouseMembers(householdMembersOnly);
+
+    reset();
+  };
+
   return (
-    <div className="w-full bg-[#DEE5F8] py-3 h-auto">
-      <div>
-        <h1 className="text-center text-3xl font-bold max-md:text-lg max-sm:text-sm">
-          RESIDENT AND HOUSEHOLD PROFILING
-        </h1>
-      </div>
+    <div className="w-full h-auto">
+      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+        <h1 className="text-2xl font-bold mb-6">Resident Profiling Form</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="w-full h-auto">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
+              <input
+                {...register("firstnamehead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              {errors.firstnamehead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.firstnamehead1.message}
+                </p>
+              )}
+            </div>
 
-      <div className="flex flex-col justify-center items-center gap-4 ">
-        <table id="tbl-profiling">
-          <tr className="noborder">
-            <td className="font-bold" colSpan={2}>
-              <p className="text-2xl max-sm:text-lg max-sm:text-center">
-                Household Head Information
-              </p>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Last Name</td>
-            <td>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
               <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="lastnamehead1"
-                value={houseHoldHead.lastnamehead1}
-                onChange={handleInputChange}
+                {...register("lastnamehead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>First Name</td>
-            <td>
+              {errors.lastnamehead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.lastnamehead1.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                M.I
+              </label>
               <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="firstnamehead1"
-                value={houseHoldHead.firstnamehead1}
-                onChange={handleInputChange}
+                {...register("mihead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Middle Name</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="mihead1"
-                value={houseHoldHead.mihead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-
-          <tr className="tbl-row">
-            <td>Extension Name</td>
-            <td>
+              {errors.mihead1 && (
+                <p className="text-red-500 text-sm">{errors.mihead1.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Extension Name
+              </label>
               <select
-                id="status"
-                value={houseHoldHead.exthead1}
-                onChange={(e) =>
-                  handleMaritalStatus("exthead1", e.target.value)
-                }
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("exthead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT EXTENSION NAME
-                </option>
-                <option value="JR">JR</option>
-                <option value="SR">SR</option>
+                <option value="NONE">None</option>
+                <option value="JR">Jr</option>
+                <option value="SR">Sr</option>
                 <option value="II">II</option>
                 <option value="III">III</option>
                 <option value="IV">IV</option>
-                <option value="NONE">NONE</option>
               </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Zone</td>
-            <td>
-              <select
-                id="status"
-                value={houseHoldHead.addresshead1} // Assume you have a state variable for the selected religion
-                onChange={(e) =>
-                  handleMaritalStatus("addresshead1", e.target.value)
-                }
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-              >
-                <option value="" disabled>
-                  SELECT ZONE
-                </option>
-                <option value="ZONE 1">ZONE 1</option>
-                <option value="ZONE 2">ZONE 2</option>
-                <option value="ZONE 3">ZONE 3</option>
-                <option value="ZONE 4">ZONE 4</option>
-                <option value="ZONE 5">ZONE 5</option>
-                <option value="ZONE 6">ZONE 6</option>
-                <option value="ZONE 7">ZONE 7</option>
-                <option value="ZONE 8">ZONE 8</option>
-                <option value="ZONE 9">ZONE 9</option>
-              </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Date of Birth</td>
-            <td>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer
-                  components={[
-                    "DatePicker",
-                    "MobileDatePicker",
-                    "DesktopDatePicker",
-                    "StaticDatePicker",
-                  ]}
-                >
-                  <DemoItem>
-                    <MobileDatePicker
-                      className="px-1 border  cursor-pointer"
-                      value={dateOfBirthHead1}
-                      onChange={handleDateOfBirthHead1}
-                      maxDate={maxDate}
-                    />
-                  </DemoItem>
-                </DemoContainer>
-              </LocalizationProvider>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Age</td>
-            <td>
+              {errors.exthead1 && <p>{errors.exthead1.message}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Address
+              </label>
               <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                name="agehead1"
-                value={getAgeByBirthdate(dateOfBirthHead1)}
-                onChange={handleInputChange}
-                readOnly={true}
+                {...register("addresshead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Gender</td>
-            <td>
+              {errors.addresshead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.addresshead1.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                {...register("dateofbirthhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              {errors.dateofbirthhead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.dateofbirthhead1.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Age
+              </label>
+              <input
+                type="text" // Use type="text" since age is a string
+                {...register("agehead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                readOnly
+              />
+              {errors.agehead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.agehead1.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Gender
+              </label>
               <select
-                id="status"
-                value={houseHoldHead.genderhead1} // Assume you have a state variable for the selected religion
-                onChange={(e) =>
-                  handleMaritalStatus("genderhead1", e.target.value)
-                }
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("genderhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT GENDER
-                </option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="LGBTQ">LGBTQ</option>
+                <option value="FEMALE">Female</option>
+                <option value="MALE">Male</option>
+                <option value="LGBTQ">LGTBQ</option>
               </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Civil Status</td>
-            <td>
+              {errors.genderhead1 && <p>{errors.genderhead1.message}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Civil Status
+              </label>
               <select
-                id="status"
-                value={houseHoldHead.civilstatushead1}
-                onChange={(e) => {
-                  const selectedValue = e.target.value.toUpperCase();
-
-                  handleMaritalStatus("civilstatushead1", selectedValue);
-
-                  if (selectedValue === "SINGLE" || selectedValue === "WIDOW") {
-                    // If the selected value is "SINGLE" or "WIDOW", clear civilstatushead2
-                    setHouseHoldHead((prevState) => ({
-                      ...prevState,
-                      civilstatushead2: "", // Clear the value of civilstatushead2
-                    }));
-                  } else {
-                    // Otherwise, set the value of civilstatushead2
-                    handleMaritalStatus("civilstatushead2", selectedValue);
-                  }
-                }}
-                className="border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("civilstatushead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT CIVIL STATUS
-                </option>
-                <option value="SINGLE">SINGLE</option>
                 <option value="MARRIED">MARRIED</option>
-                <option value="WIDOW">WIDOW</option>
+                <option value="SINGLE">SINGLE</option>
               </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Religion</td>
-            <td>
+              {errors.civilstatushead1 && (
+                <p>{errors.civilstatushead1.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Religion
+              </label>
               <select
-                id="religion"
-                value={houseHoldHead.religionhead1} // Assume you have a state variable for the selected religion
-                onChange={(e) =>
-                  handleMaritalStatus("religionhead1", e.target.value)
-                }
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("religionhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT RELIGION
+                <option value="CATHOLIC">Catholic</option>
+                <option value="INC">Iglesia ni Cristo</option>
+                <option value="AGLIPAYAN">Aglipayan Church</option>
+                <option value="BAPTIST">Baptist</option>
+                <option value="EVANGELICAL_PROTESTANTISM">
+                  Evangelical Protestantism
                 </option>
-                <option value="CATHOLIC">Roman Catholic</option>
-                <option value="PROTESTANT">Protestant</option>
                 <option value="ISLAM">Islam</option>
-                <option value="IGLESIA NI CRISTO">Iglesia Ni Cristo</option>
-                <option value="SEVENTH-DAY ADVENTIST">
+                <option value="ROMAN_CATHOLIC">Roman Catholic</option>
+                <option value="SEVENTH_DAY_ADVENTIST">
                   Seventh-Day Adventist
                 </option>
-                <option value="ATHEIST">Atheist</option>
-                <option value="OTHER">Other</option>
+                <option value="BUDDHISM">Buddhism</option>
+                <option value="OTHERS">Other</option>
               </select>
-            </td>
-          </tr>
+              {errors.religionhead1 && <p>{errors.religionhead1.message}</p>}
+            </div>
 
-          <tr className="tbl-row">
-            <td>Type of ID</td>
-            <td>
+            {religionHead1 == "OTHERS" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Other Religion
+                </label>
+                <input
+                  {...register("religionotherhead1")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+                {errors.religionotherhead1 && (
+                  <p className="text-red-500 text-sm">
+                    {errors.religionotherhead1.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Type of ID
+              </label>
               <select
-                id="status"
-                value={houseHoldHead.typeofidhead1}
-                onChange={(e) =>
-                  handleMaritalStatus("typeofidhead1", e.target.value)
-                }
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("typeofidhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT ID TYPE
-                </option>
-                <option value="BIR">
-                  BIR (Bureau of Internal Revenue) ID{" "}
-                </option>
-                <option value="DRIVER LICENSE">Driver’s License</option>
+                <option value="SSS">SSS</option>
+                <option value="PAGIBIG">PAG-IBIG</option>
+                <option value="BIR">BIR (Bureau of Internal Revenue) ID</option>
+                <option value="DRIVERS_LICENSE">Driver’s License</option>
                 <option value="GSIS">
                   Government Service Insurance System (GSIS) eCard
                 </option>
                 <option value="PHILSYS">
                   Philippine National ID (PhilSys)
                 </option>
-                <option value="PHILIPPHINE PASSSPORT">
-                  Philippine Passport
-                </option>
-                <option value="POSTAL ID">Postal ID</option>
+                <option value="PASSPORT">Philippine Passport</option>
+                <option value="POSTAL_ID">Postal ID</option>
                 <option value="PRC">
                   Professional Regulation Commission (PRC) ID
                 </option>
-                <option value="SSS">Social Security System (SSS) ID</option>
                 <option value="TIN">Tax Identification Number (TIN) ID</option>
-                <option value="UMID">
-                  Unified Multi-Purpose ID (UMID) (issued by the SSS, GSIS,
-                  Pag-IBIG, and PhilHealth)
-                </option>
-                <option value="VOTERS ID">Voter’s ID</option>
+                <option value="UMID">Unified Multi-Purpose ID (UMID)</option>
+                <option value="VOTERS_ID">Voter’s ID</option>
               </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>ID No</td>
-            <td>
+              {errors.typeofidhead1 && <p>{errors.typeofidhead1.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                ID NO
+              </label>
               <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="idnohead1"
-                value={houseHoldHead.idnohead1}
-                onChange={handleInputChange}
+                {...register("idnohead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Mobile/Tel No</td>
-            <td>
+              {errors.idnohead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.idnohead1.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Mobile Number
+              </label>
               <input
-                type="number"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="mobilenohead1"
-                value={houseHoldHead.mobilenohead1}
-                onChange={handleInputChange}
+                type="tel" // Use "tel" or "text" for better mobile support
+                {...register("mobilenohead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                pattern="[0-9]*"
+                inputMode="numeric"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Occupation</td>
-            <td>
+              {errors.mobilenohead1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.mobilenohead1.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Occupation
+              </label>
               <select
-                id="job-category"
-                value={houseHoldHead.occupationhead1} // Assume you have a state variable for the selected job category
-                onChange={(e) =>
-                  handleMaritalStatus("occupationhead1", e.target.value)
-                } // Function to handle changes
-                className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
+                {...register("occupationhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="" disabled>
-                  SELECT OCCUPATION
-                </option>
                 <option value="IT">Information Technology</option>
                 <option value="BPO">Business Process Outsourcing</option>
                 <option value="HEALTHCARE">Healthcare</option>
@@ -573,522 +427,1067 @@ const ResidentProfiling = () => {
                 <option value="SOCIAL_SERVICES">Social Services</option>
                 <option value="OTHERS">Others</option>
               </select>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Skills</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="skillshead1"
-                value={houseHoldHead.skillshead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Company Address</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="companyaddresshead1"
-                value={houseHoldHead.companyaddresshead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-          <tr className="noborder">
-            <td colSpan={2}>Educational Attainment</td>
-          </tr>
-          <tr className="tbl-row">
-            <td>College</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="collegehead1"
-                value={houseHoldHead.collegehead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>High School</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="highschoolhead1"
-                value={houseHoldHead.highschoolhead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Elementary School</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="elementaryhead1"
-                value={houseHoldHead.elementaryhead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>Vocational Course</td>
-            <td>
-              <input
-                type="text"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="vocationalcoursehead1"
-                value={houseHoldHead.vocationalcoursehead1}
-                onChange={handleInputChange}
-              />
-            </td>
-          </tr>
-        </table>
-        {houseHoldHead.civilstatushead1.toUpperCase() === "MARRIED" && (
-          <table id="tbl-profiling">
-            <tr className="noborder">
-              <td className="font-bold" colSpan={2}>
-                <p className="text-2xl">Spouse Information</p>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Last Name</td>
-              <td>
+              {errors.occupationhead1 && (
+                <p>{errors.occupationhead1.message}</p>
+              )}
+            </div>
+            {occupationHead1 == "OTHERS" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Other Occupation
+                </label>
                 <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="lastnamehead2"
-                  value={houseHoldHead.lastnamehead2}
-                  onChange={handleInputChange}
+                  {...register("occupationotherhead1")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>First Name</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="firstnamehead2"
-                  value={houseHoldHead.firstnamehead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Middle Name</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="mihead2"
-                  value={houseHoldHead.mihead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Extension Name</td>
-              <td>
-                <select
-                  id="status"
-                  value={houseHoldHead.exthead2}
-                  onChange={(e) =>
-                    handleMaritalStatus("exthead2", e.target.value)
-                  }
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT EXTENSION NAME
-                  </option>
-                  <option value="JR">JR</option>
-                  <option value="SR">SR</option>
-                  <option value="II">II</option>
-                  <option value="III">III</option>
-                  <option value="IV">IV</option>
-                  <option value="NONE">NONE</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Zone</td>
-              <td>
-                <select
-                  id="status"
-                  value={houseHoldHead.addresshead2} // Assume you have a state variable for the selected religion
-                  onChange={(e) =>
-                    handleMaritalStatus("addresshead2", e.target.value)
-                  }
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT ZONE
-                  </option>
-                  <option value="ZONE 1">ZONE 1</option>
-                  <option value="ZONE 2">ZONE 2</option>
-                  <option value="ZONE 3">ZONE 3</option>
-                  <option value="ZONE 4">ZONE 4</option>
-                  <option value="ZONE 5">ZONE 5</option>
-                  <option value="ZONE 6">ZONE 6</option>
-                  <option value="ZONE 7">ZONE 7</option>
-                  <option value="ZONE 8">ZONE 8</option>
-                  <option value="ZONE 9">ZONE 9</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Date of Birth</td>
-              <td>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    components={[
-                      "DatePicker",
-                      "MobileDatePicker",
-                      "DesktopDatePicker",
-                      "StaticDatePicker",
-                    ]}
+                {errors.occupationotherhead1 && (
+                  <p className="text-red-500 text-sm">
+                    {errors.occupationotherhead1.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Skills
+              </label>
+              <input
+                {...register("skillshead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Company Address
+              </label>
+              <input
+                {...register("companyaddresshead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                College
+              </label>
+              <input
+                {...register("collegehead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                High School{" "}
+              </label>
+              <input
+                {...register("highschoolhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Elementary{" "}
+              </label>
+              <input
+                {...register("elementaryhead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Vocational Course{" "}
+              </label>
+              <input
+                {...register("vocationalcoursehead1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+          {/* Spouse Information (Shown Only if Married) */}
+          <div className="w-full h-auto">
+            {civilStatus == "MARRIED" && (
+              <div className="w-full h-auto">
+                <div>
+                  <h1 className="text-2xl font-semibold">Spouse</h1>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    First Name
+                  </label>
+                  <input
+                    {...register("firstnamehead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.firstnamehead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.firstnamehead2.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Last Name
+                  </label>
+                  <input
+                    {...register("lastnamehead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.lastnamehead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.lastnamehead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    M.I
+                  </label>
+                  <input
+                    {...register("mihead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.mihead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.mihead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Extension Name
+                  </label>
+                  <select
+                    {...register("exthead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                   >
-                    <DemoItem>
-                      <MobileDatePicker
-                        className="px-1 border  cursor-pointer"
-                        value={dateOfBirthHead2}
-                        onChange={(date) => {
-                          handleDateOfBirthHead2(date);
-                        }}
-                        maxDate={maxDate}
-                      />
-                    </DemoItem>
-                  </DemoContainer>
-                </LocalizationProvider>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Age</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[40%] max-sm:w-full"
-                  name="agehead2"
-                  value={getAgeByBirthdate(dateOfBirthHead2)}
-                  onChange={handleInputChange}
-                  readOnly={true}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Gender</td>
-              <td>
-                <select
-                  id="status"
-                  value={houseHoldHead.genderhead2} // Assume you have a state variable for the selected religion
-                  onChange={(e) =>
-                    handleMaritalStatus("genderhead2", e.target.value)
-                  }
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT GENDER
-                  </option>
-                  <option value="MALE">MALE</option>
-                  <option value="FEMALE">FEMALE</option>
-                  <option value="LGBTQ">LGBTQ</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Civil Status</td>
-              <td>
-                <select
-                  id="status"
-                  value={houseHoldHead.civilstatushead2}
-                  disabled={true}
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT CIVILSTATUS
-                  </option>
-                  <option value="SINGLE">SINGLE</option>
-                  <option value="MARRIED">MARRIED</option>
-                  <option value="WIDOW">WIDOW</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Religion</td>
-              <td>
-                <select
-                  id="religion"
-                  value={houseHoldHead.religionhead2} // Assume you have a state variable for the selected religion
-                  onChange={(e) =>
-                    handleMaritalStatus("religionhead2", e.target.value)
-                  } // Function to handle changes
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT RELIGION
-                  </option>
-                  <option value="CATHOLIC">Roman Catholic</option>
-                  <option value="PROTESTANT">Protestant</option>
-                  <option value="ISLAM">Islam</option>
-                  <option value="IGLESIA NI CRISTO">Iglesia Ni Cristo</option>
-                  <option value="SEVENTH-DAY ADVENTIST">
-                    Seventh-Day Adventist
-                  </option>
-                  <option value="ATHEIST">Atheist</option>
-                  <option value="OTHER">Other</option>
-                  {/* Option for those who may not identify with the listed religions */}
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Type of ID</td>
-              <td>
-                <select
-                  id="status"
-                  value={houseHoldHead.typeofidhead2}
-                  onChange={(e) =>
-                    handleMaritalStatus("typeofidhead2", e.target.value)
-                  }
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT ID TYPE
-                  </option>
-                  <option value="BIR">
-                    BIR (Bureau of Internal Revenue) ID{" "}
-                  </option>
-                  <option value="DRIVER LICENSE">Driver’s License</option>
-                  <option value="GSIS">
-                    Government Service Insurance System (GSIS) eCard
-                  </option>
-                  <option value="PHILSYS">
-                    Philippine National ID (PhilSys)
-                  </option>
-                  <option value="PHILIPPHINE PASSSPORT">
-                    Philippine Passport
-                  </option>
-                  <option value="POSTAL ID">Postal ID</option>
-                  <option value="PRC">
-                    Professional Regulation Commission (PRC) ID
-                  </option>
-                  <option value="SSS">Social Security System (SSS) ID</option>
-                  <option value="TIN">
-                    Tax Identification Number (TIN) ID
-                  </option>
-                  <option value="UMID">
-                    Unified Multi-Purpose ID (UMID) (issued by the SSS, GSIS,
-                    Pag-IBIG, and PhilHealth)
-                  </option>
-                  <option value="VOTERS ID">Voter’s ID</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>ID No</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="idnohead2"
-                  value={houseHoldHead.idnohead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Mobile/Tel No</td>
-              <td>
-                <input
-                  type="number"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="mobilenohead2"
-                  value={houseHoldHead.mobilenohead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Occupation</td>
-              <td>
-                <select
-                  id="job-category"
-                  value={houseHoldHead.occupationhead2} // Assume you have a state variable for the selected job category
-                  onChange={(e) =>
-                    handleMaritalStatus("occupationhead2", e.target.value)
-                  } // Function to handle changes
-                  className=" border rounded-md p-2 w-full text-sm bg-transparent focus:outline-none"
-                >
-                  <option value="" disabled>
-                    SELECT OCCUPATION
-                  </option>
-                  <option value="IT">Information Technology</option>
-                  <option value="BPO">Business Process Outsourcing</option>
-                  <option value="HEALTHCARE">Healthcare</option>
-                  <option value="EDUCATION">Education</option>
-                  <option value="ENGINEERING">Engineering</option>
-                  <option value="SALES_MARKETING">Sales and Marketing</option>
-                  <option value="FINANCE_ACCOUNTING">
-                    Finance and Accounting
-                  </option>
-                  <option value="CONSTRUCTION">Construction</option>
-                  <option value="HOSPITALITY_TOURISM">
-                    Hospitality and Tourism
-                  </option>
-                  <option value="MANUFACTURING">Manufacturing</option>
-                  <option value="LOGISTICS_SUPPLY_CHAIN">
-                    Logistics and Supply Chain
-                  </option>
-                  <option value="TELECOMMUNICATIONS">Telecommunications</option>
-                  <option value="CREATIVE_ARTS_DESIGN">
-                    Creative Arts and Design
-                  </option>
-                  <option value="REAL_ESTATE">Real Estate</option>
-                  <option value="LEGAL_SERVICES">Legal Services</option>
-                  <option value="AGRICULTURE">Agriculture</option>
-                  <option value="RESEARCH_DEVELOPMENT">
-                    Research and Development
-                  </option>
-                  <option value="HUMAN_RESOURCES">Human Resources</option>
-                  <option value="ENVIRONMENTAL_SERVICES">
-                    Environmental Services
-                  </option>
-                  <option value="SOCIAL_SERVICES">Social Services</option>
-                  <option value="OTHERS">Others</option>
-                </select>
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Skills</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="skillshead2"
-                  value={houseHoldHead.skillshead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Company Address</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="companyaddresshead2"
-                  value={houseHoldHead.companyaddresshead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="noborder">
-              <td colSpan={2}>Educational Attainment</td>
-            </tr>
-            <tr className="tbl-row">
-              <td>College</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="collegehead2"
-                  value={houseHoldHead.collegehead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>High School</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="highschoolhead2"
-                  value={houseHoldHead.highschoolhead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Elementary School</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="elementaryhead2"
-                  value={houseHoldHead.elementaryhead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr className="tbl-row">
-              <td>Vocational Course</td>
-              <td>
-                <input
-                  type="text"
-                  className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                  name="vocationalcoursehead2"
-                  value={houseHoldHead.vocationalcoursehead2}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-          </table>
-        )}
-      </div>
-      <div className="my-2 flex flex-col justify-center items-center">
-        <table id="tbl-profiling">
-          <tr className="noborder">
-            <td colSpan={2}>
-              <p className="font-bold text-2xl max-sm:text-lg max-sm:text-center">
-                Household Head Member Information
-              </p>
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>No of Household members living in the house</td>
-            <td>
+                    <option value="NONE">None</option>
+                    <option value="JR">Jr</option>
+                    <option value="SR">Sr</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                  </select>
+                  {errors.exthead2 && <p>{errors.exthead2.message}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Address
+                  </label>
+                  <input
+                    {...register("addresshead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.addresshead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.addresshead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Date of Birth
+                  </label>
+                  <input
+                    type="date"
+                    {...register("dateofbirthhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.dateofbirthhead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.dateofbirthhead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Age
+                  </label>
+                  <input
+                    type="text" // Use type="text" since age is a string
+                    {...register("agehead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    readOnly
+                  />
+                  {errors.agehead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.agehead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Gender
+                  </label>
+                  <select
+                    {...register("genderhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="FEMALE">Female</option>
+                    <option value="MALE">Male</option>
+                    <option value="LGBTQ">LGTBQ</option>
+                  </select>
+                  {errors.genderhead2 && <p>{errors.genderhead2.message}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Civil Status
+                  </label>
+                  <input
+                    {...register("civilstatushead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    readOnly
+                  />
+                  {errors.civilstatushead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.civilstatushead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Religion
+                  </label>
+                  <select
+                    {...register("religionhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="CATHOLIC">Catholic</option>
+                    <option value="INC">Iglesia ni Cristo</option>
+                    <option value="AGLIPAYAN">Aglipayan Church</option>
+                    <option value="BAPTIST">Baptist</option>
+                    <option value="EVANGELICAL_PROTESTANTISM">
+                      Evangelical Protestantism
+                    </option>
+                    <option value="ISLAM">Islam</option>
+                    <option value="ROMAN_CATHOLIC">Roman Catholic</option>
+                    <option value="SEVENTH_DAY_ADVENTIST">
+                      Seventh-Day Adventist
+                    </option>
+                    <option value="BUDDHISM">Buddhism</option>
+                    <option value="OTHERS">Other</option>
+                  </select>
+                  {errors.religionhead2 && (
+                    <p>{errors.religionhead2.message}</p>
+                  )}
+                </div>
+
+                {religionHead2 == "OTHERS" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Other Religion
+                    </label>
+                    <input
+                      {...register("religionotherhead2")}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    />
+                    {errors.religionotherhead2 && (
+                      <p className="text-red-500 text-sm">
+                        {errors.religionotherhead2.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Type of ID
+                  </label>
+                  <select
+                    {...register("typeofidhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="SSS">SSS</option>
+                    <option value="PAGIBIG">PAG-IBIG</option>
+                    <option value="BIR">
+                      BIR (Bureau of Internal Revenue) ID
+                    </option>
+                    <option value="DRIVERS_LICENSE">Driver’s License</option>
+                    <option value="GSIS">
+                      Government Service Insurance System (GSIS) eCard
+                    </option>
+                    <option value="PHILSYS">
+                      Philippine National ID (PhilSys)
+                    </option>
+                    <option value="PASSPORT">Philippine Passport</option>
+                    <option value="POSTAL_ID">Postal ID</option>
+                    <option value="PRC">
+                      Professional Regulation Commission (PRC) ID
+                    </option>
+                    <option value="TIN">
+                      Tax Identification Number (TIN) ID
+                    </option>
+                    <option value="UMID">
+                      Unified Multi-Purpose ID (UMID)
+                    </option>
+                    <option value="VOTERS_ID">Voter’s ID</option>
+                  </select>
+                  {errors.typeofidhead2 && (
+                    <p>{errors.typeofidhead2.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    ID NO
+                  </label>
+                  <input
+                    {...register("idnohead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {errors.idnohead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.idnohead2.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="tel" // Use "tel" or "text" for better mobile support
+                    {...register("mobilenohead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                  />
+                  {errors.mobilenohead2 && (
+                    <p className="text-red-500 text-sm">
+                      {errors.mobilenohead2.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Occupation
+                  </label>
+                  <select
+                    {...register("occupationhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="IT">Information Technology</option>
+                    <option value="BPO">Business Process Outsourcing</option>
+                    <option value="HEALTHCARE">Healthcare</option>
+                    <option value="EDUCATION">Education</option>
+                    <option value="ENGINEERING">Engineering</option>
+                    <option value="SALES_MARKETING">Sales and Marketing</option>
+                    <option value="FINANCE_ACCOUNTING">
+                      Finance and Accounting
+                    </option>
+                    <option value="CONSTRUCTION">Construction</option>
+                    <option value="HOSPITALITY_TOURISM">
+                      Hospitality and Tourism
+                    </option>
+                    <option value="MANUFACTURING">Manufacturing</option>
+                    <option value="LOGISTICS_SUPPLY_CHAIN">
+                      Logistics and Supply Chain
+                    </option>
+                    <option value="TELECOMMUNICATIONS">
+                      Telecommunications
+                    </option>
+                    <option value="CREATIVE_ARTS_DESIGN">
+                      Creative Arts and Design
+                    </option>
+                    <option value="REAL_ESTATE">Real Estate</option>
+                    <option value="LEGAL_SERVICES">Legal Services</option>
+                    <option value="AGRICULTURE">Agriculture</option>
+                    <option value="RESEARCH_DEVELOPMENT">
+                      Research and Development
+                    </option>
+                    <option value="HUMAN_RESOURCES">Human Resources</option>
+                    <option value="ENVIRONMENTAL_SERVICES">
+                      Environmental Services
+                    </option>
+                    <option value="SOCIAL_SERVICES">Social Services</option>
+                    <option value="OTHERS">Others</option>
+                  </select>
+                  {errors.occupationhead2 && (
+                    <p>{errors.occupationhead2.message}</p>
+                  )}
+                </div>
+                {occupationHead2 == "OTHERS" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Other Occupation
+                    </label>
+                    <input
+                      {...register("occupationotherhead2")}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    />
+                    {errors.occupationotherhead2 && (
+                      <p className="text-red-500 text-sm">
+                        {errors.occupationotherhead2.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Skills
+                  </label>
+                  <input
+                    {...register("skillshead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Company Address
+                  </label>
+                  <input
+                    {...register("companyaddresshead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    College{" "}
+                  </label>
+                  <input
+                    {...register("collegehead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    High School{" "}
+                  </label>
+                  <input
+                    {...register("highschoolhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Elementary{" "}
+                  </label>
+                  <input
+                    {...register("elementaryhead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Vocational Course{" "}
+                  </label>
+                  <input
+                    {...register("vocationalcoursehead2")}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Type of Beneficiaries */}
+
+          <div className="w-full h-auto">
+            <div>
+              <h1 className="text-2xl font-semibold">Type of Beneficiaries</h1>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                4ps
+              </label>
+              <select
+                {...register("fourps")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                UCT
+              </label>
+              <select
+                {...register("uct")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                UCT
+              </label>
+              <select
+                {...register("uct")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Solo Parent
+              </label>
+              <select
+                {...register("soloparent")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Senior Citizen
+              </label>
+              <select
+                {...register("seniorcitizen")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Pwd
+              </label>
+              <select
+                {...register("pwd")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                IP
+              </label>
+              <select
+                {...register("ip")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Select Option</option>
+                <option value="NO">No</option>
+                <option value="YES">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          {/* members and children */}
+          <div className="w-full h-auto">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Number of House hold member living in the house
+              </label>
               <input
-                type="number"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="members"
-                value={houseHoldHead.members}
-                onChange={handleInputChange}
+                type="tel" // Use "tel" or "text" for better mobile support
+                {...register("members")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                pattern="[0-9]*"
+                inputMode="numeric"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
               />
-            </td>
-          </tr>
-          <tr className="tbl-row">
-            <td>No. of Children:</td>
-            <td>
+              {errors.members && (
+                <p className="text-red-500 text-sm">{errors.members.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Number of Children
+              </label>
               <input
-                type="number"
-                className="px-2 py-1 bg-transparent focus:outline-none w-[100%] max-sm:w-full"
-                name="children"
-                value={houseHoldHead.children}
-                onChange={handleInputChange}
+                type="tel" // Use "tel" or "text" for better mobile support
+                {...register("children")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                pattern="[0-9]*"
+                inputMode="numeric"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
               />
-            </td>
-          </tr>
-        </table>
+              {errors.children && (
+                <p className="text-red-500 text-sm">
+                  {errors.children.message}
+                </p>
+              )}
+            </div>
+          </div>
+          {/* questions */}
+          <div className="w-full h-auto">
+            <div>
+              <h1 className="text-xl font-semibold mb-2">
+                HOUSEHOLD CENSUS QUESTIONS
+              </h1>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                1. DO YOU OWN THE HOUSE YOU ARE LIVING?
+              </label>
+              <select
+                {...register("question1")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+              </select>
+            </div>
+            {question1 === "NO" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  IF NO, RENTED?
+                </label>
+                <select
+                  {...register("renting")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="NO">NO</option>
+                  <option value="YES">YES</option>
+                </select>
+                {errors.renting && (
+                  <p className="text-red-500 text-sm">
+                    {errors.renting.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                2.HOW LONG HAVE YOU BEEN STAYING IN BARANGAY BONBON?{" "}
+              </label>
+              <input
+                {...register("question2")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              {errors.question2 && (
+                <p className="text-red-500 text-sm">
+                  {errors.question2.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                3. ARE YOU A REGISTERED VOTER IN THIS BARANGAY?
+              </label>
+              <select
+                {...register("question3")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="NO">NO</option>
+                <option value="YES">YES</option>
+              </select>
+              {errors.question3 && <p>{errors.question3.message}</p>}
+            </div>
+
+            {question3 === "YES" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  VOTER'S ID PRECINCT NUMBER:
+                </label>
+                <input
+                  {...register("questionPrecinctNo")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+                {errors.questionPrecinctNo && (
+                  <p className="text-red-500 text-sm">
+                    {errors.questionPrecinctNo.message}
+                  </p>
+                )}
+              </div>
+            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                4. DO YOU HAVE YOUR OWN CR?
+              </label>
+              <select
+                {...register("question4")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="NO">NO</option>
+                <option value="YES">YES</option>
+              </select>
+
+              {errors.question4 && <p>{errors.question4.message}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                5. DO YOU HAVE YOUR SOURCE OF WATER SUPPLY?
+              </label>
+              <select
+                {...register("question5")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="NO">NO</option>
+                <option value="YES">YES</option>
+              </select>
+              {errors.question5 && <p>{errors.question5.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                6. DO YOU HAVE YOUR OWN ELECTRICITY?
+              </label>
+              <select
+                {...register("question6")}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="NO">NO</option>
+                <option value="YES">YES</option>
+              </select>
+              {errors.question6 && <p>{errors.question6.message}</p>}
+            </div>
+          </div>
+          {/* Household Members */}
+          {/* Household Members Section */}
+          <div className="border-t pt-4">
+            <h2 className="text-xl font-semibold mb-4">Household Members</h2>
+            {fields.map((field, index) => {
+              const occupation = watch(`householdMembers.${index}.occupation`);
+
+              return (
+                <div key={field.id} className="mb-6 p-4 border rounded-lg">
+                  <h3 className="text-lg font-semibold mb-4">
+                    Household Member {index + 1}
+                  </h3>
+
+                  {/* Full Name */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Full Name
+                    </label>
+                    <input
+                      {...register(
+                        `householdMembers.${index}.lastNameFirstName`
+                      )}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    />
+                    {errors.householdMembers?.[index]?.lastNameFirstName && (
+                      <p className="text-red-500 text-sm">
+                        {
+                          errors.householdMembers[index]?.lastNameFirstName
+                            ?.message
+                        }
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Date of Birth */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Date of Birth
+                    </label>
+                    <input
+                      type="date"
+                      {...register(`householdMembers.${index}.dob`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    />
+                    {errors.householdMembers?.[index]?.dob && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.dob?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Age (Read-only) */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Age
+                    </label>
+                    <input
+                      {...register(`householdMembers.${index}.age`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                      readOnly
+                    />
+                    {errors.householdMembers?.[index]?.age && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.age?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Relationship */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Relation
+                    </label>
+                    <select
+                      {...register(`householdMembers.${index}.relation`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="HUSBAND">Husband</option>
+                      <option value="WIFE">Wife</option>
+                      <option value="LIVE-IN-PARTNER">Live-in Partner</option>
+                      <option value="SON">Son</option>
+                      <option value="DAUGHTER">Daughter</option>
+                      <option value="FATHER">Father</option>
+                      <option value="MOTHER">Mother</option>
+                      <option value="BROTHER">Brother</option>
+                      <option value="SISTER">Sister</option>
+                      <option value="GRANDFATHER">Grandfather</option>
+                      <option value="GRANDMOTHER">Grandmother</option>
+                      <option value="GRANDSON">Grandson</option>
+                      <option value="GUARDIAN">Guardian</option>
+                      <option value="GRANDDAUGHTER">Granddaughter</option>
+                      <option value="UNCLE">Uncle</option>
+                      <option value="AUNT">Aunt</option>
+                      <option value="NEPHEW">Nephew</option>
+                      <option value="NIECE">Niece</option>
+                      <option value="COUSIN">Cousin</option>
+                    </select>
+                  </div>
+                  {/* PWD */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      PWD
+                    </label>
+                    <select
+                      {...register(`householdMembers.${index}.pwd`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="YES">Yes</option>
+                      <option value="NO">No</option>
+                    </select>
+                    {errors.householdMembers?.[index]?.pwd && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.pwd?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Gender */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Gender
+                    </label>
+                    <select
+                      {...register(`householdMembers.${index}.gender`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="MALE">Male</option>
+                      <option value="FEMALE">Female</option>
+                      <option value="LGBTQ">LGBTQ</option>
+                    </select>
+                    {errors.householdMembers?.[index]?.gender && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.gender?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Education */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Highest Educational Attainment
+                    </label>
+                    <select
+                      {...register(`householdMembers.${index}.education`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                      defaultValue="ELEMENTARY LEVEL" // Add this line
+                    >
+                      <option value="ELEMENTARY LEVEL">Elementary Level</option>
+                      <option value="ELEMENTARY GRADUATE">
+                        Elementary Graduate
+                      </option>
+                      <option value="HIGH SCHOOL LEVEL">
+                        High School Level
+                      </option>
+                      <option value="HIGH SCHOOL GRADUATE">
+                        High School Graduate
+                      </option>
+                      <option value="VOCATIONAL COURSE">
+                        Vocational Course
+                      </option>
+                      <option value="COLLEGE LEVEL">College Level</option>
+                      <option value="COLLEGE GRADUATE">College Graduate</option>
+                      <option value="POSTGRADUATE (E.G, MASTER'S DOCTORATE)">
+                        Postgraduate (e.g., Master's, Doctorate)
+                      </option>
+                      <option value="OUT OF SCHOOL YOUTHS">
+                        Out of School Youths
+                      </option>
+                    </select>
+                    {errors.householdMembers?.[index]?.education && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.education?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Occupation */}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Occupation
+                    </label>
+                    <select
+                      {...register(`householdMembers.${index}.occupation`)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="IT">Information Technology</option>
+                      <option value="BPO">Business Process Outsourcing</option>
+                      <option value="HEALTHCARE">Healthcare</option>
+                      <option value="EDUCATION">Education</option>
+                      <option value="ENGINEERING">Engineering</option>
+                      <option value="SALES_MARKETING">
+                        Sales and Marketing
+                      </option>
+                      <option value="FINANCE_ACCOUNTING">
+                        Finance and Accounting
+                      </option>
+                      <option value="CONSTRUCTION">Construction</option>
+                      <option value="HOSPITALITY_TOURISM">
+                        Hospitality and Tourism
+                      </option>
+                      <option value="MANUFACTURING">Manufacturing</option>
+                      <option value="LOGISTICS_SUPPLY_CHAIN">
+                        Logistics and Supply Chain
+                      </option>
+                      <option value="TELECOMMUNICATIONS">
+                        Telecommunications
+                      </option>
+                      <option value="CREATIVE_ARTS_DESIGN">
+                        Creative Arts and Design
+                      </option>
+                      <option value="REAL_ESTATE">Real Estate</option>
+                      <option value="LEGAL_SERVICES">Legal Services</option>
+                      <option value="AGRICULTURE">Agriculture</option>
+                      <option value="RESEARCH_DEVELOPMENT">
+                        Research and Development
+                      </option>
+                      <option value="HUMAN_RESOURCES">Human Resources</option>
+                      <option value="ENVIRONMENTAL_SERVICES">
+                        Environmental Services
+                      </option>
+                      <option value="SOCIAL_SERVICES">Social Services</option>
+                      <option value="OTHERS">Others</option>
+
+                      <option value="NONE">None</option>
+                    </select>
+                    {errors.householdMembers?.[index]?.occupation && (
+                      <p className="text-red-500 text-sm">
+                        {errors.householdMembers[index]?.occupation?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    {occupation === "OTHERS" && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Specify Occupation
+                        </label>
+                        <input
+                          {...register(
+                            `householdMembers.${index}.occupationother`
+                          )}
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                          placeholder="Enter your occupation"
+                        />
+                        {errors.householdMembers?.[index]?.occupationother && (
+                          <p className="text-red-500 text-sm">
+                            {
+                              errors.householdMembers[index]?.occupationother
+                                ?.message
+                            }
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Remove Button */}
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
+                  >
+                    Remove Member
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+          {/* image */}
+
+          <div>
+            <h1 className="text-2xl font-bold mb-6 text-center">
+              Upload Image
+            </h1>
+
+            {/* File Input */}
+            <div className="mb-6">
+              <label
+                htmlFor="image"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                UPLOAD VALID ID
+              </label>
+              <input
+                type="file"
+                id="image"
+                onChange={handleImageChange}
+                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              />
+              {errors.image && (
+                <p className="text-red-500 text-sm mt-2">
+                  {errors.image.message}
+                </p>
+              )}
+            </div>
+
+            {preview && (
+              <div className="mb-6">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">
+                  Preview:
+                </h3>
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full h-64 rounded-lg shadow-sm"
+                />
+              </div>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? "Loading" : "Submit"}
+          </button>
+        </form>
       </div>
-      <Profiling
-        handleSubmit={handleSubmit}
-        houseHoldHead={houseHoldHead}
-        handleInput={handleInputChange}
-        handleCheckboxChange={handleCheckboxChange}
-        photo={photo}
-        handleIconClick={handleIconClick}
-        handleFileChangePhoto={handleFileChangePhoto}
-        fileInputRef={fileInputRef}
-        mutation={mutation}
-        noFutureDates={noFutureDates}
-      />
       <Toaster />
     </div>
   );
