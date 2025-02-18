@@ -104,9 +104,15 @@ export const houseHeadSchema = z
 
     skillshead1: z.string().optional(),
     companyaddresshead1: z.string().optional(),
-    collegehead1: z.string().optional(),
-    highschoolhead1: z.string().optional(),
-    elementaryhead1: z.string().optional(),
+    collegehead1: z
+      .enum(["COLLEGE LEVEL", "UNDER GRADUATE", "POST GRADUATE", ""])
+      .optional(),
+    highschoolhead1: z
+      .enum(["HIGH SCHOOL LEVEL", "HIGH SCHOOL GRADUATE", ""])
+      .optional(),
+    elementaryhead1: z
+      .enum(["ELEMENTARY LEVEL", "ELEMENTARY GRADUATE", ""])
+      .optional(),
     vocationalcoursehead1: z.string().optional(),
 
     //Type of Beneficiaries
@@ -216,9 +222,15 @@ export const houseHeadSchema = z
     occupationotherhead2: z.string().optional(),
     skillshead2: z.string().optional(),
     companyaddresshead2: z.string().optional(),
-    collegehead2: z.string().optional(),
-    highschoolhead2: z.string().optional(),
-    elementaryhead2: z.string().optional(),
+    collegehead2: z
+      .enum(["COLLEGE LEVEL", "UNDER GRADUATE", "POST GRADUATE", ""])
+      .optional(),
+    highschoolhead2: z
+      .enum(["HIGH SCHOOL LEVEL", "HIGH SCHOOL GRADUATE", ""])
+      .optional(),
+    elementaryhead2: z
+      .enum(["ELEMENTARY LEVEL", "ELEMENTARY GRADUATE", ""])
+      .optional(),
     vocationalcoursehead2: z.string().optional(),
 
     //members

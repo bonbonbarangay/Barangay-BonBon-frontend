@@ -4,13 +4,13 @@ const MarkerCustomize = () => {
   const getIcon = (colorSelection) => {
     let color;
     switch (colorSelection) {
-      case "Satisfactory":
+      case "SATISFACTORY":
         color = "green";
         break;
-      case "Serious Deficiencies":
+      case "SERIOUS DEFICIENCIES":
         color = "red";
         break;
-      case "Minor Deficiencies":
+      case "MINOR DEFICIENCIES":
         color = "yellow";
         break;
       default:

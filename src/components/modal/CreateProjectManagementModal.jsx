@@ -25,7 +25,7 @@ const CreateProjectManagementModal = ({
   const [issues, setIssues] = useState("");
   const [projectEngineer, setProjectEngineer] = useState("");
   const [dateStart, setDateStart] = useState(dayjs());
-  const [overall, setOverall] = useState("");
+  const [overall, setOverall] = useState("test");
   const [colorSelection, setColorSelection] = useState("");
   const [budgetYear, setBudgetYear] = useState("");
   const [percentage, setPercentage] = useState("00%");
@@ -126,7 +126,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={projectTitle}
-                      onChange={(e) => setProjectTitle(e.target.value)}
+                      onChange={(e) =>
+                        setProjectTitle(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>
@@ -139,7 +141,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={projectlocation}
-                      onChange={(e) => setProjectLocation(e.target.value)}
+                      onChange={(e) =>
+                        setProjectLocation(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>
@@ -153,7 +157,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={contractor}
-                      onChange={(e) => setContractor(e.target.value)}
+                      onChange={(e) =>
+                        setContractor(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>
@@ -167,7 +173,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={contractPayment}
-                      onChange={(e) => setContractPayment(e.target.value)}
+                      onChange={(e) =>
+                        setContractPayment(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>
@@ -182,9 +190,9 @@ const CreateProjectManagementModal = ({
                       value={updateStatus}
                       onChange={(e) => setUpdateStatus(e.target.value)}
                     >
-                      <option value="In-Progress">In-Progress</option>
-                      <option value="On-Hold">On-Hold</option>
-                      <option value="Completed">Completed</option>
+                      <option value="IN-PROGRESS">In-Progress</option>
+                      <option value="ON-HOLD">On-Hold</option>
+                      <option value="COMPLETED">Completed</option>
                     </select>
                   </div>
                 </div>
@@ -224,7 +232,7 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={issues}
-                      onChange={(e) => setIssues(e.target.value)}
+                      onChange={(e) => setIssues(e.target.value.toUpperCase())}
                     />
                   </div>
                 </div>
@@ -238,7 +246,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={projectEngineer}
-                      onChange={(e) => setProjectEngineer(e.target.value)}
+                      onChange={(e) =>
+                        setProjectEngineer(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>
@@ -271,44 +281,34 @@ const CreateProjectManagementModal = ({
                   </div>
                   <div className="w-[50%]">
                     <div>
-                      <h1 className="text-xl font-bold mb-2">Overall</h1>
+                      <h1 className="text-xl font-bold mb-2">
+                        Overall Completion
+                      </h1>
                     </div>
                     <div>
-                      <input
-                        type="text"
-                        className="w-full py-3 px-3 border border-[#000]  text-lg"
-                        value={overall}
-                        onChange={(e) => setOverall(e.target.value)}
-                      />
+                      <select
+                        className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
+                        value={percentage}
+                        onChange={(e) =>
+                          setPercentage(e.target.value.toUpperCase())
+                        }
+                      >
+                        <option value="0%">0%</option>
+                        <option value="10%">10</option>
+                        <option value="20%">20%</option>
+                        <option value="30%">30%</option>
+                        <option value="40%">40%</option>
+                        <option value="50%">50%</option>
+                        <option value="60%">60%</option>
+                        <option value="70%">70%</option>
+                        <option value="80%">80%</option>
+                        <option value="90%">90%</option>
+                        <option value="100%">100%</option>
+                      </select>
                     </div>
                   </div>
                 </div>
-                <div className="mt-5">
-                  <div>
-                    <h1 className="text-xl font-bold mb-2">
-                      OVERALL COMPLETION
-                    </h1>
-                  </div>
-                  <div>
-                    <select
-                      className="w-full py-3 px-3 border border-[#000] text-lg bg-transparent"
-                      value={percentage}
-                      onChange={(e) => setPercentage(e.target.value)}
-                    >
-                      <option value="0%">0%</option>
-                      <option value="10%">10</option>
-                      <option value="20%">20%</option>
-                      <option value="30%">30%</option>
-                      <option value="40%">40%</option>
-                      <option value="50%">50%</option>
-                      <option value="60%">60%</option>
-                      <option value="70%">70%</option>
-                      <option value="80%">80%</option>
-                      <option value="90%">90%</option>
-                      <option value="100%">100%</option>
-                    </select>
-                  </div>
-                </div>
+
                 <div className="mt-5">
                   <div>
                     <h1 className="text-xl font-bold mb-2">Project Color</h1>
@@ -318,9 +318,11 @@ const CreateProjectManagementModal = ({
                       <div>
                         <input
                           type="radio"
-                          value="Satisfactory"
-                          checked={colorSelection === "Satisfactory"}
-                          onChange={(e) => setColorSelection(e.target.value)}
+                          value="SATISFACTORY"
+                          checked={colorSelection === "SATISFACTORY"}
+                          onChange={(e) =>
+                            setColorSelection(e.target.value.toUpperCase())
+                          }
                           className="w-6 h-6"
                         />
                       </div>
@@ -333,9 +335,11 @@ const CreateProjectManagementModal = ({
                         <input
                           type="radio"
                           className="w-6 h-6"
-                          value="Serious Deficiencies"
-                          checked={colorSelection === "Serious Deficiencies"}
-                          onChange={(e) => setColorSelection(e.target.value)}
+                          value="SERIOUS DEFICIENCIES"
+                          checked={colorSelection === "SERIOUS DEFICIENCIES"}
+                          onChange={(e) =>
+                            setColorSelection(e.target.value.toUpperCase())
+                          }
                         />
                       </div>
                       <div>
@@ -347,9 +351,11 @@ const CreateProjectManagementModal = ({
                         <input
                           type="radio"
                           className="w-6 h-6"
-                          value="Minor Deficiencies"
-                          checked={colorSelection === "Minor Deficiencies"}
-                          onChange={(e) => setColorSelection(e.target.value)}
+                          value="MINOR DEFICIENCIES"
+                          checked={colorSelection === "MINOR DEFICIENCIES"}
+                          onChange={(e) =>
+                            setColorSelection(e.target.value.toUpperCase())
+                          }
                         />
                       </div>
                       <div>
@@ -368,7 +374,9 @@ const CreateProjectManagementModal = ({
                       type="text"
                       className="w-full py-3 px-3 border border-[#000]  text-lg"
                       value={budgetYear}
-                      onChange={(e) => setBudgetYear(e.target.value)}
+                      onChange={(e) =>
+                        setBudgetYear(e.target.value.toUpperCase())
+                      }
                     />
                   </div>
                 </div>

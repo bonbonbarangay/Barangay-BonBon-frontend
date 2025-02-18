@@ -17,6 +17,7 @@ const Maps = () => {
     MapHook();
   const position = [8.508866488411472, 124.6491032995961];
   const { getIcon, customIcon } = MarkerCustomize();
+
   const [locationData, setLocationData] = useState(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
@@ -215,10 +216,10 @@ const Maps = () => {
                     </div>
                     <div>
                       <div>
-                        <h1 className="font-semibold">overall</h1>
+                        <h1 className="font-semibold">overall completion</h1>
                       </div>
                       <div>
-                        <h1 className="text-center">{item.overall}</h1>
+                        <h1 className="text-center">{item.percentage}</h1>
                       </div>
                     </div>
                   </div>

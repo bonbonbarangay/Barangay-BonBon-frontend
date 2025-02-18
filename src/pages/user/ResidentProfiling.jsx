@@ -471,30 +471,45 @@ const ResidentProfiling = () => {
               <label className="block text-sm font-medium text-gray-700">
                 College
               </label>
-              <input
+              <select
                 {...register("collegehead1")}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+              >
+                <option value="">Select Option</option>
+                <option value="COLLEGE LEVEL">COLLEGE LEVEL</option>
+                <option value="UNDER GRADUATE">UNDER GRADUATE</option>
+                <option value="POST GRADUATE">POST GRADUATE</option>
+              </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                High School{" "}
+                High School
               </label>
-              <input
+              <select
                 {...register("highschoolhead1")}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+              >
+                <option value="">Select Option</option>
+                <option value="HIGH SCHOOL LEVEL">HIGH SCHOOL LEVEL</option>
+                <option value="HIGH SCHOOL GRADUATE">
+                  HIGH SCHOOL GRADUATE
+                </option>
+              </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Elementary{" "}
+                Elementary
               </label>
-              <input
+              <select
                 {...register("elementaryhead1")}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+              >
+                <option value="">Select Option</option>
+                <option value="ELEMENTARY LEVEL">ELEMENTARY LEVEL</option>
+                <option value="ELEMENTARY GRADUATE">ELEMENTARY GRADUATE</option>
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -850,32 +865,49 @@ const ResidentProfiling = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    College{" "}
+                    College
                   </label>
-                  <input
+                  <select
                     {...register("collegehead2")}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                  />
+                  >
+                    <option value="">Select Option</option>
+                    <option value="COLLEGE LEVEL">COLLEGE LEVEL</option>
+                    <option value="UNDER GRADUATE">UNDER GRADUATE</option>
+                    <option value="POST GRADUATE">POST GRADUATE</option>
+                  </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    High School{" "}
+                    High School
                   </label>
-                  <input
+                  <select
                     {...register("highschoolhead2")}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                  />
+                  >
+                    <option value="">Select Option</option>
+                    <option value="HIGH SCHOOL LEVEL">HIGH SCHOOL LEVEL</option>
+                    <option value="HIGH SCHOOL GRADUATE">
+                      HIGH SCHOOL GRADUATE
+                    </option>
+                  </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Elementary{" "}
+                    Elementary
                   </label>
-                  <input
+                  <select
                     {...register("elementaryhead2")}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                  />
+                  >
+                    <option value="">Select Option</option>
+                    <option value="ELEMENTARY LEVEL">ELEMENTARY LEVEL</option>
+                    <option value="ELEMENTARY GRADUATE">
+                      ELEMENTARY GRADUATE
+                    </option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
