@@ -959,21 +959,6 @@ const ResidentProfiling = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                UCT
-              </label>
-              <select
-                {...register("uct")}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-              >
-                <option value="">Select Option</option>
-
-                <option value="NO">No</option>
-                <option value="YES">Yes</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
                 Solo Parent
               </label>
               <select
@@ -1220,10 +1205,16 @@ const ResidentProfiling = () => {
                     </label>
                     <input
                       {...register(
-                        `householdMembers.${index}.lastNameFirstName`
+                        `householdMembers.${index}.lastNameFirstName`,
+                        {
+                          onChange: (e) => {
+                            e.target.value = e.target.value.toUpperCase(); // Convert input to uppercase
+                          },
+                        }
                       )}
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                     />
+
                     {errors.householdMembers?.[index]?.lastNameFirstName && (
                       <p className="text-red-500 text-sm">
                         {
