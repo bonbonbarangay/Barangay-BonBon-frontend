@@ -6,7 +6,7 @@ const useridFromLocalStorage = getFromLocalStorage("id");
 export const houseHeadSchema = z
   .object({
     // Personal Details
-    userid: z.string().default(useridFromLocalStorage), // Use the value from localStorage
+    userid: z.string().default(useridFromLocalStorage),
     lastnamehead1: z.string().min(1, "Last name is required"),
     firstnamehead1: z.string().min(1, "First name is required"),
     mihead1: z.string().min(1, "Middle name is required"),
@@ -26,7 +26,7 @@ export const houseHeadSchema = z
     genderhead1: z.enum(["FEMALE", "MALE", "LGBTQ"], {
       required_error: "Gender is required",
     }),
-    civilstatushead1: z.enum(["MARRIED", "SINGLE"], {
+    civilstatushead1: z.enum(["MARRIED", "SINGLE", "SEPARATED", "WIDOWED"], {
       required_error: "Civil status is required",
     }),
     religionhead1: z.enum(

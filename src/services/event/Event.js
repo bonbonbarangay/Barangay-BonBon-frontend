@@ -18,9 +18,9 @@ export const createEvent = async (eventdata) => {
   try {
     const response = await axios.post(
       "https://barangay-bonbon-backend.onrender.com/event",
+
       eventdata
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     if (error.response) {

@@ -270,8 +270,10 @@ const ResidentProfiling = () => {
                 {...register("civilstatushead1")}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="MARRIED">MARRIED</option>
-                <option value="SINGLE">SINGLE</option>
+                <option value="MARRIED">Married</option>
+                <option value="SINGLE">Single</option>
+                <option value="SEPARATED">Seperated</option>
+                <option value="WIDOWED">Widowed</option>
               </select>
               {errors.civilstatushead1 && (
                 <p>{errors.civilstatushead1.message}</p>
@@ -1465,17 +1467,11 @@ const ResidentProfiling = () => {
 
           <div>
             <h1 className="text-2xl font-bold mb-6 text-center">
-              Upload Image
+              UPLOAD VALID ID
             </h1>
 
             {/* File Input */}
             <div className="mb-6">
-              <label
-                htmlFor="image"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                UPLOAD VALID ID
-              </label>
               <input
                 type="file"
                 id="image"
